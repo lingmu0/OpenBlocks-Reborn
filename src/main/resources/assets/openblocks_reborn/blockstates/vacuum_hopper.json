@@ -1,0 +1,23 @@
+{
+  "multipart": [
+    { "apply": { "model": "openblocks_reborn:block/vacuum_hopper" } },
+    { "when": { "north": "items" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_items" } },
+    { "when": { "north": "fluids" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_fluids" } },
+    { "when": { "north": "both" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_both" } },
+    { "when": { "south": "items" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_items", "y": 180 } },
+    { "when": { "south": "fluids" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_fluids", "y": 180 } },
+    { "when": { "south": "both" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_both", "y": 180 } },
+    { "when": { "west": "items" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_items", "y": 270 } },
+    { "when": { "west": "fluids" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_fluids", "y": 270 } },
+    { "when": { "west": "both" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_both", "y": 270 } },
+    { "when": { "east": "items" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_items", "y": 90 } },
+    { "when": { "east": "fluids" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_fluids", "y": 90 } },
+    { "when": { "east": "both" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_both", "y": 90 } },
+    { "when": { "up": "items" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_items", "x": 90 } },
+    { "when": { "up": "fluids" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_fluids", "x": 90 } },
+    { "when": { "up": "both" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_both", "x": 90 } },
+    { "when": { "down": "items" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_items", "x": 270 } },
+    { "when": { "down": "fluids" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_fluids", "x": 270 } },
+    { "when": { "down": "both" }, "apply": { "model": "openblocks_reborn:block/vacuum_hopper_connector_both", "x": 270 } }
+  ]
+}

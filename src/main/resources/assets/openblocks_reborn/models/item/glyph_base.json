@@ -1,0 +1,71 @@
+{
+  "textures": {
+    "material": "openblocks_reborn:item/stencil",
+    "mark": "minecraft:block/black_concrete",
+    "particle": "openblocks_reborn:item/stencil"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 7.5],
+      "to": [16, 16, 8.5],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#material" },
+        "east": { "uv": [14, 0, 15, 16], "texture": "#material" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#material" },
+        "west": { "uv": [0, 0, 1, 16], "texture": "#material" },
+        "up": { "uv": [0, 0, 16, 1], "texture": "#material" },
+        "down": { "uv": [0, 15, 16, 16], "texture": "#material" }
+      }
+    },
+    {
+      "from": [4, 11, 7.2], "to": [12, 13, 8.8],
+      "faces": {
+        "north": { "texture": "#mark", "uv": [0, 0, 8, 2] },
+        "south": { "texture": "#mark", "uv": [0, 0, 8, 2] }
+      }
+    },
+    {
+      "from": [3, 4, 7.2], "to": [5, 12, 8.8],
+      "faces": {
+        "north": { "texture": "#mark", "uv": [0, 0, 2, 8] },
+        "south": { "texture": "#mark", "uv": [0, 0, 2, 8] }
+      }
+    },
+    {
+      "from": [4, 3, 7.2], "to": [12, 5, 8.8],
+      "faces": {
+        "north": { "texture": "#mark", "uv": [0, 0, 8, 2] },
+        "south": { "texture": "#mark", "uv": [0, 0, 8, 2] }
+      }
+    },
+    {
+      "from": [11, 8, 7.2], "to": [13, 12, 8.8],
+      "faces": {
+        "north": { "texture": "#mark", "uv": [0, 0, 2, 4] },
+        "south": { "texture": "#mark", "uv": [0, 0, 2, 4] }
+      }
+    },
+    {
+      "from": [8, 7, 7.2], "to": [13, 9, 8.8],
+      "faces": {
+        "north": { "texture": "#mark", "uv": [0, 0, 5, 2] },
+        "south": { "texture": "#mark", "uv": [0, 0, 5, 2] }
+      }
+    },
+    {
+      "from": [11, 4, 7.2], "to": [13, 8, 8.8],
+      "faces": {
+        "north": { "texture": "#mark", "uv": [0, 0, 2, 4] },
+        "south": { "texture": "#mark", "uv": [0, 0, 2, 4] }
+      }
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": { "rotation": [75, 0, 0], "translation": [0, 0.5, 1], "scale": [0.55, 0.55, 0.55] },
+    "thirdperson_lefthand": { "rotation": [75, 0, 0], "translation": [0, 0.5, 1], "scale": [0.55, 0.55, 0.55] },
+    "gui": { "rotation": [0, 180, 0] },
+    "firstperson_righthand": { "scale": [0.55, 0.55, 0.55] },
+    "firstperson_lefthand": { "scale": [0.55, 0.55, 0.55] },
+    "ground": { "translation": [0, 2, 0], "scale": [0.5, 0.5, 0.5] }
+  }
+}

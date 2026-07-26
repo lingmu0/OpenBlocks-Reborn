@@ -1,0 +1,64 @@
+{
+    "variants":  {
+                     "facing=north,shape=block":  {
+                                                      "model":  "openblocks_reborn:block/imaginary_block"
+                                                  },
+                     "facing=north,shape=half":  {
+                                                     "model":  "openblocks_reborn:block/imaginary_half"
+                                                 },
+                     "facing=north,shape=panel":  {
+                                                      "model":  "openblocks_reborn:block/imaginary_panel"
+                                                  },
+                     "facing=north,shape=stairs":  {
+                                                       "model":  "openblocks_reborn:block/imaginary_stairs"
+                                                   },
+                     "facing=east,shape=block":  {
+                                                     "model":  "openblocks_reborn:block/imaginary_block",
+                                                     "y":  90
+                                                 },
+                     "facing=east,shape=half":  {
+                                                    "model":  "openblocks_reborn:block/imaginary_half",
+                                                    "y":  90
+                                                },
+                     "facing=east,shape=panel":  {
+                                                     "model":  "openblocks_reborn:block/imaginary_panel",
+                                                     "y":  90
+                                                 },
+                     "facing=east,shape=stairs":  {
+                                                      "model":  "openblocks_reborn:block/imaginary_stairs",
+                                                      "y":  90
+                                                  },
+                     "facing=south,shape=block":  {
+                                                      "model":  "openblocks_reborn:block/imaginary_block",
+                                                      "y":  180
+                                                  },
+                     "facing=south,shape=half":  {
+                                                     "model":  "openblocks_reborn:block/imaginary_half",
+                                                     "y":  180
+                                                 },
+                     "facing=south,shape=panel":  {
+                                                      "model":  "openblocks_reborn:block/imaginary_panel",
+                                                      "y":  180
+                                                  },
+                     "facing=south,shape=stairs":  {
+                                                       "model":  "openblocks_reborn:block/imaginary_stairs",
+                                                       "y":  180
+                                                   },
+                     "facing=west,shape=block":  {
+                                                     "model":  "openblocks_reborn:block/imaginary_block",
+                                                     "y":  270
+                                                 },
+                     "facing=west,shape=half":  {
+                                                    "model":  "openblocks_reborn:block/imaginary_half",
+                                                    "y":  270
+                                                },
+                     "facing=west,shape=panel":  {
+                                                     "model":  "openblocks_reborn:block/imaginary_panel",
+                                                     "y":  270
+                                                 },
+                     "facing=west,shape=stairs":  {
+                                                      "model":  "openblocks_reborn:block/imaginary_stairs",
+                                                      "y":  270
+                                                  }
+                 }
+}

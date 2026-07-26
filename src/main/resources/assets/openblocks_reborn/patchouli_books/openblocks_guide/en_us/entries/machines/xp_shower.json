@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.xp_shower",
+  "icon": "openblocks_reborn:xp_shower",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:xp_shower",
+      "text": "message.openblocks_reborn.book.detail.xp_shower",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:xp_shower"
+    }
+  ]
+}

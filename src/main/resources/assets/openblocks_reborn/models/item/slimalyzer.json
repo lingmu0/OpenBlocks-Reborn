@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "openblocks_reborn:item/slimeoff"
+  },
+  "overrides": [
+    {
+      "predicate": { "openblocks_reborn:active": 1.0 },
+      "model": "openblocks_reborn:item/slimalyzer_active"
+    }
+  ]
+}

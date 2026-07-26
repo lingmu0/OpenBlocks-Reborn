@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.sketching_pencil",
+  "icon": "openblocks_reborn:sketching_pencil",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 22,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:sketching_pencil",
+      "text": "message.openblocks_reborn.book.detail.sketching_pencil",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:sketching_pencil"
+    }
+  ]
+}

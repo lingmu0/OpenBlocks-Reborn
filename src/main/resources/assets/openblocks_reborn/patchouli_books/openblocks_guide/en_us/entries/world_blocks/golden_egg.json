@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.golden_egg",
+  "icon": "openblocks_reborn:golden_egg",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 23,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:golden_egg",
+      "text": "message.openblocks_reborn.book.detail.golden_egg",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:golden_egg"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "group":  "openblocks_reborn:vacuum_hopper",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:hopper"
+                        },
+                        {
+                            "item":  "minecraft:obsidian"
+                        },
+                        {
+                            "item":  "minecraft:ender_eye"
+                        }
+                    ],
+    "result":  {
+                   "id":  "openblocks_reborn:vacuum_hopper"
+               }
+}

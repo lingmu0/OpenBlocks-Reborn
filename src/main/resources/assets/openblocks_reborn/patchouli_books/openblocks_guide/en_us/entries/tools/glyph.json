@@ -1,0 +1,15 @@
+{
+  "name": "item.openblocks_reborn.glyph",
+  "icon": "openblocks_reborn:glyph",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 20,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:glyph",
+      "text": "message.openblocks_reborn.book.detail.glyph",
+      "link_recipe": true
+    }
+  ]
+}

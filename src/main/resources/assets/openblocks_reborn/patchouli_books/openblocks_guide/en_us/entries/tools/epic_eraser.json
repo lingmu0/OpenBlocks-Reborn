@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.epic_eraser",
+  "icon": "openblocks_reborn:epic_eraser",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 18,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:epic_eraser",
+      "text": "message.openblocks_reborn.book.detail.epic_eraser",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:epic_eraser"
+    }
+  ]
+}

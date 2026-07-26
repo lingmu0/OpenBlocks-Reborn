@@ -1,0 +1,19 @@
+{
+    "variants":  {
+                     "facing=north":  {
+                                          "model":  "openblocks_reborn:block/village_highlighter"
+                                      },
+                     "facing=east":  {
+                                         "model":  "openblocks_reborn:block/village_highlighter",
+                                         "y":  90
+                                     },
+                     "facing=south":  {
+                                          "model":  "openblocks_reborn:block/village_highlighter",
+                                          "y":  180
+                                      },
+                     "facing=west":  {
+                                         "model":  "openblocks_reborn:block/village_highlighter",
+                                         "y":  270
+                                     }
+                 }
+}

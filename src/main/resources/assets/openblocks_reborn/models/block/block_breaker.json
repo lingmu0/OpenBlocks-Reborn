@@ -1,0 +1,23 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "front": "openblocks_reborn:block/block_breaker_inactive",
+    "back": "openblocks_reborn:block/block_breaker_back",
+    "side": "openblocks_reborn:block/block_breaker_side",
+    "particle": "openblocks_reborn:block/block_breaker_side"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": {"texture": "#front", "cullface": "north"},
+        "south": {"texture": "#back", "cullface": "south", "rotation": 180},
+        "east": {"texture": "#side", "cullface": "east", "rotation": 90},
+        "west": {"texture": "#side", "cullface": "west", "rotation": 270},
+        "up": {"texture": "#side", "cullface": "up"},
+        "down": {"texture": "#side", "cullface": "down", "rotation": 180}
+      }
+    }
+  ]
+}

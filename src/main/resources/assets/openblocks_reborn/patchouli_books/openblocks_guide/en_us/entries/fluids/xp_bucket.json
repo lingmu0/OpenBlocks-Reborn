@@ -1,0 +1,15 @@
+{
+  "name": "item.openblocks_reborn.xp_bucket",
+  "icon": "openblocks_reborn:xp_bucket",
+  "category": "openblocks_reborn:fluids",
+  "read_by_default": true,
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:xp_bucket",
+      "text": "message.openblocks_reborn.book.detail.xp_bucket",
+      "link_recipe": true
+    }
+  ]
+}

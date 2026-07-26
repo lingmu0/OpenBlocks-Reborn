@@ -1,0 +1,25 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:sky",
+    "pattern":  [
+                    "geg",
+                    "gsg",
+                    "geg"
+                ],
+    "key":  {
+                "s":  {
+                          "item":  "minecraft:end_stone"
+                      },
+                "e":  {
+                          "item":  "minecraft:ender_eye"
+                      },
+                "g":  {
+                          "item":  "minecraft:glass"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:sky",
+                   "count":  6
+               }
+}

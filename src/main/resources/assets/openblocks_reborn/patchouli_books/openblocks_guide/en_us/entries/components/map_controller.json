@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.map_controller",
+  "icon": "openblocks_reborn:map_controller",
+  "category": "openblocks_reborn:components",
+  "read_by_default": true,
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:map_controller",
+      "text": "message.openblocks_reborn.book.detail.map_controller",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:map_controller"
+    }
+  ]
+}

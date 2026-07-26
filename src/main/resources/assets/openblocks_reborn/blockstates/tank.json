@@ -1,0 +1,52 @@
+{
+  "multipart": [
+    {
+      "when": {"down": "false", "north": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_horizontal"}
+    },
+    {
+      "when": {"down": "false", "south": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_horizontal", "x": 90}
+    },
+    {
+      "when": {"up": "false", "south": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_horizontal", "x": 180}
+    },
+    {
+      "when": {"up": "false", "north": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_horizontal", "x": 270}
+    },
+    {
+      "when": {"down": "false", "east": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_horizontal", "y": 90}
+    },
+    {
+      "when": {"down": "false", "west": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_horizontal", "y": 270}
+    },
+    {
+      "when": {"up": "false", "west": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_horizontal", "x": 180, "y": 90}
+    },
+    {
+      "when": {"up": "false", "east": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_horizontal", "x": 180, "y": 270}
+    },
+    {
+      "when": {"north": "false", "west": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_vertical"}
+    },
+    {
+      "when": {"north": "false", "east": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_vertical", "y": 90}
+    },
+    {
+      "when": {"south": "false", "east": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_vertical", "y": 180}
+    },
+    {
+      "when": {"south": "false", "west": "false"},
+      "apply": {"model": "openblocks_reborn:block/tank_edge_vertical", "y": 270}
+    }
+  ]
+}

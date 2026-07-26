@@ -1,0 +1,24 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:miracle_magnet",
+    "pattern":  [
+                    "rer",
+                    "eme",
+                    "rer"
+                ],
+    "key":  {
+                "r":  {
+                          "item":  "minecraft:redstone"
+                      },
+                "e":  {
+                          "item":  "minecraft:ender_pearl"
+                      },
+                "m":  {
+                          "item":  "openblocks_reborn:crane_magnet"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:miracle_magnet"
+               }
+}

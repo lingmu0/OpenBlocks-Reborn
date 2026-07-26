@@ -1,0 +1,28 @@
+{
+  "multipart": [
+    { "when": { "orientation": "down_east" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "x": 90, "y": 90 } },
+    { "when": { "orientation": "down_east" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "x": 90, "y": 90 } },
+    { "when": { "orientation": "down_north" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "x": 90 } },
+    { "when": { "orientation": "down_north" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "x": 90 } },
+    { "when": { "orientation": "down_south" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "x": 90, "y": 180 } },
+    { "when": { "orientation": "down_south" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "x": 90, "y": 180 } },
+    { "when": { "orientation": "down_west" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "x": 90, "y": 270 } },
+    { "when": { "orientation": "down_west" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "x": 90, "y": 270 } },
+    { "when": { "orientation": "east_up" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "y": 90 } },
+    { "when": { "orientation": "east_up" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "y": 90 } },
+    { "when": { "orientation": "north_up" }, "apply": { "model": "openblocks_reborn:block/guide_outer" } },
+    { "when": { "orientation": "north_up" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder" } },
+    { "when": { "orientation": "south_up" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "y": 180 } },
+    { "when": { "orientation": "south_up" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "y": 180 } },
+    { "when": { "orientation": "up_east" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "x": 270, "y": 270 } },
+    { "when": { "orientation": "up_east" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "x": 270, "y": 270 } },
+    { "when": { "orientation": "up_north" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "x": 270, "y": 180 } },
+    { "when": { "orientation": "up_north" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "x": 270, "y": 180 } },
+    { "when": { "orientation": "up_south" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "x": 270 } },
+    { "when": { "orientation": "up_south" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "x": 270 } },
+    { "when": { "orientation": "up_west" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "x": 270, "y": 90 } },
+    { "when": { "orientation": "up_west" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "x": 270, "y": 90 } },
+    { "when": { "orientation": "west_up" }, "apply": { "model": "openblocks_reborn:block/guide_outer", "y": 270 } },
+    { "when": { "orientation": "west_up" }, "apply": { "model": "openblocks_reborn:block/guide_inner_builder", "y": 270 } }
+  ]
+}

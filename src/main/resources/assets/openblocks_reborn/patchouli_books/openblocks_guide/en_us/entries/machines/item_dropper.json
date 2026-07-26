@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.item_dropper",
+  "icon": "openblocks_reborn:item_dropper",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:item_dropper",
+      "text": "message.openblocks_reborn.book.detail.item_dropper",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:item_dropper"
+    }
+  ]
+}

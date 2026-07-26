@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.xuwu.openblocks_reborn.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "RemoteBlockEntityMenuMixin",
+    "RemoteContainerMenuMixin"
+  ],
+  "client": [
+    "client.LiquidBlockRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.squeegee",
+  "icon": "openblocks_reborn:squeegee",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:squeegee",
+      "text": "message.openblocks_reborn.book.detail.squeegee",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:squeegee"
+    }
+  ]
+}

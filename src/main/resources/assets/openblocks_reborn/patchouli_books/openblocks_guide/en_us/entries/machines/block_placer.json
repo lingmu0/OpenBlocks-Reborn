@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.block_placer",
+  "icon": "openblocks_reborn:block_placer",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:block_placer",
+      "text": "message.openblocks_reborn.book.detail.block_placer",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:block_placer"
+    }
+  ]
+}

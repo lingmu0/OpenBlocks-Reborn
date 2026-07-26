@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.projector",
+  "icon": "openblocks_reborn:projector",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:projector",
+      "text": "message.openblocks_reborn.book.detail.projector",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:projector"
+    }
+  ]
+}

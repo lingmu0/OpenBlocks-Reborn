@@ -1,0 +1,18 @@
+{
+    "variants":  {
+                     "inverted=false,powered=false":  {
+                                                          "model":  "openblocks_reborn:block/sky"
+                                                      },
+                     "inverted=false,powered=true":  {
+                                                         "model":  "openblocks_reborn:block/sky",
+                                                         "y":  180
+                                                     },
+                     "inverted=true,powered=false":  {
+                                                         "model":  "openblocks_reborn:block/sky",
+                                                         "y":  180
+                                                     },
+                     "inverted=true,powered=true":  {
+                                                        "model":  "openblocks_reborn:block/sky"
+                                                    }
+                 }
+}

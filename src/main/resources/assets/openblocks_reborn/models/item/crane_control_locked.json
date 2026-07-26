@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "openblocks_reborn:item/manipulator_base",
+    "layer1": "openblocks_reborn:item/manipulator_lift_idle",
+    "layer2": "openblocks_reborn:item/manipulator_magnet_locked"
+  }
+}

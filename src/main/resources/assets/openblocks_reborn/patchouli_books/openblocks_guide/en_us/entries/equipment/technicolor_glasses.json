@@ -1,0 +1,15 @@
+{
+  "name": "item.openblocks_reborn.technicolor_glasses",
+  "icon": "openblocks_reborn:technicolor_glasses",
+  "category": "openblocks_reborn:equipment",
+  "read_by_default": true,
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:technicolor_glasses",
+      "text": "message.openblocks_reborn.book.detail.technicolor_glasses",
+      "link_recipe": true
+    }
+  ]
+}

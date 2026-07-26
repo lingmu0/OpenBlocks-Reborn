@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.ladder",
+  "icon": "openblocks_reborn:ladder",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:ladder",
+      "text": "message.openblocks_reborn.book.detail.ladder",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:ladder"
+    }
+  ]
+}

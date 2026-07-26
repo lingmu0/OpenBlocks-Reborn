@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.sonic_glasses",
+  "icon": "openblocks_reborn:sonic_glasses",
+  "category": "openblocks_reborn:equipment",
+  "read_by_default": true,
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:sonic_glasses",
+      "text": "message.openblocks_reborn.book.detail.sonic_glasses",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:sonic_glasses"
+    }
+  ]
+}

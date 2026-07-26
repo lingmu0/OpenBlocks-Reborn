@@ -1,0 +1,58 @@
+{
+    "textures":  {
+                     "particle":  "#half_panel",
+                     "block":  "openblocks_reborn:block/crayon_block",
+                     "full_panel":  "openblocks_reborn:block/crayon_panel",
+                     "half_panel":  "openblocks_reborn:block/crayon_half_panel"
+                 },
+    "elements":  [
+                     {
+                         "from":  [
+                                      0.0,
+                                      0.0,
+                                      0.0
+                                  ],
+                         "to":  [
+                                    16.0,
+                                    8.0,
+                                    8.0
+                                ],
+                         "faces":  {
+                                       "up":  {
+                                                  "texture":  "#half_panel",
+                                                  "tintindex": 0,
+                                                  "uv":  [
+                                                             0.0,
+                                                             0.0,
+                                                             16.0,
+                                                             8.0
+                                                         ]
+                                              }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      0.0,
+                                      0.0,
+                                      8.0
+                                  ],
+                         "to":  [
+                                    16.0,
+                                    16.0,
+                                    16.0
+                                ],
+                         "faces":  {
+                                       "up":  {
+                                                  "texture":  "#half_panel",
+                                                  "tintindex": 0,
+                                                  "uv":  [
+                                                             0.0,
+                                                             0.0,
+                                                             16.0,
+                                                             8.0
+                                                         ]
+                                              }
+                                   }
+                     }
+                 ]
+}

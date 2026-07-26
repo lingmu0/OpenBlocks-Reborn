@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "openblocks_reborn:item/crayon_1",
+    "layer1": "openblocks_reborn:item/crayon_2"
+  }
+}

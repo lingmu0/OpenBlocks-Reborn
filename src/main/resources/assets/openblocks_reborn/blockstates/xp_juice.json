@@ -1,0 +1,52 @@
+{
+    "variants":  {
+                     "level=0":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=1":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=2":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=3":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=4":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=5":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=6":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=7":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=8":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=9":  {
+                                     "model":  "openblocks_reborn:block/xp_juice"
+                                 },
+                     "level=10":  {
+                                      "model":  "openblocks_reborn:block/xp_juice"
+                                  },
+                     "level=11":  {
+                                      "model":  "openblocks_reborn:block/xp_juice"
+                                  },
+                     "level=12":  {
+                                      "model":  "openblocks_reborn:block/xp_juice"
+                                  },
+                     "level=13":  {
+                                      "model":  "openblocks_reborn:block/xp_juice"
+                                  },
+                     "level=14":  {
+                                      "model":  "openblocks_reborn:block/xp_juice"
+                                  },
+                     "level=15":  {
+                                      "model":  "openblocks_reborn:block/xp_juice"
+                                  }
+                 }
+}

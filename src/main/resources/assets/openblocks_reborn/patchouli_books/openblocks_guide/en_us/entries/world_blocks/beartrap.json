@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.beartrap",
+  "icon": "openblocks_reborn:beartrap",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:beartrap",
+      "text": "message.openblocks_reborn.book.detail.beartrap",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:beartrap"
+    }
+  ]
+}

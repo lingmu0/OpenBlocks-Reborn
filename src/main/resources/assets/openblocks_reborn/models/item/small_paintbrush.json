@@ -1,0 +1,8 @@
+{
+  "parent": "openblocks_reborn:item/paintbrush",
+  "display": {
+    "gui": {
+      "scale": [0.7, 0.7, 0.7]
+    }
+  }
+}

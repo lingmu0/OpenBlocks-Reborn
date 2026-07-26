@@ -1,0 +1,19 @@
+{
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "group":  "openblocks_reborn:epic_eraser",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:lapis_lazuli"
+                        },
+                        {
+                            "item":  "minecraft:slime_ball"
+                        },
+                        {
+                            "item":  "minecraft:pink_wool"
+                        }
+                    ],
+    "result":  {
+                   "id":  "openblocks_reborn:epic_eraser"
+               }
+}

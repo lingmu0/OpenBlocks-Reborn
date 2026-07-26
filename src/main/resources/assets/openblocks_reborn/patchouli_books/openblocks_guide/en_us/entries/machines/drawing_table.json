@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.drawing_table",
+  "icon": "openblocks_reborn:drawing_table",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:drawing_table",
+      "text": "message.openblocks_reborn.book.detail.drawing_table",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:drawing_table"
+    }
+  ]
+}

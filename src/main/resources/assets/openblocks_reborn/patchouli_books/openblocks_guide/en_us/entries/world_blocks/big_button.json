@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.big_button",
+  "icon": "openblocks_reborn:big_button",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:big_button",
+      "text": "message.openblocks_reborn.book.detail.big_button",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:big_button"
+    }
+  ]
+}

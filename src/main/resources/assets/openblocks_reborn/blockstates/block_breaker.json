@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "facing=down,powered=false": {
+      "model": "openblocks_reborn:block/block_breaker",
+      "x": 90
+    },
+    "facing=down,powered=true": {
+      "model": "openblocks_reborn:block/block_breaker_active",
+      "x": 90
+    },
+    "facing=up,powered=false": {
+      "model": "openblocks_reborn:block/block_breaker",
+      "x": 270
+    },
+    "facing=up,powered=true": {
+      "model": "openblocks_reborn:block/block_breaker_active",
+      "x": 270
+    },
+    "facing=north,powered=false": {
+      "model": "openblocks_reborn:block/block_breaker"
+    },
+    "facing=north,powered=true": {
+      "model": "openblocks_reborn:block/block_breaker_active"
+    },
+    "facing=east,powered=false": {
+      "model": "openblocks_reborn:block/block_breaker",
+      "y": 90
+    },
+    "facing=east,powered=true": {
+      "model": "openblocks_reborn:block/block_breaker_active",
+      "y": 90
+    },
+    "facing=south,powered=false": {
+      "model": "openblocks_reborn:block/block_breaker",
+      "y": 180
+    },
+    "facing=south,powered=true": {
+      "model": "openblocks_reborn:block/block_breaker_active",
+      "y": 180
+    },
+    "facing=west,powered=false": {
+      "model": "openblocks_reborn:block/block_breaker",
+      "y": 270
+    },
+    "facing=west,powered=true": {
+      "model": "openblocks_reborn:block/block_breaker_active",
+      "y": 270
+    }
+  }
+}

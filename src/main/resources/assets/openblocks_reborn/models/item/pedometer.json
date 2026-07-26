@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "openblocks_reborn:item/pedometer_still"
+  },
+  "overrides": [
+    {
+      "predicate": { "openblocks_reborn:speed": 0.1 },
+      "model": "openblocks_reborn:item/pedometer_moving"
+    }
+  ]
+}

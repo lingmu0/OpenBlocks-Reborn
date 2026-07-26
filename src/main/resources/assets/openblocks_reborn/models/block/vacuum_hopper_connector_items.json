@@ -1,0 +1,4 @@
+{
+  "parent": "openblocks_reborn:block/vacuum_hopper_connector",
+  "textures": { "texture": "openblocks_reborn:block/vacuum_hopper_items" }
+}

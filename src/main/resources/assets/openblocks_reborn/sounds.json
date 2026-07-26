@@ -1,0 +1,114 @@
+{
+    "elevator.activate": {
+        "sounds": [
+            "openblocks_reborn:teleport"
+        ]
+    },
+    "cannon.activate": {
+        "sounds": [
+            "openblocks_reborn:cannon"
+        ]
+    },
+    "radio.activate": {
+        "sounds": [
+            "openblocks_reborn:radio"
+        ]
+    },
+    "bottler.signal": {
+        "sounds": [
+            "openblocks_reborn:fill"
+        ]
+    },
+    "crayon.place": {
+        "sounds": [
+            "openblocks_reborn:draw1",
+            "openblocks_reborn:draw2",
+            "openblocks_reborn:draw3",
+            "openblocks_reborn:draw4"
+        ]
+    },
+    "target.open": {
+        "sounds": [
+            "openblocks_reborn:open"
+        ]
+    },
+    "target.close": {
+        "sounds": [
+            "openblocks_reborn:close"
+        ]
+    },
+    "beartrap.open": {
+        "sounds": [
+            "openblocks_reborn:beartrapopen"
+        ]
+    },
+    "beartrap.close": {
+        "sounds": [
+            "openblocks_reborn:beartrapclose",
+            "openblocks_reborn:beartrapcloseb"
+        ]
+    },
+    "luggage.eat.item": {
+        "sounds": [
+            "openblocks_reborn:chomp"
+        ]
+    },
+    "luggage.eat.food": {
+        "sounds": [
+            "openblocks_reborn:slowpokenom"
+        ]
+    },
+    "luggage.walk": {
+        "sounds": [
+            "openblocks_reborn:feet"
+        ]
+    },
+    "slimalyzer.signal": {
+        "sounds": [
+            "openblocks_reborn:beep"
+        ]
+    },
+    "pedometer.use": {
+        "sounds": [
+            "openblocks_reborn:beep"
+        ]
+    },
+    "squeegee.use": {
+        "sounds": [
+            "openblocks_reborn:wipe"
+        ]
+    },
+    "best.feature.ever.fart": {
+        "sounds": [
+            "openblocks_reborn:fart1",
+            "openblocks_reborn:fart2",
+            "openblocks_reborn:fart3",
+            "openblocks_reborn:fart4"
+        ]
+    },
+    "annoying.mosquito": {
+        "sounds": [
+            "openblocks_reborn:mosquito"
+        ]
+    },
+    "annoying.alarmclock": {
+        "sounds": [
+            "openblocks_reborn:alarmclock"
+        ]
+    },
+    "annoying.vibrate": {
+        "sounds": [
+            "openblocks_reborn:vibrate"
+        ]
+    },
+    "unused.mortar": {
+        "sounds": [
+            "openblocks_reborn:mortar"
+        ]
+    },
+    "grave.rob": {
+        "sounds": [
+            "openblocks_reborn:bwv565"
+        ]
+    }
+}

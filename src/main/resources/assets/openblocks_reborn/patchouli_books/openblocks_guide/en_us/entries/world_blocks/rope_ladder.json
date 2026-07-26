@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.rope_ladder",
+  "icon": "openblocks_reborn:rope_ladder",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 18,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:rope_ladder",
+      "text": "message.openblocks_reborn.book.detail.rope_ladder",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:rope_ladder"
+    }
+  ]
+}

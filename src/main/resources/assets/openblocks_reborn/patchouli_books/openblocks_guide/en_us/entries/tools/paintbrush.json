@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.paintbrush",
+  "icon": "openblocks_reborn:paintbrush",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:paintbrush",
+      "text": "message.openblocks_reborn.book.detail.paintbrush",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:paintbrush"
+    }
+  ]
+}

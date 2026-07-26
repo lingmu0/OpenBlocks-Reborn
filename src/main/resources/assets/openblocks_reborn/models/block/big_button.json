@@ -1,0 +1,6 @@
+{
+    "parent":  "minecraft:block/cube_all",
+    "textures":  {
+                     "all":  "openblocks_reborn:block/digital_fuse_0"
+                 }
+}

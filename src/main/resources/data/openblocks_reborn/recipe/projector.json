@@ -1,0 +1,30 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:projector",
+    "pattern":  [
+                    "grl",
+                    "iri",
+                    "srs"
+                ],
+    "key":  {
+                "r":  {
+                          "item":  "minecraft:redstone"
+                      },
+                "s":  {
+                          "item":  "minecraft:stone_slab"
+                      },
+                "g":  {
+                          "item":  "minecraft:glowstone_dust"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      },
+                "l":  {
+                          "item":  "minecraft:lapis_lazuli"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:projector"
+               }
+}

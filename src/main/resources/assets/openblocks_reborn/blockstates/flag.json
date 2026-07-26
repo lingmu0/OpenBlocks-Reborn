@@ -1,0 +1,49 @@
+{
+    "variants":  {
+                     "face=floor,facing=north":  {
+                                                     "model":  "openblocks_reborn:block/flag"
+                                                 },
+                     "face=wall,facing=north":  {
+                                                    "model":  "openblocks_reborn:block/flag_wall"
+                                                },
+                     "face=ceiling,facing=north":  {
+                                                       "model":  "openblocks_reborn:block/flag"
+                                                   },
+                     "face=floor,facing=east":  {
+                                                    "model":  "openblocks_reborn:block/flag",
+                                                    "y":  90
+                                                },
+                     "face=wall,facing=east":  {
+                                                   "model":  "openblocks_reborn:block/flag_wall",
+                                                   "y":  90
+                                               },
+                     "face=ceiling,facing=east":  {
+                                                      "model":  "openblocks_reborn:block/flag",
+                                                      "y":  90
+                                                  },
+                     "face=floor,facing=south":  {
+                                                     "model":  "openblocks_reborn:block/flag",
+                                                     "y":  180
+                                                 },
+                     "face=wall,facing=south":  {
+                                                    "model":  "openblocks_reborn:block/flag_wall",
+                                                    "y":  180
+                                                },
+                     "face=ceiling,facing=south":  {
+                                                       "model":  "openblocks_reborn:block/flag",
+                                                       "y":  180
+                                                   },
+                     "face=floor,facing=west":  {
+                                                    "model":  "openblocks_reborn:block/flag",
+                                                    "y":  270
+                                                },
+                     "face=wall,facing=west":  {
+                                                   "model":  "openblocks_reborn:block/flag_wall",
+                                                   "y":  270
+                                               },
+                     "face=ceiling,facing=west":  {
+                                                      "model":  "openblocks_reborn:block/flag",
+                                                      "y":  270
+                                                  }
+                 }
+}

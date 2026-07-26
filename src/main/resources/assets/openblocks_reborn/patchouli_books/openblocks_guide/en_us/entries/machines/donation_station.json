@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.donation_station",
+  "icon": "openblocks_reborn:donation_station",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:donation_station",
+      "text": "message.openblocks_reborn.book.detail.donation_station",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:donation_station"
+    }
+  ]
+}

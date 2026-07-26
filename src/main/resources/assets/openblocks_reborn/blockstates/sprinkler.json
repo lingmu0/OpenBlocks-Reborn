@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "openblocks_reborn:block/sprinkler"
+    },
+    "facing=east": {
+      "model": "openblocks_reborn:block/sprinkler",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "openblocks_reborn:block/sprinkler",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "openblocks_reborn:block/sprinkler",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "item.openblocks_reborn.height_map",
+  "icon": "openblocks_reborn:height_map",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:height_map",
+      "text": "message.openblocks_reborn.book.detail.height_map",
+      "link_recipe": true
+    }
+  ]
+}

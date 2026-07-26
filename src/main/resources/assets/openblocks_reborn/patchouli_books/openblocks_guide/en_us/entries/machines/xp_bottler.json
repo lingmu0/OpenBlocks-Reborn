@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.xp_bottler",
+  "icon": "openblocks_reborn:xp_bottler",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:xp_bottler",
+      "text": "message.openblocks_reborn.book.detail.xp_bottler",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:xp_bottler"
+    }
+  ]
+}

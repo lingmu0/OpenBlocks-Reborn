@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.tank",
+  "icon": "openblocks_reborn:tank",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:tank",
+      "text": "message.openblocks_reborn.book.detail.tank",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:tank"
+    }
+  ]
+}

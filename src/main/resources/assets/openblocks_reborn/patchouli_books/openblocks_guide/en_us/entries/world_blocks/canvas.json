@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.canvas",
+  "icon": "openblocks_reborn:canvas",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 19,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:canvas",
+      "text": "message.openblocks_reborn.book.detail.canvas",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:canvas"
+    }
+  ]
+}

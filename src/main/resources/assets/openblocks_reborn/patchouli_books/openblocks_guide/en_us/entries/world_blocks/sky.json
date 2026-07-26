@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.sky",
+  "icon": "openblocks_reborn:sky",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 22,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:sky",
+      "text": "message.openblocks_reborn.book.detail.sky",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:sky"
+    }
+  ]
+}

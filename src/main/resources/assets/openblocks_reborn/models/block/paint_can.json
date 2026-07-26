@@ -1,0 +1,109 @@
+{
+    "textures":  {
+                     "particle":  "openblocks_reborn:block/paint_can_side",
+                     "north":  "openblocks_reborn:block/paint_can_front",
+                     "east":  "openblocks_reborn:block/paint_can_left",
+                     "south":  "openblocks_reborn:block/paint_can_side",
+                     "west":  "openblocks_reborn:block/paint_can_right",
+                     "bottom":  "openblocks_reborn:block/paint_can_bottom",
+                     "top":  "openblocks_reborn:block/paint_can_top",
+                     "spill":  "openblocks_reborn:block/paint_can_side2"
+                 },
+    "elements":  [
+                     {
+                         "name":  "can",
+                         "from":  [
+                                      4.0,
+                                      0.0,
+                                      4.0
+                                  ],
+                         "to":  [
+                                    12.0,
+                                    11.0,
+                                    12.0
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#north",
+                                                     "uv":  [
+                                                                4.0,
+                                                                5.0,
+                                                                12.0,
+                                                                16.0
+                                                            ]
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#east",
+                                                    "uv":  [
+                                                               4.0,
+                                                               5.0,
+                                                               12.0,
+                                                               16.0
+                                                           ]
+                                                },
+                                       "south":  {
+                                                     "texture":  "#south",
+                                                     "uv":  [
+                                                                4.0,
+                                                                5.0,
+                                                                12.0,
+                                                                16.0
+                                                            ]
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#west",
+                                                    "uv":  [
+                                                               4.0,
+                                                               5.0,
+                                                               12.0,
+                                                               16.0
+                                                           ]
+                                                },
+                                       "down":  {
+                                                    "texture":  "#bottom",
+                                                    "uv":  [
+                                                               4.0,
+                                                               4.0,
+                                                               12.0,
+                                                               12.0
+                                                           ]
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "paint",
+                         "from":  [
+                                      4.0,
+                                      0.0,
+                                      4.0
+                                  ],
+                         "to":  [
+                                    12.0,
+                                    11.0,
+                                    12.0
+                                ],
+                         "faces":  {
+                                       "south":  {
+                                                     "texture":  "#spill",
+                                                     "uv":  [
+                                                                4.0,
+                                                                5.0,
+                                                                12.0,
+                                                                16.0
+                                                            ],
+                                                     "tintindex":  0
+                                                 },
+                                       "up":  {
+                                                  "texture":  "#top",
+                                                  "uv":  [
+                                                             4.0,
+                                                             4.0,
+                                                             12.0,
+                                                             12.0
+                                                         ],
+                                                  "tintindex":  0
+                                              }
+                                   }
+                     }
+                 ]
+}

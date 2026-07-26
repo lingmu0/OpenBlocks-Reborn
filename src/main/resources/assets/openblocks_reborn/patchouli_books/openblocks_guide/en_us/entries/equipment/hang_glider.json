@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.hang_glider",
+  "icon": "openblocks_reborn:hang_glider",
+  "category": "openblocks_reborn:equipment",
+  "read_by_default": true,
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:hang_glider",
+      "text": "message.openblocks_reborn.book.detail.hang_glider",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:hang_glider"
+    }
+  ]
+}

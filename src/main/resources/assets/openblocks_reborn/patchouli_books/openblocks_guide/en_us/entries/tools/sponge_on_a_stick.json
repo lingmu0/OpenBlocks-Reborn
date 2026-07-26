@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.sponge_on_a_stick",
+  "icon": "openblocks_reborn:sponge_on_a_stick",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:sponge_on_a_stick",
+      "text": "message.openblocks_reborn.book.detail.sponge_on_a_stick",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:sponge_on_a_stick"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.flag",
+  "icon": "openblocks_reborn:flag",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:flag",
+      "text": "message.openblocks_reborn.book.detail.flag",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:flag"
+    }
+  ]
+}

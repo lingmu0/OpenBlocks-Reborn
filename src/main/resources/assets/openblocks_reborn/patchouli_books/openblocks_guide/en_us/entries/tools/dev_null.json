@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.dev_null",
+  "icon": "openblocks_reborn:dev_null",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:dev_null",
+      "text": "message.openblocks_reborn.book.detail.dev_null",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:dev_null"
+    }
+  ]
+}

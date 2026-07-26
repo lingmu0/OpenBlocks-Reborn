@@ -1,0 +1,8 @@
+{
+    "parent":  "minecraft:block/orientable",
+    "textures":  {
+                     "front":  "openblocks_reborn:block/xp_bottler_front",
+                     "side":  "openblocks_reborn:block/xp_bottler_sides",
+                     "top":  "openblocks_reborn:block/xp_bottler_top"
+                 }
+}

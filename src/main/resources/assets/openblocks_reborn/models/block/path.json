@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "openblocks_reborn:block/path",
+    "path": "openblocks_reborn:block/path"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 1.6, 16],
+      "faces": {
+        "down": {"texture": "#path", "cullface": "down"},
+        "up": {"texture": "#path"},
+        "north": {"texture": "#path"},
+        "south": {"texture": "#path"},
+        "west": {"texture": "#path"},
+        "east": {"texture": "#path"}
+      }
+    }
+  ]
+}

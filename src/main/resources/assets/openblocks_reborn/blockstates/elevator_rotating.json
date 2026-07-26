@@ -1,0 +1,20 @@
+{
+  "multipart": [
+    {
+      "when": {"facing": "north"},
+      "apply": {"model": "openblocks_reborn:block/elevator_rotating"}
+    },
+    {
+      "when": {"facing": "east"},
+      "apply": {"model": "openblocks_reborn:block/elevator_rotating", "y": 90}
+    },
+    {
+      "when": {"facing": "south"},
+      "apply": {"model": "openblocks_reborn:block/elevator_rotating", "y": 180}
+    },
+    {
+      "when": {"facing": "west"},
+      "apply": {"model": "openblocks_reborn:block/elevator_rotating", "y": 270}
+    }
+  ]
+}

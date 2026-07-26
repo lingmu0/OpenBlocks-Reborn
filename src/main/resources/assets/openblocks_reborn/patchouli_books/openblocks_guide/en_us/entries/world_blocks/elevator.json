@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.elevator",
+  "icon": "openblocks_reborn:elevator",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:elevator",
+      "text": "message.openblocks_reborn.book.detail.elevator",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:elevator"
+    }
+  ]
+}

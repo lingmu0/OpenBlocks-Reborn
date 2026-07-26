@@ -1,0 +1,7 @@
+{
+    "parent":  "openblocks_reborn:item/luggage_base",
+    "textures":  {
+                     "body":  "openblocks_reborn:block/models/luggage_normal_body",
+                     "leg":  "openblocks_reborn:block/models/luggage_normal_leg"
+                 }
+}

@@ -1,0 +1,113 @@
+{
+    "multipart":  [
+                      {
+                          "when":  {
+                                       "facing":  "north"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector"
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "north"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector_spinner"
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "north",
+                                       "powered":  "true"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector_cone"
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "east"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector",
+                                        "y":  90
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "east"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector_spinner",
+                                        "y":  90
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "east",
+                                       "powered":  "true"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector_cone",
+                                        "y":  90
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "south"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector",
+                                        "y":  180
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "south"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector_spinner",
+                                        "y":  180
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "south",
+                                       "powered":  "true"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector_cone",
+                                        "y":  180
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "west"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector",
+                                        "y":  270
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "west"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector_spinner",
+                                        "y":  270
+                                    }
+                      },
+                      {
+                          "when":  {
+                                       "facing":  "west",
+                                       "powered":  "true"
+                                   },
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/projector_cone",
+                                        "y":  270
+                                    }
+                      }
+                  ]
+}

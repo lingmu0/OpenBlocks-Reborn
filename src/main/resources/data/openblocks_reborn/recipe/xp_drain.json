@@ -1,0 +1,18 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:xp_drain",
+    "pattern":  [
+                    "iii",
+                    "iii",
+                    "iii"
+                ],
+    "key":  {
+                "i":  {
+                          "item":  "minecraft:iron_bars"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:xp_drain"
+               }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "item.openblocks_reborn.serious_glasses",
+  "icon": "openblocks_reborn:serious_glasses",
+  "category": "openblocks_reborn:equipment",
+  "read_by_default": true,
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:serious_glasses",
+      "text": "message.openblocks_reborn.book.detail.serious_glasses",
+      "link_recipe": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "openblocks_reborn:block/fan_frame"
+    },
+    "facing=east": {
+      "model": "openblocks_reborn:block/fan_frame",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "openblocks_reborn:block/fan_frame",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "openblocks_reborn:block/fan_frame",
+      "y": 270
+    }
+  }
+}

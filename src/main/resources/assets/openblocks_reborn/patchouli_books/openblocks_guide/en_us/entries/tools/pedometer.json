@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.pedometer",
+  "icon": "openblocks_reborn:pedometer",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:pedometer",
+      "text": "message.openblocks_reborn.book.detail.pedometer",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:pedometer"
+    }
+  ]
+}

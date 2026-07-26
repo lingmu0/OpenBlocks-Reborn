@@ -1,0 +1,15 @@
+{
+  "name": "item.openblocks_reborn.stencil",
+  "icon": "openblocks_reborn:stencil",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:stencil",
+      "text": "message.openblocks_reborn.book.detail.stencil",
+      "link_recipe": true
+    }
+  ]
+}

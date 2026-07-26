@@ -1,0 +1,8 @@
+{
+    "parent":  "minecraft:block/cube_column",
+    "textures":  {
+                     "end":  "openblocks_reborn:block/guide_top_new",
+                     "side":  "openblocks_reborn:block/guide_side_new",
+                     "particle":  "openblocks_reborn:block/guide"
+                 }
+}

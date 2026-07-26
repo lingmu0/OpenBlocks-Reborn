@@ -1,0 +1,27 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:slimalyzer",
+    "pattern":  [
+                    "igi",
+                    "isi",
+                    "iri"
+                ],
+    "key":  {
+                "r":  {
+                          "item":  "minecraft:redstone"
+                      },
+                "s":  {
+                          "item":  "minecraft:slime_ball"
+                      },
+                "g":  {
+                          "item":  "minecraft:glass_pane"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:slimalyzer"
+               }
+}

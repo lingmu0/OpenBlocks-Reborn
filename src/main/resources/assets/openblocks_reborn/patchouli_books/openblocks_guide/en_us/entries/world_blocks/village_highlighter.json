@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.village_highlighter",
+  "icon": "openblocks_reborn:village_highlighter",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:village_highlighter",
+      "text": "message.openblocks_reborn.book.detail.village_highlighter",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:village_highlighter"
+    }
+  ]
+}

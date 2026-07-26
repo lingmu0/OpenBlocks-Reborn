@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.guide",
+  "icon": "openblocks_reborn:guide",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:guide",
+      "text": "message.openblocks_reborn.book.detail.guide",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:guide"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.sleeping_bag",
+  "icon": "openblocks_reborn:sleeping_bag",
+  "category": "openblocks_reborn:equipment",
+  "read_by_default": true,
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:sleeping_bag",
+      "text": "message.openblocks_reborn.book.detail.sleeping_bag",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:sleeping_bag"
+    }
+  ]
+}

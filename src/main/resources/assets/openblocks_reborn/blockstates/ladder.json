@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=east,half=bottom,open=false": { "model": "openblocks_reborn:block/ladder_bottom", "y": 90, "uvlock": true },
+    "facing=east,half=bottom,open=true":  { "model": "openblocks_reborn:block/ladder_open", "y": 90, "uvlock": true },
+    "facing=east,half=top,open=false":    { "model": "openblocks_reborn:block/ladder_top", "y": 90, "uvlock": true },
+    "facing=east,half=top,open=true":     { "model": "openblocks_reborn:block/ladder_open", "x": 180, "y": 270, "uvlock": true },
+    "facing=north,half=bottom,open=false": { "model": "openblocks_reborn:block/ladder_bottom", "uvlock": true },
+    "facing=north,half=bottom,open=true":  { "model": "openblocks_reborn:block/ladder_open", "uvlock": true },
+    "facing=north,half=top,open=false":    { "model": "openblocks_reborn:block/ladder_top", "uvlock": true },
+    "facing=north,half=top,open=true":     { "model": "openblocks_reborn:block/ladder_open", "x": 180, "y": 180, "uvlock": true },
+    "facing=south,half=bottom,open=false": { "model": "openblocks_reborn:block/ladder_bottom", "y": 180, "uvlock": true },
+    "facing=south,half=bottom,open=true":  { "model": "openblocks_reborn:block/ladder_open", "y": 180, "uvlock": true },
+    "facing=south,half=top,open=false":    { "model": "openblocks_reborn:block/ladder_top", "y": 180, "uvlock": true },
+    "facing=south,half=top,open=true":     { "model": "openblocks_reborn:block/ladder_open", "x": 180, "uvlock": true },
+    "facing=west,half=bottom,open=false": { "model": "openblocks_reborn:block/ladder_bottom", "y": 270, "uvlock": true },
+    "facing=west,half=bottom,open=true":  { "model": "openblocks_reborn:block/ladder_open", "y": 270, "uvlock": true },
+    "facing=west,half=top,open=false":    { "model": "openblocks_reborn:block/ladder_top", "y": 270, "uvlock": true },
+    "facing=west,half=top,open=true":     { "model": "openblocks_reborn:block/ladder_open", "x": 180, "y": 90, "uvlock": true }
+  }
+}

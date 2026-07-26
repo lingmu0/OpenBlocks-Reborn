@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:unprepared_stencil",
+    "pattern":  [
+                    " p ",
+                    "pip",
+                    " p "
+                ],
+    "key":  {
+                "p":  {
+                          "item":  "minecraft:paper"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:unprepared_stencil"
+               }
+}

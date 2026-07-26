@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:flag",
+    "pattern":  [
+                    "scc",
+                    "sc ",
+                    "s  "
+                ],
+    "key":  {
+                "c":  {
+                          "item":  "minecraft:white_carpet"
+                      },
+                "s":  {
+                          "item":  "minecraft:stick"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:flag"
+               }
+}

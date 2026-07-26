@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.glider_wing",
+  "icon": "openblocks_reborn:glider_wing",
+  "category": "openblocks_reborn:components",
+  "read_by_default": true,
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:glider_wing",
+      "text": "message.openblocks_reborn.book.detail.glider_wing",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:glider_wing"
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+{
+  "ladder": {
+    "zh_cn": "翡翠制成的活板门。可像原版活板门一样开合；打开后也能作为梯子攀爬。",
+    "en_us": "An emerald trapdoor with vanilla-style opening and closing. Its open panel can also be climbed like a ladder."
+  },
+  "guide": {
+    "zh_cn": "收到红石信号后投影所选形状。六个半轴可用侧面按钮分别增减或复制，顶面按钮切换 11 种形状和旋转；染料可改色。",
+    "en_us": "Projects while powered. Side buttons adjust or copy six half-axes; top buttons rotate and select 11 shapes, and dyes recolor it."
+  },
+  "builder_guide": {
+    "zh_cn": "增强建筑引导器在通电时工作。手持方块右键会按投影顺序放置下一个方块；创造模式在上方放黑曜石可一次填充整个形状。",
+    "en_us": "The powered Builder Guide places the next projected block per use. In creative, obsidian above it enables full-shape replacement."
+  },
+  "elevator": {
+    "zh_cn": "连接同一垂直列内颜色相同的电梯。站在上面跳跃会上升，潜行会下降；染料可改变线路颜色。",
+    "en_us": "Links same-colored elevators in one vertical column. Jump to go up, sneak to go down, and dye it to select a channel."
+  },
+  "elevator_rotating": {
+    "zh_cn": "除普通电梯功能外，到达后还会把玩家朝向转到目标电梯顶面箭头所指的方向。",
+    "en_us": "Works like a normal Elevator, then rotates the arriving player to match the destination block's top arrow."
+  },
+  "heal": {
+    "zh_cn": "玩家站在上面时会周期性恢复生命值，并少量补充饥饿值与饱和度。",
+    "en_us": "Periodically restores health and a small amount of hunger and saturation to players standing on it."
+  },
+  "target": {
+    "zh_cn": "收到红石信号后竖起。投射物越接近靶心，输出的红石信号越强；信号会短暂保持后复位。",
+    "en_us": "Raises while powered. Projectile hits output a temporary redstone strength from 1 to 15 based on accuracy."
+  },
+  "grave": {
+    "zh_cn": "玩家死亡时可保存最多 54 格掉落物。墓碑归死亡玩家所有，主人右键即可一次取回其中物品。",
+    "en_us": "Stores up to 54 slots of a player's death drops. The owner can use the grave to recover all stored items."
+  },
+  "flag": {
+    "zh_cn": "可放在地面或墙面上的装饰旗帜。使用染料可以改变颜色，且不会形成实体碰撞。",
+    "en_us": "A non-solid decorative flag that can stand on floors or hang on walls. Use dyes to recolor it."
+  },
+  "tank": {
+    "zh_cn": "每个储液罐可容纳 16 B 流体。相邻储液罐会连成整体并自动均衡液面，支持原版桶直接装入和取出。",
+    "en_us": "Stores 16 B of fluid. Adjacent tanks connect and balance their contents, and vanilla buckets fill or drain them directly."
+  },
+  "trophy": {
+    "zh_cn": "展示指定生物的战利品模型。可用刷怪蛋设置生物类型，空手互动会播放对应生物的声音。",
+    "en_us": "Displays a chosen mob trophy. Set its mob with a spawn egg, then use it empty-handed to play that mob's sound."
+  },
+  "beartrap": {
+    "zh_cn": "夹住并伤害踩中的生物，同时输出红石信号。右键或红石触发可重新张开捕兽夹。",
+    "en_us": "Snaps shut on creatures, damaging and immobilizing them while emitting redstone. Use or power it to reset."
+  },
+  "sprinkler": {
+    "zh_cn": "储存 1 B 水并持续洒水，使上方区域具有水的环境效果并促进作物生长；加入骨粉可提高催生效率。",
+    "en_us": "Stores 1 B of water, applies water-like effects above it, and encourages crop growth. Bone meal boosts growth."
+  },
+  "cannon": {
+    "zh_cn": "红石触发时从 3×3 库存发射物品。默认朝炮口射击，也可先用指针绑定大炮与目标进行定点投送。",
+    "en_us": "Fires items from a 3x3 inventory on redstone. It shoots forward by default, or at a target bound with a Pointer."
+  },
+  "vacuum_hopper": {
+    "zh_cn": "吸取附近掉落物和经验球，拥有物品库存及 4 B 液态经验储量；界面可配置物品与流体输出面。",
+    "en_us": "Collects nearby items and XP orbs into an inventory and 4 B XP tank. Its item and fluid output sides are configurable."
+  },
+  "sponge": {
+    "zh_cn": "放置或右键时清除附近一定范围内的流体方块，可重复触发而不会像原版海绵那样变成湿海绵。",
+    "en_us": "Removes nearby fluid blocks when placed or used. It can be triggered repeatedly without becoming a wet sponge."
+  },
+  "big_button": {
+    "zh_cn": "可长期保持信号的石质大按钮。库存内全部物品数量之和决定按下时间，范围为 1～512 游戏刻。",
+    "en_us": "A stone oversized button. The total count in its eight slots sets its pulse duration from 1 to 512 ticks."
+  },
+  "big_button_wood": {
+    "zh_cn": "木质大按钮，箭矢也能触发。库存内全部物品数量之和决定按下时间，范围为 1～512 游戏刻。",
+    "en_us": "A wooden oversized button that arrows can trigger. Its eight-slot item count sets a 1 to 512 tick pulse."
+  },
+  "imaginary": {
+    "zh_cn": "想象方块由魔法铅笔或蜡笔放置。只有手持对应绘图工具时才能看见、选择并右键改变它的形态。",
+    "en_us": "Placed by Magic Pencils or Crayons. Only matching drawing tools reveal, select, and reshape these imaginary blocks."
+  },
+  "fan": {
+    "zh_cn": "接通红石后沿正面持续推动一定范围内的实体，可水平、向上或向下安装。",
+    "en_us": "Continuously pushes entities away from its front while powered. It supports horizontal, upward, and downward facing."
+  },
+  "xp_bottler": {
+    "zh_cn": "消耗玻璃瓶与液态经验自动生产附魔之瓶，支持经验流体与物品的自动输入输出及侧面配置。",
+    "en_us": "Combines glass bottles with liquid XP to make Bottles o' Enchanting, with configurable automatic item and fluid I/O."
+  },
+  "village_highlighter": {
+    "zh_cn": "右键可检查当前位置是否位于村庄范围内，并在客户端显示附近村庄边界，便于规划铁傀儡农场等设施。",
+    "en_us": "Reports whether the current position is inside a village and visualizes nearby village bounds for building layouts."
+  },
+  "path": {
+    "zh_cn": "铺设在完整支撑面上的超薄无碰撞道路。下方支撑被移除时，道路会自行掉落。",
+    "en_us": "A very thin, non-colliding road laid on a solid top face. It drops itself if its supporting block is removed."
+  },
+  "auto_anvil": {
+    "zh_cn": "使用液态经验自动执行原版铁砧的修复、材料修复、附魔合并与重命名规则，并可配置各输入输出面。",
+    "en_us": "Automates vanilla anvil repairing, combining, enchantment merging, and renaming with liquid XP and configurable I/O."
+  },
+  "auto_enchantment_table": {
+    "zh_cn": "使用青金石与液态经验自动附魔。滑条选择等级上限，实际范围会读取书架及其他模组修改后的附魔上限。",
+    "en_us": "Automatically enchants with lapis and liquid XP. Its slider follows bookshelf power and modded enchantment limits."
+  },
+  "xp_drain": {
+    "zh_cn": "吸收上方的经验球，也会直接抽取站在上方玩家的经验，最多储存 1 B 液态经验并从底面输出。",
+    "en_us": "Absorbs XP orbs and XP from players standing above it. It stores 1 B of liquid XP and outputs through its bottom."
+  },
+  "block_breaker": {
+    "zh_cn": "红石上升沿会破坏正前方方块。掉落物优先送入背后的容器，无法容纳的部分会掉在世界中。",
+    "en_us": "Breaks the block in front on a redstone rising edge. Drops enter a container behind it, with overflow dropped nearby."
+  },
+  "block_placer": {
+    "zh_cn": "红石触发时从内部库存取出一个方块并放到正前方，支持水平、朝上和朝下安装。",
+    "en_us": "Places a block from its inventory directly in front when triggered. It supports horizontal, upward, and downward facing."
+  },
+  "item_dropper": {
+    "zh_cn": "按所设方向投掷库存物品，支持六面朝向。界面可调投掷速度，并可让红石强度影响投掷数量。",
+    "en_us": "Ejects stored items in any of six directions. Its UI controls speed and whether redstone strength scales the amount."
+  },
+  "rope_ladder": {
+    "zh_cn": "贴在所点击方块的侧面放置；继续使用会消耗物品并向下延伸整串绳梯，可像梯子一样攀爬。",
+    "en_us": "Attaches to the clicked block face and consumes more ladders to extend downward. The hanging chain is climbable."
+  },
+  "donation_station": {
+    "zh_cn": "带一个展示槽的捐赠箱。玩家可把物品放入其中，适合服务器公共捐赠点或展示用途。",
+    "en_us": "A one-slot donation box for accepting and displaying contributed items in shared or public areas."
+  },
+  "paint_mixer": {
+    "zh_cn": "用青、品红、黄、黑染料调制任意 RGB 颜色，并在 300 游戏刻后为大/小油漆刷或油漆罐上色。",
+    "en_us": "Mixes a chosen RGB color from cyan, magenta, yellow, and black dyes, coloring brushes or paint cans after 300 ticks."
+  },
+  "canvas": {
+    "zh_cn": "六个面各有 16×16 像素。大刷子/刮刀操作整面，小型工具操作单像素；还支持模板图案。",
+    "en_us": "Provides a 16x16 pixel grid on every face. Large tools affect a face, small tools affect one pixel, and stencils add patterns."
+  },
+  "paint_can": {
+    "zh_cn": "保存自定义 RGB 颜料颜色。油漆刷可从中蘸取颜色，也可放入调漆机重新调色。",
+    "en_us": "Stores a custom RGB paint color. Brushes can sample it, and a Paint Mixer can recolor it."
+  },
+  "canvas_glass": {
+    "zh_cn": "透明版本的画布，仍然支持六面 16×16 像素、大小绘画工具以及模板图案。",
+    "en_us": "A transparent Canvas with the same six 16x16 faces, large and small painting tools, and stencil support."
+  },
+  "projector": {
+    "zh_cn": "放入高度图后在方块上方投影 9×9 地形轮廓；也可直接放入空白高度图进行现场记录，界面支持旋转。",
+    "en_us": "Projects a 9x9 terrain shape from a Height Map. It can capture an Empty Height Map in place and rotate the projection."
+  },
+  "drawing_table": {
+    "zh_cn": "把未加工模板或已有模板加工成可选图案，也可输出可选字符；使用左右箭头翻页并从输出槽取走成品。",
+    "en_us": "Processes blank or existing stencils into a selected pattern, or outputs a selected Glyph using its page controls."
+  },
+  "sky": {
+    "zh_cn": "激活时渲染成当前位置天空且保留实体碰撞。红石控制显示状态；空手右键可切换正向/反向触发模式。",
+    "en_us": "Renders as the local sky while active but stays solid. Redstone controls it, and use toggles normal or inverted activation."
+  },
+  "xp_shower": {
+    "zh_cn": "最多储存 1 B 液态经验，并从背面抽取经验流体；接通红石后从下方洒出经验球。",
+    "en_us": "Stores 1 B of liquid XP and pulls it from the rear. While powered, it releases XP orbs beneath itself."
+  },
+  "golden_egg": {
+    "zh_cn": "放置后记录主人并开始孵化，约 30 秒后生成主人的 Mini Me；红石信号可把孵化速度提高到四倍。",
+    "en_us": "Records its owner when placed and hatches their Mini Me after about 30 seconds. Redstone makes it hatch four times faster."
+  },
+  "hang_glider": {
+    "zh_cn": "手持右键展开或收起。展开后在空中减缓下落并向视线方向滑翔；潜行可加速下降，飞行会消耗耐久。",
+    "en_us": "Use while held to deploy. It slows falling and glides toward your view; sneak descends faster and flight consumes durability."
+  },
+  "generic": {
+    "zh_cn": "为旧版世界和配方兼容保留的可堆叠通用物品，目前没有独立的主动功能。",
+    "en_us": "A stackable generic item retained for legacy world and recipe compatibility. It currently has no direct active use."
+  },
+  "generic_unstackable": {
+    "zh_cn": "为旧版世界和配方兼容保留的不可堆叠通用物品，目前没有独立的主动功能。",
+    "en_us": "An unstackable generic item retained for legacy world and recipe compatibility. It currently has no direct active use."
+  },
+  "luggage": {
+    "zh_cn": "右键放出会跟随主人的行李箱，自动拾取附近掉落物并提供 27 格库存；潜行右键可收回并保留内容。",
+    "en_us": "Deploys owner-following Luggage with 27 slots that collects nearby drops. Sneak-use it to pack it with contents preserved."
+  },
+  "sonic_glasses": {
+    "zh_cn": "装备在头部后会高亮附近生物，并显示声波/电弧效果，便于发现墙后或黑暗处的目标。",
+    "en_us": "Wear these in the helmet slot to highlight nearby creatures with a sonic electrical effect, even through darkness."
+  },
+  "pencil_glasses": {
+    "zh_cn": "装备在头部后可看见并选择魔法铅笔放置的想象方块，便于继续修改铅笔结构。",
+    "en_us": "Wear these to reveal and select imaginary blocks placed by the Magic Pencil so their shapes can be edited."
+  },
+  "crayon_glasses": {
+    "zh_cn": "装备在头部后可看见并选择与眼镜颜色对应的蜡笔想象方块。",
+    "en_us": "Wear these to reveal and select imaginary blocks matching the glasses' crayon color."
+  },
+  "technicolor_glasses": {
+    "zh_cn": "装备后可看见所有颜色的想象方块，但不会把它们全部变成可碰撞的实体方块。",
+    "en_us": "Reveals every color of imaginary block while worn, without making all of them solid."
+  },
+  "serious_glasses": {
+    "zh_cn": "装备后可看见、选择并碰撞所有想象方块，不受铅笔或蜡笔颜色限制。",
+    "en_us": "Makes every imaginary block visible, selectable, and solid while worn, regardless of pencil or crayon color."
+  },
+  "crane_control": {
+    "zh_cn": "先把起重机背包装在胸甲栏。按住右键回收/升高磁头，按住 Shift 右键下放/降低磁头，左键吸附或释放目标。手持控制器时，左键不会攻击或挖掘，右键也不会操作所指向的方块或实体。",
+    "en_us": "Equip the Crane Backpack. Hold use to retract/raise, hold sneak-use to extend/lower, and left-click to grab or release. While held, the controller suppresses attacking, mining, and right-click interaction with targeted blocks or entities."
+  },
+  "crane_backpack": {
+    "zh_cn": "装备在胸甲栏的起重机组件。与起重机控制器配合后，会在玩家背后显示吊臂、钢索和磁头。",
+    "en_us": "A chest-slot Crane assembly. Pair it with the Crane Control to operate its rendered arm, cable, and magnetic head."
+  },
+  "slimalyzer": {
+    "zh_cn": "右键检测玩家所在区块是否为史莱姆区块，并用声音和消息反馈；每次检测消耗 1 点耐久。",
+    "en_us": "Use it to test whether the current chunk is a slime chunk. Each test reports the result and consumes one durability."
+  },
+  "sleeping_bag": {
+    "zh_cn": "夜间手持右键即可就地睡眠，不需要放置方块，也不会修改玩家的重生点；使用会消耗耐久。",
+    "en_us": "Sleep in place at night without placing a block or changing your spawn point. Each use consumes durability."
+  },
+  "paintbrush": {
+    "zh_cn": "从副手染料或油漆罐取得颜色。右键画布可涂满准心所指的整个面，潜行右键可涂满全部面。",
+    "en_us": "Loads color from an offhand dye or paint can. Use paints the aimed Canvas face; sneak-use paints every face."
+  },
+  "small_paintbrush": {
+    "zh_cn": "小型像素画笔。从副手染料或油漆罐取得颜色，并只修改画布上准心对准的单个像素。",
+    "en_us": "A pixel brush loaded from an offhand dye or paint can. It changes only the single Canvas pixel under the crosshair."
+  },
+  "stencil": {
+    "zh_cn": "把绘图桌选出的图案贴到画布表面，再用油漆刷即可一次绘出图案；空手右键旋转，潜行右键取下。",
+    "en_us": "Attach a Drawing Table pattern to a Canvas, then paint through it. Empty-hand use rotates it; sneak-use removes it."
+  },
+  "squeegee": {
+    "zh_cn": "右键清除画布准心所指整个面的颜料，潜行右键清除全部面；也可把可染色方块恢复为白色。",
+    "en_us": "Use removes paint from the aimed Canvas face; sneak-use clears every face. It also resets dyeable blocks to white."
+  },
+  "small_squeegee": {
+    "zh_cn": "小型像素刮刀，只清除画布上准心对准的单个像素，不影响同一面的其他颜料。",
+    "en_us": "A pixel squeegee that removes only the single Canvas pixel under the crosshair."
+  },
+  "height_map": {
+    "zh_cn": "保存采样点周围 9×9 区域的地表高度。右键查看中心高度与生物群系，也可供投影仪显示地形。",
+    "en_us": "Stores surface heights for a 9x9 area. Use it to read the center terrain and biome, or insert it into a Projector."
+  },
+  "empty_map": {
+    "zh_cn": "尚未记录地形的高度图。可由制图器或投影仪在当前位置写入 9×9 高度数据。",
+    "en_us": "An uncaptured Height Map. A Cartographer or Projector can record a 9x9 terrain sample into it."
+  },
+  "cartographer": {
+    "zh_cn": "副手持空白高度图时右键，会消耗空白图并记录当前位置周围 9×9 的地形高度。",
+    "en_us": "Use while holding an Empty Height Map in the other hand to capture a 9x9 terrain sample at your position."
+  },
+  "tasty_clay": {
+    "zh_cn": "一种可以食用的黏土点心，恢复少量饥饿值与饱和度，也作为旧版趣味物品保留。",
+    "en_us": "An edible clay snack that restores a small amount of hunger and saturation."
+  },
+  "golden_eye": {
+    "zh_cn": "潜行右键打开结构选择界面，可按结构名称或注册 ID 搜索并绑定。普通右键寻找目标，消耗耐久但不会扔出物品。",
+    "en_us": "Sneak-use to search and bind a structure by name or ID. Normal use locates it, consuming durability without throwing the eye."
+  },
+  "cursor": {
+    "zh_cn": "Shift 右键方块面进行绑定，普通右键可远距离或跨维度交互，并按距离消耗经验；目标区块未加载时不会强制加载而会提示。",
+    "en_us": "Sneak-use a block face to bind it, then use remotely or across dimensions for an XP cost. Unloaded targets are reported, not force-loaded."
+  },
+  "info_book": {
+    "zh_cn": "收录模组全部方块、物品、装备、机器与流体的指南。安装帕莉秋时打开图文手册，否则打开原版书本目录。",
+    "en_us": "Catalogs every block, item, machine, tool, and fluid. It opens a Patchouli manual when available, otherwise a vanilla book."
+  },
+  "dev_null": {
+    "zh_cn": "用副手物品为其设定过滤目标后，会自动吸收同类拾取物并虚空化超出内部容量的部分；潜行使用可取回。",
+    "en_us": "Configure it from the offhand to absorb matching pickups and void overflow. Sneak-use returns the stored stack."
+  },
+  "sponge_on_a_stick": {
+    "zh_cn": "对方块右键可清除附近范围内的流体；只有确实清除了流体时才会损耗耐久。",
+    "en_us": "Use it on a block to drain nearby fluids. Durability is consumed only when fluid was actually removed."
+  },
+  "pedometer": {
+    "zh_cn": "右键显示玩家统计数据中累计步行的距离，并换算为方块/米数。",
+    "en_us": "Use it to report your total walking distance from player statistics, measured in blocks or meters."
+  },
+  "epic_eraser": {
+    "zh_cn": "可删除副手物品的描述文本；对世界使用还能移除想象方块，或把可染色方块恢复为白色。",
+    "en_us": "Removes lore from the offhand item. In the world it erases imaginary blocks or resets dyeable blocks to white."
+  },
+  "wrench": {
+    "zh_cn": "围绕所点击面的轴把支持的朝向或轴向方块旋转 90°；按钮、拉杆和箱子需要 Shift 右键。对引导器使用会旋转投影。",
+    "en_us": "Rotates supported facing or axis properties 90 degrees around the clicked face. Sneak-use buttons, levers, and chests; it rotates Guides."
+  },
+  "glyph": {
+    "zh_cn": "携带一个可选字符。手持右键向后切换字符、潜行右键向前切换；对方块使用可把字符悬挂在表面。",
+    "en_us": "Stores a selectable character. Use and sneak-use cycle it in opposite directions; use on a block hangs the glyph on its face."
+  },
+  "glider_wing": {
+    "zh_cn": "悬挂式滑翔翼的专用合成部件，需要两个机翼才能制作完整滑翔翼。",
+    "en_us": "A dedicated Hang Glider crafting component. Two wings are required for the completed glider."
+  },
+  "beam": {
+    "zh_cn": "起重机背包的结构梁合成部件，用来构成背包外显吊臂。",
+    "en_us": "A structural Crane Backpack crafting component used to form its visible boom."
+  },
+  "crane_engine": {
+    "zh_cn": "起重机背包的动力核心合成部件，与磁铁、结构梁和钢索一起组装背包。",
+    "en_us": "The Crane Backpack's engine component, assembled with its magnet, beams, and line."
+  },
+  "crane_magnet": {
+    "zh_cn": "起重机背包和奇迹磁铁所需的磁性合成部件。",
+    "en_us": "A magnetic crafting component used by both the Crane Backpack and Miracle Magnet."
+  },
+  "miracle_magnet": {
+    "zh_cn": "放在物品栏时吸引 8 格内的掉落物和经验球。右键可切换启用状态。",
+    "en_us": "Attracts dropped items and XP orbs within eight blocks while in your inventory. Use it to toggle the effect."
+  },
+  "line": {
+    "zh_cn": "起重机背包的钢索合成部件，用于连接吊臂和磁头。",
+    "en_us": "A Crane Backpack cable component used between its boom and magnetic head."
+  },
+  "map_controller": {
+    "zh_cn": "空白高度图的控制器合成部件，与地图存储器组合成可记录地形的空白高度图。",
+    "en_us": "A control component combined with Map Memory to craft an Empty Height Map."
+  },
+  "map_memory": {
+    "zh_cn": "空白高度图的存储合成部件，与地图控制器组合后用于保存 9×9 地形数据。",
+    "en_us": "A storage component combined with a Map Controller to craft an Empty Height Map."
+  },
+  "assistant_base": {
+    "zh_cn": "制图器的核心合成底座，用于制作可写入空白高度图的手持制图器。",
+    "en_us": "The core base component used to craft the handheld Cartographer."
+  },
+  "unprepared_stencil": {
+    "zh_cn": "尚无图案的模板坯料。放入绘图桌并选择图案后，可加工为可贴在画布上的模板。",
+    "en_us": "A blank stencil stock. Process it in a Drawing Table to select a pattern that can be attached to Canvas."
+  },
+  "sketching_pencil": {
+    "zh_cn": "绘图桌的专用合成部件，用于制作能够加工模板与字符的绘图桌。",
+    "en_us": "A dedicated crafting component used to make the Drawing Table."
+  },
+  "pointer": {
+    "zh_cn": "先右键物品大炮，再右键同维度的目标方块，即可把大炮绑定到该目标进行定点发射。",
+    "en_us": "Use it first on a Cannon, then on a target block in the same dimension to bind aimed deliveries."
+  },
+  "xp_bucket": {
+    "zh_cn": "装有 1 B 液态经验的桶，遵循原版桶的右键优先级；可直接给储液罐或经验机器注入，也可放置经验流体。",
+    "en_us": "A bucket containing 1 B of liquid XP with vanilla bucket priority. It fills XP machines or tanks and can place the fluid."
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "parent":  "openblocks_reborn:block/guide_inner",
+    "textures":  {
+                     "texture":  "openblocks_reborn:block/guide_center_ender",
+                     "particle":  "openblocks_reborn:block/guide"
+                 }
+}

@@ -1,0 +1,19 @@
+{
+    "variants":  {
+                     "facing=north":  {
+                                          "model":  "openblocks_reborn:block/xp_bottler"
+                                      },
+                     "facing=east":  {
+                                         "model":  "openblocks_reborn:block/xp_bottler",
+                                         "y":  90
+                                     },
+                     "facing=south":  {
+                                          "model":  "openblocks_reborn:block/xp_bottler",
+                                          "y":  180
+                                      },
+                     "facing=west":  {
+                                         "model":  "openblocks_reborn:block/xp_bottler",
+                                         "y":  270
+                                     }
+                 }
+}

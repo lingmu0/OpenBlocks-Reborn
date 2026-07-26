@@ -1,0 +1,19 @@
+{
+    "variants":  {
+                     "facing=south":  {
+                                          "model":  "openblocks_reborn:block/xp_shower"
+                                      },
+                     "facing=west":  {
+                                         "model":  "openblocks_reborn:block/xp_shower",
+                                         "y":  90
+                                     },
+                     "facing=north":  {
+                                          "model":  "openblocks_reborn:block/xp_shower",
+                                          "y":  180
+                                      },
+                     "facing=east":  {
+                                         "model":  "openblocks_reborn:block/xp_shower",
+                                         "y":  270
+                                     }
+                 }
+}

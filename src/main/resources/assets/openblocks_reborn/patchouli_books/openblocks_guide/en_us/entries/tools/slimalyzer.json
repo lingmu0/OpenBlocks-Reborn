@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.slimalyzer",
+  "icon": "openblocks_reborn:slimalyzer",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:slimalyzer",
+      "text": "message.openblocks_reborn.book.detail.slimalyzer",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:slimalyzer"
+    }
+  ]
+}

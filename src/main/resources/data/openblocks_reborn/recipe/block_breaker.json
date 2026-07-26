@@ -1,0 +1,27 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:block_breaker",
+    "pattern":  [
+                    "icc",
+                    "src",
+                    "icc"
+                ],
+    "key":  {
+                "r":  {
+                          "item":  "minecraft:redstone"
+                      },
+                "c":  {
+                          "item":  "minecraft:cobblestone"
+                      },
+                "s":  {
+                          "item":  "minecraft:diamond_pickaxe"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:block_breaker"
+               }
+}

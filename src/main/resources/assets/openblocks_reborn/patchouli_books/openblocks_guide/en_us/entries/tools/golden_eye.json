@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.golden_eye",
+  "icon": "openblocks_reborn:golden_eye",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:golden_eye",
+      "text": "message.openblocks_reborn.book.detail.golden_eye",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:golden_eye"
+    }
+  ]
+}

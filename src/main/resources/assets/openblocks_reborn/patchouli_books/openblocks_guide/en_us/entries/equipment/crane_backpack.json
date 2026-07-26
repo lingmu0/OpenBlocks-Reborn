@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.crane_backpack",
+  "icon": "openblocks_reborn:crane_backpack",
+  "category": "openblocks_reborn:equipment",
+  "read_by_default": true,
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:crane_backpack",
+      "text": "message.openblocks_reborn.book.detail.crane_backpack",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:crane_backpack"
+    }
+  ]
+}

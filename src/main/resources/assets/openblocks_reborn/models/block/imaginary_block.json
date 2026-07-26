@@ -1,0 +1,88 @@
+{
+    "parent": "minecraft:block/block",
+    "textures":  {
+                     "particle":  "#block",
+                     "block":  "openblocks_reborn:block/crayon_block",
+                     "full_panel":  "openblocks_reborn:block/crayon_panel",
+                     "half_panel":  "openblocks_reborn:block/crayon_half_panel"
+                 },
+    "elements":  [
+                     {
+                         "from":  [
+                                      0.01,
+                                      0.01,
+                                      0.01
+                                  ],
+                         "to":  [
+                                    15.99,
+                                    15.99,
+                                    15.99
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#block",
+                                                     "uv":  [
+                                                                0.0,
+                                                                0.0,
+                                                                16.0,
+                                                                16.0
+                                                            ],
+                                                     "rotation":  90
+                                                     ,"tintindex": 0
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#block",
+                                                    "tintindex": 0,
+                                                    "uv":  [
+                                                               0.0,
+                                                               0.0,
+                                                               16.0,
+                                                               16.0
+                                                           ]
+                                                },
+                                       "south":  {
+                                                     "texture":  "#block",
+                                                     "tintindex": 0,
+                                                     "uv":  [
+                                                                0.0,
+                                                                0.0,
+                                                                16.0,
+                                                                16.0
+                                                            ]
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#block",
+                                                    "uv":  [
+                                                               0.0,
+                                                               0.0,
+                                                               16.0,
+                                                               16.0
+                                                           ],
+                                                    "rotation":  90
+                                                    ,"tintindex": 0
+                                                },
+                                       "up":  {
+                                                  "texture":  "#block",
+                                                  "uv":  [
+                                                             0.0,
+                                                             0.0,
+                                                             16.0,
+                                                             16.0
+                                                         ],
+                                                  "rotation":  270
+                                                  ,"tintindex": 0
+                                              },
+                                       "down":  {
+                                                    "texture":  "#block",
+                                                    "tintindex": 0,
+                                                    "uv":  [
+                                                               0.0,
+                                                               0.0,
+                                                               16.0,
+                                                               16.0
+                                                           ]
+                                                }
+                                   }
+                     }
+                 ]
+}

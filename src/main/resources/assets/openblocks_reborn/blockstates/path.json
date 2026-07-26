@@ -1,0 +1,9 @@
+{
+    "multipart":  [
+                      {
+                          "apply":  {
+                                        "model":  "openblocks_reborn:block/path"
+                                    }
+                      }
+                  ]
+}

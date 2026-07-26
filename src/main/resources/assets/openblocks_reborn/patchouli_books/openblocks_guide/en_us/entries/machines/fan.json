@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.fan",
+  "icon": "openblocks_reborn:fan",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:fan",
+      "text": "message.openblocks_reborn.book.detail.fan",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:fan"
+    }
+  ]
+}

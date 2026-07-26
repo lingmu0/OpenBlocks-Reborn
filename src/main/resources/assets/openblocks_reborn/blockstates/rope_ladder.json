@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "openblocks_reborn:block/rope_ladder",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "openblocks_reborn:block/rope_ladder",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "openblocks_reborn:block/rope_ladder"
+    },
+    "facing=west": {
+      "model": "openblocks_reborn:block/rope_ladder",
+      "y": 90
+    }
+  }
+}

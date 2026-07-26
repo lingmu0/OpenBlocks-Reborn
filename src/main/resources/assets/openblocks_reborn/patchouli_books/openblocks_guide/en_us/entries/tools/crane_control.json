@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.crane_control",
+  "icon": "openblocks_reborn:crane_control",
+  "category": "openblocks_reborn:tools",
+  "read_by_default": true,
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:crane_control",
+      "text": "message.openblocks_reborn.book.detail.crane_control",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:crane_control"
+    }
+  ]
+}

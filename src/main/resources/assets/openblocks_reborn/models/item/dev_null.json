@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "openblocks_reborn:item/dev_null"
+  },
+  "overrides": [
+    {
+      "predicate": { "openblocks_reborn:fill": 0.5 },
+      "model": "openblocks_reborn:item/dev_null_full"
+    },
+    {
+      "predicate": { "openblocks_reborn:fill": 1.0 },
+      "model": "openblocks_reborn:item/dev_null_overflow"
+    }
+  ]
+}

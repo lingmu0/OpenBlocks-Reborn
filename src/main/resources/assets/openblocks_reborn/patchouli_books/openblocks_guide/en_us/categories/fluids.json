@@ -1,0 +1,6 @@
+{
+  "name": "message.openblocks_reborn.book.category.fluids",
+  "description": "message.openblocks_reborn.book.category.fluids.description",
+  "icon": "openblocks_reborn:xp_bucket",
+  "sortnum": 50
+}

@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.cannon",
+  "icon": "openblocks_reborn:cannon",
+  "category": "openblocks_reborn:machines",
+  "read_by_default": true,
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:cannon",
+      "text": "message.openblocks_reborn.book.detail.cannon",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:cannon"
+    }
+  ]
+}

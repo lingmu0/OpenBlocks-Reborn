@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.sponge",
+  "icon": "openblocks_reborn:sponge",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:sponge",
+      "text": "message.openblocks_reborn.book.detail.sponge",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:sponge"
+    }
+  ]
+}

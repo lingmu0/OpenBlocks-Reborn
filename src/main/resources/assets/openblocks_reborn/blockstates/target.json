@@ -1,0 +1,36 @@
+{
+  "multipart": [
+    {
+      "when": {"facing": "north", "deployed": "false"},
+      "apply": {"model": "openblocks_reborn:block/target_inactive"}
+    },
+    {
+      "when": {"facing": "north", "deployed": "true"},
+      "apply": {"model": "openblocks_reborn:block/target_active"}
+    },
+    {
+      "when": {"facing": "east", "deployed": "false"},
+      "apply": {"model": "openblocks_reborn:block/target_inactive", "y": 90}
+    },
+    {
+      "when": {"facing": "east", "deployed": "true"},
+      "apply": {"model": "openblocks_reborn:block/target_active", "y": 90}
+    },
+    {
+      "when": {"facing": "south", "deployed": "false"},
+      "apply": {"model": "openblocks_reborn:block/target_inactive", "y": 180}
+    },
+    {
+      "when": {"facing": "south", "deployed": "true"},
+      "apply": {"model": "openblocks_reborn:block/target_active", "y": 180}
+    },
+    {
+      "when": {"facing": "west", "deployed": "false"},
+      "apply": {"model": "openblocks_reborn:block/target_inactive", "y": 270}
+    },
+    {
+      "when": {"facing": "west", "deployed": "true"},
+      "apply": {"model": "openblocks_reborn:block/target_active", "y": 270}
+    }
+  ]
+}

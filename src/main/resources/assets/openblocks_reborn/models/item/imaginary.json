@@ -1,0 +1,9 @@
+{
+  "parent": "openblocks_reborn:item/imaginary_pencil",
+  "overrides": [
+    {
+      "predicate": {"openblocks_reborn:crayon": 1.0},
+      "model": "openblocks_reborn:item/imaginary_crayon"
+    }
+  ]
+}

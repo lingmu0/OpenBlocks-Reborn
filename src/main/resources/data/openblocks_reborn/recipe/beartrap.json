@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:beartrap",
+    "pattern":  [
+                    "fif",
+                    "fif",
+                    "fif"
+                ],
+    "key":  {
+                "f":  {
+                          "item":  "minecraft:iron_bars"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "id":  "openblocks_reborn:beartrap"
+               }
+}

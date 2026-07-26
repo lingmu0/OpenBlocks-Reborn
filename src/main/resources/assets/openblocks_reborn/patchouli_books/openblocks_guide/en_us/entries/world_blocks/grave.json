@@ -1,0 +1,15 @@
+{
+  "name": "block.openblocks_reborn.grave",
+  "icon": "openblocks_reborn:grave",
+  "category": "openblocks_reborn:world_blocks",
+  "read_by_default": true,
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:grave",
+      "text": "message.openblocks_reborn.book.detail.grave",
+      "link_recipe": true
+    }
+  ]
+}
