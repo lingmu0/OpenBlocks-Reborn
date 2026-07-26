@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:paintbrush",
+    "pattern":  [
+                    "w  ",
+                    " s ",
+                    "  s"
+                ],
+    "key":  {
+                "s":  {
+                          "item":  "minecraft:stick"
+                      },
+                "w":  {
+                          "item":  "minecraft:white_wool"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:paintbrush"
+               }
+}

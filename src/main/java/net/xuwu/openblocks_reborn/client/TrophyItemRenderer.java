@@ -5,14 +5,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.SpawnerRenderer;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.BlockItem;
 import net.xuwu.openblocks_reborn.registry.ModBlocks;
 
 public class TrophyItemRenderer extends BlockEntityWithoutLevelRenderer {
@@ -43,8 +41,8 @@ public class TrophyItemRenderer extends BlockEntityWithoutLevelRenderer {
         if (entity != null) {
             poseStack.pushPose();
             poseStack.translate(0.0D, 0.25D, 0.0D);
-            SpawnerRenderer.renderEntityInSpawner(0.0F, poseStack, buffers, packedLight, entity,
-                    minecraft.getEntityRenderDispatcher(), 20.0D, 20.0D);
+            TrophyRenderer.renderDisplayEntity(0.0F, poseStack, buffers, packedLight,
+                    entity, minecraft.getEntityRenderDispatcher(), 20.0D);
             poseStack.popPose();
         }
         poseStack.popPose();
@@ -52,7 +50,8 @@ public class TrophyItemRenderer extends BlockEntityWithoutLevelRenderer {
 
     private Entity getDisplayEntity(ItemStack stack, ClientLevel level) {
         if (level == null) return null;
-        CompoundTag data = stack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).copyTag();
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data == null) data = new CompoundTag();
         ResourceLocation type = ResourceLocation.tryParse(data.getString("EntityType"));
         if (type == null) type = ResourceLocation.withDefaultNamespace("pig");
         if (!type.equals(cachedType) || cachedLevel != level || cachedEntity == null) {

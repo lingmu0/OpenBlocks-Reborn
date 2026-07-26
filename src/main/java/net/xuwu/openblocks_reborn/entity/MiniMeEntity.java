@@ -36,9 +36,9 @@ public class MiniMeEntity extends PathfinderMob {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(OWNER, Optional.empty());
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        entityData.define(OWNER, Optional.empty());
     }
 
     @Override

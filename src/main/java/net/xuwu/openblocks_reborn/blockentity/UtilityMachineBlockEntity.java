@@ -1,43 +1,36 @@
 package net.xuwu.openblocks_reborn.blockentity;
 
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
-import net.minecraft.world.level.block.EnchantingTableBlock;
+import net.minecraft.world.level.block.EnchantmentTableBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.particles.ParticleTypes;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.items.ItemStackHandler;
+import net.xuwu.openblocks_reborn.registry.ModCapabilities;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraft.world.level.material.Fluids;
 import net.xuwu.openblocks_reborn.block.UtilityMachineBlock;
 import net.xuwu.openblocks_reborn.item.PaintBrushItem;
@@ -51,9 +44,10 @@ import net.xuwu.openblocks_reborn.registry.ModFluids;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Nullable;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 public class UtilityMachineBlockEntity extends BlockEntity {
     public static final int PAINT_MIX_TICKS = 300;
@@ -61,7 +55,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
     /**
      * Ask the vanilla enchanting algorithm for its third-option ceiling instead
      * of duplicating the level-30 constant. Runtime scans additionally pass this
-     * result through NeoForge's level event so enchanting-overhaul mods can raise it.
+     * result through Forge's level event so enchanting-overhaul mods can raise it.
      */
     public static final int DEFAULT_AUTO_ENCHANT_MAX_LEVEL = vanillaEnchantCeiling();
     private static final int MAX_SAFE_EXPERIENCE_LEVEL = ModFluids.levelForExperience(
@@ -69,7 +63,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
     private final ItemStackHandler inventory;
     private final FluidTank experienceTank;
     private final FluidTank waterTank = new FluidTank(1_000, stack ->
-            exposesWaterTank() && stack.is(Fluids.WATER)) {
+            exposesWaterTank() && stack.getFluid() == Fluids.WATER) {
         @Override
         protected void onContentsChanged() {
             UtilityMachineBlockEntity.this.setChanged();
@@ -99,7 +93,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
     public UtilityMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.UTILITY_MACHINE.get(), pos, state);
         experienceTank = new FluidTank(experienceCapacity(state), stack ->
-                exposesExperienceTank() && stack.is(ModFluids.XP_JUICE.get())) {
+                exposesExperienceTank() && stack.getFluid() == ModFluids.XP_JUICE.get()) {
             @Override
             protected void onContentsChanged() {
                 UtilityMachineBlockEntity.this.setChanged();
@@ -126,12 +120,12 @@ public class UtilityMachineBlockEntity extends BlockEntity {
             public boolean isItemValid(int slot, ItemStack stack) {
                 if (!(UtilityMachineBlockEntity.this.getBlockState().getBlock() instanceof UtilityMachineBlock block)) return false;
                 return switch (block.kind()) {
-                    case AUTO_ANVIL -> slot == 0 ? EnchantmentHelper.canStoreEnchantments(stack) : slot == 1;
+                    case AUTO_ANVIL -> slot <= 1 && !stack.isEmpty();
                     case AUTO_ENCHANTMENT_TABLE -> slot == 0 ? stack.isEnchantable()
                             : slot == 1 && stack.is(Tags.Items.ENCHANTING_FUELS);
                     case PAINT_MIXER -> slot == 0
                             ? stack.is(ModItems.PAINTBRUSH.get()) || stack.is(ModItems.SMALL_PAINTBRUSH.get())
-                                    || stack.is(ModBlocks.PAINT_CAN.asItem())
+                                    || stack.is(ModBlocks.PAINT_CAN.get().asItem())
                             : switch (slot) {
                                 case 2 -> stack.getItem() instanceof DyeItem dye
                                         && dye.getDyeColor() == net.minecraft.world.item.DyeColor.CYAN;
@@ -177,7 +171,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
 
     private static int vanillaEnchantCeiling() {
         return Math.max(1, EnchantmentHelper.getEnchantmentCost(RandomSource.create(0L), 2,
-                EnchantingTableBlock.BOOKSHELF_OFFSETS.size(), new ItemStack(Items.BOOK)));
+                EnchantmentTableBlock.BOOKSHELF_OFFSETS.size(), new ItemStack(Items.BOOK)));
     }
 
     public ItemStackHandler getInventory() {
@@ -238,7 +232,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
     }
 
     public void setEnchantPowerLimit(int requestedLevel) {
-        selectedEnchantLevel = Math.clamp(requestedLevel, 1, maximumEnchantLevel);
+        selectedEnchantLevel = net.minecraft.util.Mth.clamp(requestedLevel, 1, maximumEnchantLevel);
         setChanged();
     }
 
@@ -270,7 +264,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
 
     public void setAnvilItemName(String requestedName) {
         if (!isAutoAnvil()) return;
-        String filtered = StringUtil.filterText(requestedName);
+        String filtered = net.minecraft.SharedConstants.filterText(requestedName);
         if (filtered.length() > net.minecraft.world.inventory.AnvilMenu.MAX_NAME_LENGTH) return;
         anvilItemName = filtered;
         setChanged();
@@ -359,6 +353,23 @@ public class UtilityMachineBlockEntity extends BlockEntity {
         return exposesWaterTank() ? waterTank : experienceTank;
     }
 
+    @Override
+    public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(
+            net.minecraftforge.common.capabilities.Capability<T> capability,
+            @Nullable Direction side) {
+        if (capability == net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER) {
+            return net.minecraftforge.common.util.LazyOptional
+                    .<IItemHandler>of(() -> getItemHandler(side)).cast();
+        }
+        if (capability == net.minecraftforge.common.capabilities.ForgeCapabilities.FLUID_HANDLER
+                && exposesFluidTank()) {
+            return net.minecraftforge.common.util.LazyOptional
+                    .<IFluidHandler>of(() -> new ConfiguredFluidHandler(
+                            getFluidTank(), allowsExperienceInput(side), true)).cast();
+        }
+        return super.getCapability(capability, side);
+    }
+
     public boolean exposesFluidTank() {
         return exposesExperienceTank() || exposesWaterTank();
     }
@@ -412,8 +423,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
     private void pullItemIntoSlot(ServerLevel level, BlockPos pos, int targetSlot, int sideMask) {
         for (Direction direction : Direction.values()) {
             if ((sideMask & 1 << direction.get3DDataValue()) == 0) continue;
-            IItemHandler source = level.getCapability(Capabilities.ItemHandler.BLOCK,
-                    pos.relative(direction), direction.getOpposite());
+            IItemHandler source = ModCapabilities.item(level, pos.relative(direction), direction.getOpposite());
             if (source == null) continue;
             for (int sourceSlot = 0; sourceSlot < source.getSlots(); sourceSlot++) {
                 ItemStack offered = source.extractItem(sourceSlot, 64, true);
@@ -436,8 +446,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
         if (offered.isEmpty()) return;
         for (Direction direction : Direction.values()) {
             if ((sideMask & 1 << direction.get3DDataValue()) == 0) continue;
-            IItemHandler destination = level.getCapability(Capabilities.ItemHandler.BLOCK,
-                    pos.relative(direction), direction.getOpposite());
+            IItemHandler destination = ModCapabilities.item(level, pos.relative(direction), direction.getOpposite());
             if (destination == null) continue;
             for (int targetSlot = 0; targetSlot < destination.getSlots(); targetSlot++) {
                 ItemStack remainder = destination.insertItem(targetSlot, offered, true);
@@ -455,12 +464,11 @@ public class UtilityMachineBlockEntity extends BlockEntity {
         if (experienceTank.getSpace() <= 0) return;
         for (Direction direction : Direction.values()) {
             if ((sideMask & 1 << direction.get3DDataValue()) == 0) continue;
-            IFluidHandler source = level.getCapability(Capabilities.FluidHandler.BLOCK,
-                    pos.relative(direction), direction.getOpposite());
+            IFluidHandler source = ModCapabilities.fluid(level, pos.relative(direction), direction.getOpposite());
             if (source == null) continue;
             FluidStack offered = source.drain(Math.min(250, experienceTank.getSpace()),
                     IFluidHandler.FluidAction.SIMULATE);
-            if (offered.isEmpty() || !offered.is(ModFluids.XP_JUICE.get())) continue;
+            if (offered.isEmpty() || offered.getFluid() != ModFluids.XP_JUICE.get()) continue;
             int accepted = experienceTank.fill(offered, IFluidHandler.FluidAction.SIMULATE);
             if (accepted <= 0) continue;
             FluidStack drained = source.drain(accepted, IFluidHandler.FluidAction.EXECUTE);
@@ -510,7 +518,16 @@ public class UtilityMachineBlockEntity extends BlockEntity {
 
         List<EnchantmentInstance> enchantments = getEnchantmentList(level, input, levelRequirement);
         if (enchantments.isEmpty()) return;
-        ItemStack result = input.getItem().applyEnchantments(input.copyWithCount(1), enchantments);
+        ItemStack result;
+        if (input.is(Items.BOOK)) {
+            result = new ItemStack(Items.ENCHANTED_BOOK);
+            enchantments.forEach(enchantment ->
+                    EnchantedBookItem.addEnchantment(result, enchantment));
+        } else {
+            result = input.copyWithCount(1);
+            enchantments.forEach(enchantment ->
+                    result.enchant(enchantment.enchantment, enchantment.level));
+        }
         inventory.extractItem(0, 1, false);
         inventory.extractItem(1, lapisCost, false);
         experienceTank.drain(fluidCost, IFluidHandler.FluidAction.EXECUTE);
@@ -523,8 +540,8 @@ public class UtilityMachineBlockEntity extends BlockEntity {
 
     private void updateAvailableEnchantPower(ServerLevel level, BlockPos pos) {
         float power = 0.0F;
-        for (BlockPos offset : EnchantingTableBlock.BOOKSHELF_OFFSETS) {
-            if (EnchantingTableBlock.isValidBookShelf(level, pos, offset)) {
+        for (BlockPos offset : EnchantmentTableBlock.BOOKSHELF_OFFSETS) {
+            if (EnchantmentTableBlock.isValidBookShelf(level, pos, offset)) {
                 BlockPos shelfPos = pos.offset(offset);
                 power += level.getBlockState(shelfPos).getEnchantPowerBonus(level, shelfPos);
             }
@@ -536,14 +553,14 @@ public class UtilityMachineBlockEntity extends BlockEntity {
             ItemStack ceilingInput = input.isEmpty() ? new ItemStack(Items.BOOK) : input;
             int vanillaMaximum = EnchantmentHelper.getEnchantmentCost(
                     RandomSource.create(enchantmentSeed), 2, updated, ceilingInput);
-            int eventMaximum = EventHooks.onEnchantmentLevelSet(level, pos, 2, updated,
+            int eventMaximum = ForgeEventFactory.onEnchantmentLevelSet(level, pos, 2, updated,
                     ceilingInput, Math.max(1, vanillaMaximum));
-            updatedMaximum = Math.clamp(eventMaximum, 1, MAX_SAFE_EXPERIENCE_LEVEL);
+            updatedMaximum = net.minecraft.util.Mth.clamp(eventMaximum, 1, MAX_SAFE_EXPERIENCE_LEVEL);
         }
         if (updated != availableEnchantPower || updatedMaximum != maximumEnchantLevel) {
             availableEnchantPower = updated;
             maximumEnchantLevel = updatedMaximum;
-            selectedEnchantLevel = Math.clamp(selectedEnchantLevel, 1, maximumEnchantLevel);
+            selectedEnchantLevel = net.minecraft.util.Mth.clamp(selectedEnchantLevel, 1, maximumEnchantLevel);
             int requiredCapacity = ModFluids.xpToFluid(ModFluids.experienceForLevel(maximumEnchantLevel));
             if (requiredCapacity > experienceTank.getCapacity()) experienceTank.setCapacity(requiredCapacity);
             setChanged();
@@ -552,20 +569,17 @@ public class UtilityMachineBlockEntity extends BlockEntity {
 
     private int calculateEnchantmentCost(ServerLevel level, ItemStack input) {
         if (input.isEmpty() || !input.isEnchantable() || availableEnchantPower <= 0) return 0;
-        int requested = Math.clamp(selectedEnchantLevel, 1, maximumEnchantLevel);
-        int adjusted = EventHooks.onEnchantmentLevelSet(level, worldPosition, 2,
+        int requested = net.minecraft.util.Mth.clamp(selectedEnchantLevel, 1, maximumEnchantLevel);
+        int adjusted = ForgeEventFactory.onEnchantmentLevelSet(level, worldPosition, 2,
                 availableEnchantPower, input, requested);
-        return Math.clamp(adjusted, 1, maximumEnchantLevel);
+        return net.minecraft.util.Mth.clamp(adjusted, 1, maximumEnchantLevel);
     }
 
     private List<EnchantmentInstance> getEnchantmentList(ServerLevel level, ItemStack input,
                                                           int cost) {
-        Optional<HolderSet.Named<Enchantment>> allowed = level.registryAccess()
-                .registryOrThrow(Registries.ENCHANTMENT).getTag(EnchantmentTags.IN_ENCHANTING_TABLE);
-        if (allowed.isEmpty()) return List.of();
         RandomSource random = RandomSource.create(enchantmentSeed + cost);
         List<EnchantmentInstance> selected = new ArrayList<>(
-                EnchantmentHelper.selectEnchantment(random, input, cost, allowed.get().stream()));
+                EnchantmentHelper.selectEnchantment(random, input, cost, false));
         if (input.is(Items.BOOK) && selected.size() > 1) {
             selected.remove(random.nextInt(selected.size()));
         }
@@ -574,7 +588,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
 
     private int lapisCost(int selectedLevel) {
         if (selectedLevel <= 0) return 1;
-        return Math.clamp(Mth.ceil(selectedLevel * 3.0F / Math.max(1, maximumEnchantLevel)), 1, 3);
+        return net.minecraft.util.Mth.clamp(Mth.ceil(selectedLevel * 3.0F / Math.max(1, maximumEnchantLevel)), 1, 3);
     }
 
     /**
@@ -585,22 +599,21 @@ public class UtilityMachineBlockEntity extends BlockEntity {
      */
     private static AnvilOperation calculateAnvilOperation(ItemStack input, ItemStack modifier,
                                                            @Nullable String requestedName) {
-        if (input.isEmpty() || !EnchantmentHelper.canStoreEnchantments(input)) {
+        if (input.isEmpty()) {
             return AnvilOperation.EMPTY;
         }
 
         ItemStack result = input.copyWithCount(1);
-        ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(
-                EnchantmentHelper.getEnchantmentsForCrafting(result));
-        long baseCost = input.getOrDefault(DataComponents.REPAIR_COST, 0)
-                + (long)modifier.getOrDefault(DataComponents.REPAIR_COST, 0);
+        Map<Enchantment, Integer> enchantments = new HashMap<>(
+                EnchantmentHelper.getEnchantments(result));
+        long baseCost = input.getBaseRepairCost() + (long)modifier.getBaseRepairCost();
         int addedCost = 0;
         int renameCost = 0;
         int modifierCost = 0;
         boolean storedBook = false;
 
         if (!modifier.isEmpty()) {
-            storedBook = modifier.has(DataComponents.STORED_ENCHANTMENTS);
+            storedBook = modifier.is(Items.ENCHANTED_BOOK);
             if (result.isDamageableItem() && result.getItem().isValidRepairItem(input, modifier)) {
                 int repairedPerItem = Math.min(result.getDamageValue(), result.getMaxDamage() / 4);
                 if (repairedPerItem <= 0) return AnvilOperation.EMPTY;
@@ -626,19 +639,20 @@ public class UtilityMachineBlockEntity extends BlockEntity {
                     }
                 }
 
-                ItemEnchantments modifierEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(modifier);
+                Map<Enchantment, Integer> modifierEnchantments =
+                        EnchantmentHelper.getEnchantments(modifier);
                 boolean appliedAny = false;
                 boolean rejectedAny = false;
-                for (Object2IntMap.Entry<Holder<Enchantment>> entry : modifierEnchantments.entrySet()) {
-                    Holder<Enchantment> enchantment = entry.getKey();
-                    int currentLevel = enchantments.getLevel(enchantment);
-                    int incomingLevel = entry.getIntValue();
+                for (Map.Entry<Enchantment, Integer> entry : modifierEnchantments.entrySet()) {
+                    Enchantment enchantment = entry.getKey();
+                    int currentLevel = enchantments.getOrDefault(enchantment, 0);
+                    int incomingLevel = entry.getValue();
                     int mergedLevel = currentLevel == incomingLevel
                             ? incomingLevel + 1 : Math.max(incomingLevel, currentLevel);
-                    boolean compatible = input.supportsEnchantment(enchantment);
-                    for (Holder<Enchantment> existing : enchantments.keySet()) {
+                    boolean compatible = enchantment.canEnchant(input);
+                    for (Enchantment existing : enchantments.keySet()) {
                         if (!existing.equals(enchantment)
-                                && !Enchantment.areCompatible(enchantment, existing)) {
+                                && !enchantment.isCompatibleWith(existing)) {
                             compatible = false;
                             addedCost++;
                         }
@@ -649,9 +663,14 @@ public class UtilityMachineBlockEntity extends BlockEntity {
                         continue;
                     }
                     appliedAny = true;
-                    mergedLevel = Math.min(mergedLevel, enchantment.value().getMaxLevel());
-                    enchantments.set(enchantment, mergedLevel);
-                    int enchantmentCost = enchantment.value().getAnvilCost();
+                    mergedLevel = Math.min(mergedLevel, enchantment.getMaxLevel());
+                    enchantments.put(enchantment, mergedLevel);
+                    int enchantmentCost = switch (enchantment.getRarity()) {
+                        case COMMON -> 1;
+                        case UNCOMMON -> 2;
+                        case RARE -> 4;
+                        case VERY_RARE -> 8;
+                    };
                     if (storedBook) enchantmentCost = Math.max(1, enchantmentCost / 2);
                     addedCost += enchantmentCost * mergedLevel;
                     if (input.getCount() > 1) addedCost = 40;
@@ -661,29 +680,29 @@ public class UtilityMachineBlockEntity extends BlockEntity {
             }
         }
 
-        if (requestedName != null && !StringUtil.isBlank(requestedName)) {
+        if (requestedName != null && !requestedName.isBlank()) {
             if (!requestedName.equals(input.getHoverName().getString())) {
                 renameCost = 1;
                 addedCost++;
-                result.set(DataComponents.CUSTOM_NAME, Component.literal(requestedName));
+                result.setHoverName(Component.literal(requestedName));
             }
-        } else if (requestedName != null && input.has(DataComponents.CUSTOM_NAME)) {
+        } else if (requestedName != null && input.hasCustomHoverName()) {
             renameCost = 1;
             addedCost++;
-            result.remove(DataComponents.CUSTOM_NAME);
+            result.resetHoverName();
         }
         if (storedBook && !result.isBookEnchantable(modifier)) return AnvilOperation.EMPTY;
         int levelCost = (int)Mth.clamp(baseCost + addedCost, 0L, Integer.MAX_VALUE);
         if (renameCost == addedCost && levelCost >= 40) levelCost = 39;
         if (addedCost <= 0 || levelCost >= 40) return AnvilOperation.EMPTY;
 
-        int repairCost = result.getOrDefault(DataComponents.REPAIR_COST, 0);
-        repairCost = Math.max(repairCost, modifier.getOrDefault(DataComponents.REPAIR_COST, 0));
+        int repairCost = result.getBaseRepairCost();
+        repairCost = Math.max(repairCost, modifier.getBaseRepairCost());
         if (renameCost != addedCost || renameCost == 0) {
             repairCost = net.minecraft.world.inventory.AnvilMenu.calculateIncreasedRepairCost(repairCost);
         }
-        result.set(DataComponents.REPAIR_COST, repairCost);
-        EnchantmentHelper.setEnchantments(result, enchantments.toImmutable());
+        result.setRepairCost(repairCost);
+        EnchantmentHelper.setEnchantments(enchantments, result);
         return new AnvilOperation(result, levelCost, Math.max(1, modifierCost));
     }
 
@@ -708,7 +727,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
 
     private static boolean isPaintTarget(ItemStack target) {
         return target.is(ModItems.PAINTBRUSH.get()) || target.is(ModItems.SMALL_PAINTBRUSH.get())
-                || target.is(ModBlocks.PAINT_CAN.asItem());
+                || target.is(ModBlocks.PAINT_CAN.get().asItem());
     }
 
     private static boolean isDrawingInput(ItemStack stack) {
@@ -771,7 +790,7 @@ public class UtilityMachineBlockEntity extends BlockEntity {
             output.setCount(input.getCount());
         }
         ItemStack current = inventory.getStackInSlot(1);
-        if (ItemStack.isSameItemSameComponents(current, output) && current.getCount() == output.getCount()) return;
+        if (ItemStack.isSameItemSameTags(current, output) && current.getCount() == output.getCount()) return;
         updatingDrawingOutput = true;
         inventory.setStackInSlot(1, output);
         updatingDrawingOutput = false;
@@ -809,21 +828,21 @@ public class UtilityMachineBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        inventory.deserializeNBT(tag.getCompound("Inventory"));
         maximumEnchantLevel = tag.contains("MaximumEnchantLevel")
-                ? Math.clamp(tag.getInt("MaximumEnchantLevel"), 1, MAX_SAFE_EXPERIENCE_LEVEL)
+                ? net.minecraft.util.Mth.clamp(tag.getInt("MaximumEnchantLevel"), 1, MAX_SAFE_EXPERIENCE_LEVEL)
                 : DEFAULT_AUTO_ENCHANT_MAX_LEVEL;
         int savedCapacity = ModFluids.xpToFluid(ModFluids.experienceForLevel(maximumEnchantLevel));
         if (savedCapacity > experienceTank.getCapacity()) experienceTank.setCapacity(savedCapacity);
-        experienceTank.readFromNBT(registries, tag.getCompound("ExperienceTank"));
-        waterTank.readFromNBT(registries, tag.getCompound("WaterTank"));
+        experienceTank.readFromNBT(tag.getCompound("ExperienceTank"));
+        waterTank.readFromNBT(tag.getCompound("WaterTank"));
         ticks = tag.getInt("Ticks");
         int savedSelection = tag.contains("SelectedEnchantLevel")
                 ? tag.getInt("SelectedEnchantLevel")
                 : (tag.contains("EnchantPowerLimit") ? tag.getInt("EnchantPowerLimit") : 20);
-        selectedEnchantLevel = Math.clamp(savedSelection, 1, maximumEnchantLevel);
+        selectedEnchantLevel = net.minecraft.util.Mth.clamp(savedSelection, 1, maximumEnchantLevel);
         availableEnchantPower = Math.max(0, tag.getInt("AvailableEnchantPower"));
         if (tag.contains("EnchantmentSeed")) enchantmentSeed = tag.getLong("EnchantmentSeed");
         anvilItemName = tag.contains("AnvilItemName") ? tag.getString("AnvilItemName") : null;
@@ -831,8 +850,8 @@ public class UtilityMachineBlockEntity extends BlockEntity {
                 ? tag.getInt("SelectedPaintColor") & 0xFFFFFF : 0xB0417E;
         paintResultColor = tag.contains("PaintResultColor")
                 ? tag.getInt("PaintResultColor") & 0xFFFFFF : selectedPaintColor;
-        paintProgress = Math.clamp(tag.getInt("PaintProgress"), 0, PAINT_MIX_TICKS);
-        drawingMode = Math.clamp(tag.getInt("DrawingMode"), 0, 1);
+        paintProgress = net.minecraft.util.Mth.clamp(tag.getInt("PaintProgress"), 0, PAINT_MIX_TICKS);
+        drawingMode = net.minecraft.util.Mth.clamp(tag.getInt("DrawingMode"), 0, 1);
         selectedStencil = Math.floorMod(tag.getInt("SelectedStencil"), StencilItem.PATTERN_COUNT);
         selectedGlyph = Math.floorMod(tag.contains("SelectedGlyph") ? tag.getInt("SelectedGlyph")
                 : GlyphItem.selectableIndex('A'), GlyphItem.selectableCount());
@@ -848,11 +867,11 @@ public class UtilityMachineBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("Inventory", inventory.serializeNBT(registries));
-        tag.put("ExperienceTank", experienceTank.writeToNBT(registries, new CompoundTag()));
-        tag.put("WaterTank", waterTank.writeToNBT(registries, new CompoundTag()));
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.put("Inventory", inventory.serializeNBT());
+        tag.put("ExperienceTank", experienceTank.writeToNBT(new CompoundTag()));
+        tag.put("WaterTank", waterTank.writeToNBT(new CompoundTag()));
         tag.putInt("Ticks", ticks);
         tag.putInt("SelectedEnchantLevel", selectedEnchantLevel);
         tag.putInt("MaximumEnchantLevel", maximumEnchantLevel);
@@ -877,8 +896,8 @@ public class UtilityMachineBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
     }
 
     @Override

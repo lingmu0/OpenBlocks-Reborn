@@ -1,0 +1,24 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:fan",
+    "pattern":  [
+                    "f",
+                    "i",
+                    "s"
+                ],
+    "key":  {
+                "s":  {
+                          "item":  "minecraft:stone_slab"
+                      },
+                "f":  {
+                          "item":  "minecraft:iron_bars"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:fan"
+               }
+}

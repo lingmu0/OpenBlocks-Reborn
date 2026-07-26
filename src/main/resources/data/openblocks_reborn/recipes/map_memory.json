@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:map_memory",
+    "pattern":  [
+                    "rg",
+                    "rg",
+                    "rg"
+                ],
+    "key":  {
+                "r":  {
+                          "item":  "minecraft:redstone"
+                      },
+                "g":  {
+                          "item":  "minecraft:gold_nugget"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:map_memory"
+               }
+}

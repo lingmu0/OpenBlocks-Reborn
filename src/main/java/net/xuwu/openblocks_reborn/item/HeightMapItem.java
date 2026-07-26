@@ -1,7 +1,8 @@
 package net.xuwu.openblocks_reborn.item;
 
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.item.component.CustomData;
 import net.xuwu.openblocks_reborn.registry.ModItems;
 
 public class HeightMapItem extends Item {
@@ -36,9 +36,9 @@ public class HeightMapItem extends Item {
             return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
         }
         if (!level.isClientSide) {
-            CustomData data = player.getItemInHand(hand).getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-            int x = data.contains(MAP_X) ? data.copyTag().getInt(MAP_X) : player.getBlockX();
-            int z = data.contains(MAP_Z) ? data.copyTag().getInt(MAP_Z) : player.getBlockZ();
+            var data = LegacyItemData.copyTag(player.getItemInHand(hand));
+            int x = data.contains(MAP_X) ? data.getInt(MAP_X) : player.getBlockX();
+            int z = data.contains(MAP_Z) ? data.getInt(MAP_Z) : player.getBlockZ();
             int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
             BlockPos pos = new BlockPos(x, Math.max(level.getMinBuildHeight(), y - 1), z);
             String biome = level.getBiome(pos).unwrapKey().map(key -> key.location().toString()).orElse("unknown");
@@ -56,7 +56,7 @@ public class HeightMapItem extends Item {
                         center.getX() + x, center.getZ() + z);
             }
         }
-        CustomData.update(DataComponents.CUSTOM_DATA, result, tag -> {
+        LegacyItemData.update(result, tag -> {
             tag.putInt(MAP_X, center.getX());
             tag.putInt(MAP_Z, center.getZ());
             tag.putIntArray(HEIGHTS, heights);
@@ -65,7 +65,7 @@ public class HeightMapItem extends Item {
     }
 
     public static int[] getHeights(ItemStack stack) {
-        int[] heights = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getIntArray(HEIGHTS);
+        int[] heights = LegacyItemData.copyTag(stack).getIntArray(HEIGHTS);
         return heights.length == 81 ? heights : new int[0];
     }
 }

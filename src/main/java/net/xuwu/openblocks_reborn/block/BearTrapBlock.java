@@ -36,7 +36,7 @@ public class BearTrapBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, TRIGGERED);
     }
 
@@ -46,7 +46,7 @@ public class BearTrapBlock extends Block {
     }
 
     @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, net.minecraft.world.entity.Entity entity) {
+    public void entityInside(BlockState state, Level level, BlockPos pos, net.minecraft.world.entity.Entity entity) {
         if (entity instanceof Mob living && !level.hasNeighborSignal(pos)) {
             Vec3 motion = living.getDeltaMovement();
             living.setDeltaMovement(0.0D, Math.min(0.0D, motion.y), 0.0D);
@@ -60,7 +60,7 @@ public class BearTrapBlock extends Block {
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!state.getValue(TRIGGERED)) return;
         var trapped = level.getEntitiesOfClass(Mob.class,
                 new net.minecraft.world.phys.AABB(pos).inflate(0.15D), LivingEntity::isAlive);
@@ -68,21 +68,20 @@ public class BearTrapBlock extends Block {
             open(level, pos, state);
             return;
         }
-        Mob mob = trapped.getFirst();
+        Mob mob = trapped.get(0);
         mob.setPos(pos.getX() + 0.5D, pos.getY() + 0.05D, pos.getZ() + 0.5D);
         mob.setDeltaMovement(Vec3.ZERO);
         level.scheduleTick(pos, this, 2);
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
-                                                Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide && state.getValue(TRIGGERED)) open(level, pos, state);
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
                                    BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide && level.hasNeighborSignal(pos) && state.getValue(TRIGGERED)) open(level, pos, state);
     }
@@ -93,17 +92,17 @@ public class BearTrapBlock extends Block {
     }
 
     @Override
-    protected boolean hasAnalogOutputSignal(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
         return state.getValue(TRIGGERED) ? 15 : 0;
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, net.minecraft.world.level.BlockGetter level,
+    public VoxelShape getShape(BlockState state, net.minecraft.world.level.BlockGetter level,
                                   BlockPos pos, CollisionContext context) {
         return state.getValue(TRIGGERED) ? CLOSED_SHAPE : OPEN_SHAPE;
     }

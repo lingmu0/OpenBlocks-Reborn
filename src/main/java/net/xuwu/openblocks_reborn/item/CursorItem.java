@@ -1,8 +1,9 @@
 package net.xuwu.openblocks_reborn.item;
 
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +18,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -56,7 +56,7 @@ public class CursorItem extends Item {
     }
 
     public static void bind(ItemStack stack, Level level, BlockPos pos, Direction side) {
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+        LegacyItemData.update(stack, tag -> {
             tag.putString(DIMENSION, level.dimension().location().toString());
             tag.putLong(POSITION, pos.asLong());
             tag.putString(SIDE, side.getName());
@@ -75,7 +75,7 @@ public class CursorItem extends Item {
         if (!(player instanceof ServerPlayer serverPlayer)) {
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
         }
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         ResourceLocation dimension = ResourceLocation.tryParse(tag.getString(DIMENSION));
         if (dimension == null || !tag.contains(POSITION)) {
             serverPlayer.displayClientMessage(Component.translatable("message.openblocks_reborn.cursor_unbound"), true);
@@ -114,9 +114,7 @@ public class CursorItem extends Item {
         BlockHitResult hit = new BlockHitResult(pos.getCenter(), side, pos, false);
         var state = targetLevel.getBlockState(pos);
         var previousMenu = serverPlayer.containerMenu;
-        var itemResult = state.useItemOn(stack, targetLevel, player, hand, hit);
-        InteractionResult result = itemResult == net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
-                ? state.useWithoutItem(targetLevel, player, hit) : itemResult.result();
+        InteractionResult result = state.use(targetLevel, player, hand, hit);
         boolean openedMenu = serverPlayer.containerMenu != previousMenu
                 && serverPlayer.containerMenu != serverPlayer.inventoryMenu;
         if (openedMenu) {
@@ -163,8 +161,8 @@ public class CursorItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable net.minecraft.world.level.Level level, List<Component> tooltip, TooltipFlag flag) {
+        var tag = LegacyItemData.copyTag(stack);
         if (tag.contains(POSITION)) {
             BlockPos pos = BlockPos.of(tag.getLong(POSITION));
             tooltip.add(Component.translatable("tooltip.openblocks_reborn.cursor_bound", pos.getX(), pos.getY(), pos.getZ()));

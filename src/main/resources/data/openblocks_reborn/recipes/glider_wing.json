@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:glider_wing",
+    "pattern":  [
+                    " sl",
+                    "sll",
+                    "lll"
+                ],
+    "key":  {
+                "s":  {
+                          "item":  "minecraft:stick"
+                      },
+                "l":  {
+                          "item":  "minecraft:leather"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:glider_wing"
+               }
+}

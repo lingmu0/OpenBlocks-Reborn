@@ -39,12 +39,14 @@ public class CraneArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
 
     @Override
     public void renderToBuffer(PoseStack poses, VertexConsumer vertices, int packedLight,
-                               int packedOverlay, int color) {
-        super.renderToBuffer(poses, vertices, packedLight, packedOverlay, color);
+                               int packedOverlay, float red, float green, float blue, float alpha) {
+        super.renderToBuffer(poses, vertices, packedLight, packedOverlay,
+                red, green, blue, alpha);
         // Functional player cranes use the shared world-space renderer. Keep the
         // legacy child only for armor stands and other display entities.
         if (renderArmorStandArm) {
-            craneArm.render(poses, vertices, packedLight, packedOverlay, color);
+            craneArm.render(poses, vertices, packedLight, packedOverlay,
+                    red, green, blue, alpha);
         }
     }
 }

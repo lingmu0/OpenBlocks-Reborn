@@ -13,21 +13,21 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.fluids.FluidType;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.fluids.FluidType;
 
 /**
  * A non-placeable, non-flowing water marker owned by the sprinkler block.
  *
  * <p>The legacy sprinkler used {@code Material.WATER} without actually being a
- * vanilla water block. Reusing NeoForge's vanilla water fluid type preserves
+ * vanilla water block. Reusing Forge's vanilla water fluid type preserves
  * entity, boat, hydration and extinguishing behavior, while the no-op fluid and
  * air legacy state ensure it disappears together with the sprinkler.</p>
  */
 public final class SprinklerWaterFluid extends Fluid {
     @Override
     public FluidType getFluidType() {
-        return NeoForgeMod.WATER_TYPE.value();
+        return ForgeMod.WATER_TYPE.get();
     }
 
     @Override

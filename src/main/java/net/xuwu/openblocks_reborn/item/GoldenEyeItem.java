@@ -1,11 +1,12 @@
 package net.xuwu.openblocks_reborn.item;
 
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -22,9 +23,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraftforge.network.NetworkHooks;
 import net.xuwu.openblocks_reborn.entity.GoldenEyeEntity;
 import net.xuwu.openblocks_reborn.menu.GoldenEyeMenu;
 import net.xuwu.openblocks_reborn.registry.ModEntities;
@@ -62,7 +63,7 @@ public class GoldenEyeItem extends Item {
         if (!(level instanceof ServerLevel serverLevel) || !(player instanceof ServerPlayer serverPlayer)) {
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
         }
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         if (!tag.contains(TARGET) || stack.getDamageValue() >= stack.getMaxDamage()) {
             player.displayClientMessage(Component.translatable(tag.contains(TARGET)
                     ? "message.openblocks_reborn.golden_eye_broken"
@@ -86,7 +87,7 @@ public class GoldenEyeItem extends Item {
         List<ResourceLocation> structures = registry.keySet().stream()
                 .sorted(Comparator.comparing(ResourceLocation::toString))
                 .toList();
-        player.openMenu(new SimpleMenuProvider(
+        NetworkHooks.openScreen(player, new SimpleMenuProvider(
                         (containerId, inventory, ignored) ->
                                 new GoldenEyeMenu(containerId, inventory, hand, structures),
                         Component.translatable("gui.openblocks_reborn.golden_eye.title")),
@@ -115,7 +116,7 @@ public class GoldenEyeItem extends Item {
                     structureId.toString()), false);
             return false;
         }
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+        LegacyItemData.update(stack, tag -> {
             tag.putString(STRUCTURE, structureId.toString());
             tag.putLong(TARGET, found.getFirst().asLong());
         });
@@ -125,9 +126,9 @@ public class GoldenEyeItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable net.minecraft.world.level.Level level,
                                 List<Component> tooltip, TooltipFlag flag) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         if (tag.contains(STRUCTURE)) {
             tooltip.add(Component.translatable("tooltip.openblocks_reborn.golden_eye_locked",
                     tag.getString(STRUCTURE)));

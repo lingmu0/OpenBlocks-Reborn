@@ -51,7 +51,7 @@ public class GoldenEggBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof GoldenEggBlockEntity egg) {
             player.displayClientMessage(Component.translatable("message.openblocks_reborn.golden_egg_progress",
                     egg.getProgress() * 100 / GoldenEggBlockEntity.HATCH_TIME), true);
@@ -60,7 +60,7 @@ public class GoldenEggBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 }

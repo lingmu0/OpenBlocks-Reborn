@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeItem;
@@ -43,7 +42,7 @@ public class GuideBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ORIENTATION);
     }
 
@@ -63,12 +62,12 @@ public class GuideBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected BlockState rotate(BlockState state, Rotation rotation) {
+    public BlockState rotate(BlockState state, Rotation rotation) {
         return state.setValue(ORIENTATION, rotation.rotation().rotate(state.getValue(ORIENTATION)));
     }
 
     @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
+    public BlockState mirror(BlockState state, Mirror mirror) {
         return state.setValue(ORIENTATION, mirror.rotation().rotate(state.getValue(ORIENTATION)));
     }
 
@@ -82,14 +81,14 @@ public class GuideBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof GuideBlockEntity guide) {
             guide.updatePowered();
         }
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
                                    BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof GuideBlockEntity guide) {
             guide.updatePowered();
@@ -97,25 +96,25 @@ public class GuideBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
-                                                Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+        InteractionResult held = useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (held != InteractionResult.PASS) return held;
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof GuideBlockEntity guide) {
             guide.handleControl(player, hit);
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useHeldItem(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                                Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof GuideBlockEntity guide)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
         if (stack.getItem() instanceof DyeItem dye) {
             if (!level.isClientSide) {
-                guide.setColor(player, dye.getDyeColor().getTextureDiffuseColor());
+                guide.setColor(player, dye.getDyeColor().getTextColor());
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         if (stack.is(ModItems.WRENCH.get())) {
             if (!level.isClientSide) {
@@ -124,23 +123,23 @@ public class GuideBlock extends Block implements EntityBlock {
                     level.setBlock(pos, rotated, Block.UPDATE_ALL);
                     level.playSound(null, pos, SoundEvents.IRON_TRAPDOOR_OPEN,
                             SoundSource.BLOCKS, 0.5F, 1.2F);
-                    stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(stack));
+                    stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getEquipmentSlotForItem(stack)));
                 }
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         if (builder && stack.getItem() instanceof BlockItem blockItem) {
             if (!level.isClientSide && level instanceof net.minecraft.server.level.ServerLevel serverLevel) {
                 guide.placeBlocks(serverLevel, player, hand, stack, blockItem, hit.getDirection());
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         if (!level.isClientSide) guide.handleControl(player, hit);
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         BlockEntity blockEntity = params.getOptionalParameter(
                 net.minecraft.world.level.storage.loot.parameters.LootContextParams.BLOCK_ENTITY);
         return blockEntity instanceof GuideBlockEntity guide

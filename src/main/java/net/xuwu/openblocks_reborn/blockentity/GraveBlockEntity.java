@@ -1,7 +1,6 @@
 package net.xuwu.openblocks_reborn.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
@@ -44,7 +43,7 @@ public class GraveBlockEntity extends BlockEntity {
     private void insert(ItemStack stack) {
         for (int slot = 0; slot < items.size() && !stack.isEmpty(); slot++) {
             ItemStack existing = items.get(slot);
-            if (!existing.isEmpty() && ItemStack.isSameItemSameComponents(existing, stack)) {
+            if (!existing.isEmpty() && ItemStack.isSameItemSameTags(existing, stack)) {
                 int moved = Math.min(stack.getCount(), existing.getMaxStackSize() - existing.getCount());
                 if (moved > 0) {
                     existing.grow(moved);
@@ -68,17 +67,17 @@ public class GraveBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        ContainerHelper.loadAllItems(tag, items, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        ContainerHelper.loadAllItems(tag, items);
         if (tag.hasUUID("Owner")) owner = tag.getUUID("Owner");
         ownerName = tag.getString("OwnerName");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, items, registries);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        ContainerHelper.saveAllItems(tag, items);
         if (owner != null) tag.putUUID("Owner", owner);
         tag.putString("OwnerName", ownerName);
     }

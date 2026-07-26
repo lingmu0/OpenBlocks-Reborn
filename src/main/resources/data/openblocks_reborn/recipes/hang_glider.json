@@ -1,0 +1,19 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:hang_glider",
+    "pattern":  [
+                    "wsw"
+                ],
+    "key":  {
+                "s":  {
+                          "item":  "minecraft:stick"
+                      },
+                "w":  {
+                          "item":  "openblocks_reborn:glider_wing"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:hang_glider"
+               }
+}

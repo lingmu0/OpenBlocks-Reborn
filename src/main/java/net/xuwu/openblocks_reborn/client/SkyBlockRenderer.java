@@ -27,9 +27,9 @@ public class SkyBlockRenderer implements BlockEntityRenderer<SkyBlockEntity> {
         if (clientLevel == null) return;
         Vec3 color = clientLevel.getSkyColor(Vec3.atCenterOf(sky.getBlockPos()), partialTick);
         int argb = 0xE0000000
-                | (int)(Math.clamp(color.x, 0.0D, 1.0D) * 255.0D) << 16
-                | (int)(Math.clamp(color.y, 0.0D, 1.0D) * 255.0D) << 8
-                | (int)(Math.clamp(color.z, 0.0D, 1.0D) * 255.0D);
+                | (int)(net.minecraft.util.Mth.clamp(color.x, 0.0D, 1.0D) * 255.0D) << 16
+                | (int)(net.minecraft.util.Mth.clamp(color.y, 0.0D, 1.0D) * 255.0D) << 8
+                | (int)(net.minecraft.util.Mth.clamp(color.z, 0.0D, 1.0D) * 255.0D);
         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
                 .apply(ResourceLocation.withDefaultNamespace("block/white_concrete"));
         VertexConsumer consumer = buffers.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
@@ -57,7 +57,7 @@ public class SkyBlockRenderer implements BlockEntityRenderer<SkyBlockEntity> {
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose,
                                float x,float y,float z,float u,float v,int color,int light,
                                float nx,float ny,float nz) {
-        consumer.addVertex(pose,x,y,z).setColor(color).setUv(u,v)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose,nx,ny,nz);
+        consumer.vertex(pose.pose(),x,y,z).color(color).uv(u,v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(pose.normal(),nx,ny,nz).endVertex();
     }
 }

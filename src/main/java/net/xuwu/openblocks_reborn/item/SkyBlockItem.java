@@ -1,11 +1,11 @@
 package net.xuwu.openblocks_reborn.item;
 
-import net.minecraft.core.component.DataComponents;
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,14 +22,13 @@ public class SkyBlockItem extends BlockItem {
     }
 
     public static boolean isInverted(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getBoolean(INVERTED);
+        return LegacyItemData.copyTag(stack).getBoolean(INVERTED);
     }
 
     public static ItemStack create(boolean inverted) {
-        ItemStack result = new ItemStack(net.xuwu.openblocks_reborn.registry.ModBlocks.SKY.asItem());
+        ItemStack result = new ItemStack(net.xuwu.openblocks_reborn.registry.ModBlocks.SKY.get().asItem());
         if (inverted) {
-            CustomData.update(DataComponents.CUSTOM_DATA, result,
+            LegacyItemData.update(result,
                     tag -> tag.putBoolean(INVERTED, true));
         }
         return result;
@@ -43,7 +42,7 @@ public class SkyBlockItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable net.minecraft.world.level.Level level,
                                 List<Component> tooltip, TooltipFlag flag) {
         if (isInverted(stack)) {
             tooltip.add(Component.translatable("message.openblocks_reborn.inverted"));

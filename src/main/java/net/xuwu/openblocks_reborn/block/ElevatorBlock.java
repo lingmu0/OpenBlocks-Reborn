@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
@@ -36,7 +36,7 @@ public class ElevatorBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(COLOR, FACING);
     }
 
@@ -48,7 +48,12 @@ public class ElevatorBlock extends Block {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
+                                 InteractionHand hand, BlockHitResult hit) {
+        return useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+    }
+
+    public InteractionResult useHeldItem(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                                Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.getItem() instanceof DyeItem dyeItem) {
             DyeColor color = dyeItem.getDyeColor();
@@ -57,10 +62,10 @@ public class ElevatorBlock extends Block {
                     level.setBlock(pos, state.setValue(COLOR, color), Block.UPDATE_ALL);
                     if (!player.getAbilities().instabuild) stack.shrink(1);
                 }
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS;
     }
 
     public boolean teleport(ServerPlayer player, boolean up) {
@@ -97,7 +102,7 @@ public class ElevatorBlock extends Block {
     }
 
     @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         ItemStack result = new ItemStack(asItem());
         PaintBrushItem.setColor(result, state.getValue(COLOR));
         return List.of(result);

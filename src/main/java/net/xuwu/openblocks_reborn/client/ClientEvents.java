@@ -6,16 +6,14 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 import net.xuwu.openblocks_reborn.block.ColorableBlock;
 import net.xuwu.openblocks_reborn.block.ElevatorBlock;
@@ -33,7 +31,7 @@ import net.xuwu.openblocks_reborn.menu.MachineLayout;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.PauseScreen;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.minecraftforge.event.TickEvent;
 import net.xuwu.openblocks_reborn.client.MiniMeRenderer;
 import net.xuwu.openblocks_reborn.client.TankRenderer;
 import net.xuwu.openblocks_reborn.client.TrophyRenderer;
@@ -43,12 +41,13 @@ import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.xuwu.openblocks_reborn.item.CraneBackpackItem;
 
 import java.util.EnumSet;
 
-@EventBusSubscriber(modid = OpenBlocksReborn.MOD_ID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = OpenBlocksReborn.MOD_ID, value = Dist.CLIENT,
+        bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ClientEvents {
     private static int smokeTicks;
     private static int galleryTicks = -1;
@@ -57,76 +56,6 @@ public final class ClientEvents {
     private static int pendingSmokeMenuTicks;
     private static boolean goldenEyeSmokeCaptured;
     private static int goldenEyeSmokeTicks;
-
-    @SubscribeEvent
-    public static void registerFluidClientExtensions(RegisterClientExtensionsEvent event) {
-        ResourceLocation still = ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "block/xp_juice_still");
-        ResourceLocation flowing = ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "block/xp_juice_flowing");
-        event.registerFluidType(new IClientFluidTypeExtensions() {
-            @Override
-            public ResourceLocation getStillTexture() {
-                return still;
-            }
-
-            @Override
-            public ResourceLocation getFlowingTexture() {
-                return flowing;
-            }
-
-            @Override
-            public int getTintColor() {
-                return 0xFFE6FF3C;
-            }
-        }, ModFluids.XP_JUICE_TYPE.get());
-        event.registerItem(new IClientItemExtensions() {
-            private HumanoidModel<?> model;
-
-            @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity living, net.minecraft.world.item.ItemStack stack,
-                                                          EquipmentSlot slot, HumanoidModel<?> original) {
-                if (model == null) model = WearableArmorModels.bake(WearableArmorModels.GLASSES);
-                return model;
-            }
-        }, ModItems.SONIC_GLASSES.get(), ModItems.PENCIL_GLASSES.get(), ModItems.CRAYON_GLASSES.get(),
-                ModItems.TECHNICOLOR_GLASSES.get(), ModItems.SERIOUS_GLASSES.get());
-        event.registerItem(new IClientItemExtensions() {
-            private HumanoidModel<?> model;
-
-            @Override
-            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity living, net.minecraft.world.item.ItemStack stack,
-                                                          EquipmentSlot slot, HumanoidModel<?> original) {
-                if (model == null) model = WearableArmorModels.bakeCrane();
-                return model;
-            }
-        }, ModItems.CRANE_BACKPACK.get());
-        event.registerItem(new IClientItemExtensions() {
-            private CannonItemRenderer renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                if (renderer == null) renderer = new CannonItemRenderer();
-                return renderer;
-            }
-        }, ModItems.BLOCK_ITEMS.get("cannon").get());
-        event.registerItem(new IClientItemExtensions() {
-            private TrophyItemRenderer renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                if (renderer == null) renderer = new TrophyItemRenderer();
-                return renderer;
-            }
-        }, ModItems.BLOCK_ITEMS.get("trophy").get());
-        event.registerItem(new IClientItemExtensions() {
-            private StencilItemRenderer renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                if (renderer == null) renderer = new StencilItemRenderer();
-                return renderer;
-            }
-        }, ModItems.STENCIL.get());
-    }
 
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -140,24 +69,28 @@ public final class ClientEvents {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            net.minecraft.client.gui.screens.MenuScreens.register(
+                    ModMenus.MACHINE.get(), MachineScreen::new);
+            net.minecraft.client.gui.screens.MenuScreens.register(
+                    ModMenus.GOLDEN_EYE.get(), GoldenEyeScreen::new);
             ItemBlockRenderTypes.setRenderLayer(ModFluids.XP_JUICE.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_XP_JUICE.get(), RenderType.translucent());
             ItemProperties.register(ModItems.PEDOMETER.get(),
-                    ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "speed"),
+                    new ResourceLocation(OpenBlocksReborn.MOD_ID, "speed"),
                     (stack, level, entity, seed) -> entity != null
                             && entity.getDeltaMovement().horizontalDistanceSqr() > 0.0001D ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.SLIMALYZER.get(),
-                    ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "active"),
+                    new ResourceLocation(OpenBlocksReborn.MOD_ID, "active"),
                     (stack, level, entity, seed) -> SlimalyzerItem.isActive(stack) ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.DEV_NULL.get(),
-                    ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "fill"),
+                    new ResourceLocation(OpenBlocksReborn.MOD_ID, "fill"),
                     (stack, level, entity, seed) -> {
                         var stored = DevNullItem.getStored(stack);
                         if (stored.isEmpty()) return 0.0F;
                         return stored.getCount() >= stored.getMaxStackSize() ? 1.0F : 0.5F;
                     });
             ItemProperties.register(ModItems.CRANE_CONTROL.get(),
-                    ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "lift"),
+                    new ResourceLocation(OpenBlocksReborn.MOD_ID, "lift"),
                     (stack, level, entity, seed) -> {
                         if (!(entity instanceof net.minecraft.world.entity.player.Player player)
                                 || !player.isUsingItem() || player.getUseItem() != stack
@@ -165,7 +98,7 @@ public final class ClientEvents {
                         return player.isShiftKeyDown() ? 0.5F : 1.0F;
                     });
             ItemProperties.register(ModItems.CRANE_CONTROL.get(),
-                    ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "magnet"),
+                    new ResourceLocation(OpenBlocksReborn.MOD_ID, "magnet"),
                     (stack, level, entity, seed) -> {
                         if (!(entity instanceof net.minecraft.world.entity.player.Player player)) return 0.0F;
                         var backpack = CraneBackpackItem.wornBy(player);
@@ -174,7 +107,7 @@ public final class ClientEvents {
                         return CraneBackpackItem.hasPickupTarget(player, backpack) ? 0.5F : 0.0F;
                     });
             ItemProperties.register(ModItems.BLOCK_ITEMS.get("imaginary").get(),
-                    ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "crayon"),
+                    new ResourceLocation(OpenBlocksReborn.MOD_ID, "crayon"),
                     (stack, level, entity, seed) -> ImaginaryItem.isCrayon(stack) ? 1.0F : 0.0F);
             for (var block : new net.minecraft.world.level.block.Block[] {
                     ModBlocks.LADDER.get(), ModBlocks.GUIDE.get(), ModBlocks.BUILDER_GUIDE.get(),
@@ -191,10 +124,10 @@ public final class ClientEvents {
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
         event.register((state, level, pos, tintIndex) -> tintIndex == 0
-                        ? state.getValue(ElevatorBlock.COLOR).getTextureDiffuseColor() : 0xFFFFFFFF,
+                        ? state.getValue(ElevatorBlock.COLOR).getTextColor() : 0xFFFFFFFF,
                 ModBlocks.ELEVATOR.get(), ModBlocks.ELEVATOR_ROTATING.get());
         event.register((state, level, pos, tintIndex) -> tintIndex == 0
-                        ? state.getValue(ColorableBlock.COLOR).getTextureDiffuseColor() : 0xFFFFFFFF,
+                        ? state.getValue(ColorableBlock.COLOR).getTextColor() : 0xFFFFFFFF,
                 ModBlocks.FLAG.get(), ModBlocks.PAINT_CAN.get());
         event.register((state, level, pos, tintIndex) -> {
             if (tintIndex == 0 && level != null && pos != null
@@ -246,14 +179,8 @@ public final class ClientEvents {
                 GuideRenderer::new);
     }
 
-    @SubscribeEvent
-    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenus.MACHINE.get(), MachineScreen::new);
-        event.register(ModMenus.GOLDEN_EYE.get(), GoldenEyeScreen::new);
-    }
-
-    @SubscribeEvent
-    public static void runClientSmokeTest(ClientTickEvent.Post event) {
+    public static void runClientSmokeTest(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
         if (!Boolean.getBoolean("openblocks_reborn.smokeTest")) return;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player == null || minecraft.level == null) return;
@@ -334,10 +261,26 @@ public final class ClientEvents {
         }
     }
 
-    @SubscribeEvent
     public static void renderFirstPersonCrane(RenderLevelStageEvent event) {
         CraneThirdPersonRenderer.render(event);
         CraneFirstPersonRenderer.render(event);
+    }
+
+    @Mod.EventBusSubscriber(modid = OpenBlocksReborn.MOD_ID, value = Dist.CLIENT,
+            bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static final class ForgeEvents {
+        private ForgeEvents() {
+        }
+
+        @SubscribeEvent
+        public static void clientTick(TickEvent.ClientTickEvent event) {
+            runClientSmokeTest(event);
+        }
+
+        @SubscribeEvent
+        public static void renderCrane(RenderLevelStageEvent event) {
+            renderFirstPersonCrane(event);
+        }
     }
 
     private static void captureCurrentSmokeMenu(Minecraft minecraft) {

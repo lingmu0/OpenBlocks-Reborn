@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "tools",
+  "pattern": [
+    "s",
+    "w"
+  ],
+  "key": {
+    "s": {
+      "item": "openblocks_reborn:sponge"
+    },
+    "w": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "openblocks_reborn:small_squeegee"
+  }
+}

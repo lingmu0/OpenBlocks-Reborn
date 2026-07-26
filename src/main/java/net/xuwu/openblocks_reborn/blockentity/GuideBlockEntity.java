@@ -3,7 +3,6 @@ package net.xuwu.openblocks_reborn.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -293,7 +292,7 @@ public class GuideBlockEntity extends net.minecraft.world.level.block.entity.Blo
     }
 
     private void modify(Player player, Direction direction, int amount) {
-        int value = Math.clamp(getExtent(direction) + amount, 0, MAX_EXTENT);
+        int value = net.minecraft.util.Mth.clamp(getExtent(direction) + amount, 0, MAX_EXTENT);
         setExtent(direction, value);
         changed();
         showStatus(player);
@@ -378,7 +377,7 @@ public class GuideBlockEntity extends net.minecraft.world.level.block.entity.Blo
         ItemStack result = new ItemStack(getBlockState().getBlock());
         if (level != null) {
             BlockItem.setBlockEntityData(result, ModBlockEntities.GUIDE.get(),
-                    saveWithoutMetadata(level.registryAccess()));
+                    saveWithoutMetadata());
         }
         return result;
     }
@@ -401,19 +400,19 @@ public class GuideBlockEntity extends net.minecraft.world.level.block.entity.Blo
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         if (tag.contains("PosX")) {
-            posX = Math.clamp(tag.getInt("PosX"), 0, MAX_EXTENT);
-            posY = Math.clamp(tag.getInt("PosY"), 0, MAX_EXTENT);
-            posZ = Math.clamp(tag.getInt("PosZ"), 0, MAX_EXTENT);
-            negX = Math.clamp(tag.getInt("NegX"), 0, MAX_EXTENT);
-            negY = Math.clamp(tag.getInt("NegY"), 0, MAX_EXTENT);
-            negZ = Math.clamp(tag.getInt("NegZ"), 0, MAX_EXTENT);
+            posX = net.minecraft.util.Mth.clamp(tag.getInt("PosX"), 0, MAX_EXTENT);
+            posY = net.minecraft.util.Mth.clamp(tag.getInt("PosY"), 0, MAX_EXTENT);
+            posZ = net.minecraft.util.Mth.clamp(tag.getInt("PosZ"), 0, MAX_EXTENT);
+            negX = net.minecraft.util.Mth.clamp(tag.getInt("NegX"), 0, MAX_EXTENT);
+            negY = net.minecraft.util.Mth.clamp(tag.getInt("NegY"), 0, MAX_EXTENT);
+            negZ = net.minecraft.util.Mth.clamp(tag.getInt("NegZ"), 0, MAX_EXTENT);
         } else if (tag.contains("SizeX")) {
-            negX = posX = Math.clamp((tag.getInt("SizeX") - 1) / 2, 0, MAX_EXTENT);
-            negY = posY = Math.clamp((tag.getInt("SizeY") - 1) / 2, 0, MAX_EXTENT);
-            negZ = posZ = Math.clamp((tag.getInt("SizeZ") - 1) / 2, 0, MAX_EXTENT);
+            negX = posX = net.minecraft.util.Mth.clamp((tag.getInt("SizeX") - 1) / 2, 0, MAX_EXTENT);
+            negY = posY = net.minecraft.util.Mth.clamp((tag.getInt("SizeY") - 1) / 2, 0, MAX_EXTENT);
+            negZ = posZ = net.minecraft.util.Mth.clamp((tag.getInt("SizeZ") - 1) / 2, 0, MAX_EXTENT);
         }
         shape = GuideShape.values()[Math.floorMod(tag.getInt("Shape"), GuideShape.values().length)];
         color = tag.contains("Color") ? tag.getInt("Color") & 0xFFFFFF : 0xFFFFFF;
@@ -423,8 +422,8 @@ public class GuideBlockEntity extends net.minecraft.world.level.block.entity.Blo
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         tag.putInt("PosX", posX);
         tag.putInt("PosY", posY);
         tag.putInt("PosZ", posZ);
@@ -437,8 +436,8 @@ public class GuideBlockEntity extends net.minecraft.world.level.block.entity.Blo
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
     }
 
     @Override

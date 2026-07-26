@@ -14,7 +14,7 @@ import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 import net.xuwu.openblocks_reborn.entity.HangGliderEntity;
 
 public class HangGliderRenderer extends EntityRenderer<HangGliderEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation TEXTURE = new ResourceLocation(
             OpenBlocksReborn.MOD_ID, "textures/models/hang_glider.png");
 
     public HangGliderRenderer(EntityRendererProvider.Context context) {
@@ -63,8 +63,8 @@ public class HangGliderRenderer extends EntityRenderer<HangGliderEntity> {
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
                                float u, float v, int light) {
-        consumer.addVertex(pose, x, y, z).setColor(0xFFFFFFFF).setUv(u, v)
-                .setOverlay(0).setLight(light).setNormal(pose, 0.0F, 1.0F, 0.0F);
+        consumer.vertex(pose.pose(), x, y, z).color(0xFFFFFFFF).uv(u, v)
+                .overlayCoords(0).uv2(light).normal(pose.normal(), 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     @Override

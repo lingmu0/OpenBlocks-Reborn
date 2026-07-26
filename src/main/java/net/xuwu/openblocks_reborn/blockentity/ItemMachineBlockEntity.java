@@ -1,11 +1,10 @@
 package net.xuwu.openblocks_reborn.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
 
 public class ItemMachineBlockEntity extends BlockEntity {
@@ -27,6 +26,17 @@ public class ItemMachineBlockEntity extends BlockEntity {
         return inventory;
     }
 
+    @Override
+    public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(
+            net.minecraftforge.common.capabilities.Capability<T> capability,
+            @javax.annotation.Nullable net.minecraft.core.Direction side) {
+        if (capability == net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER) {
+            return net.minecraftforge.common.util.LazyOptional
+                    .<net.minecraftforge.items.IItemHandler>of(() -> inventory).cast();
+        }
+        return super.getCapability(capability, side);
+    }
+
     public BlockPos getCannonTarget() {
         return cannonTarget;
     }
@@ -37,7 +47,7 @@ public class ItemMachineBlockEntity extends BlockEntity {
     }
 
     public void setItemSpeed(int itemSpeed) {
-        this.itemSpeed = Math.clamp(itemSpeed, 0, 400);
+        this.itemSpeed = net.minecraft.util.Mth.clamp(itemSpeed, 0, 400);
         setChanged();
     }
 
@@ -66,18 +76,18 @@ public class ItemMachineBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        inventory.deserializeNBT(tag.getCompound("Inventory"));
         cannonTarget = tag.contains("CannonTarget") ? BlockPos.of(tag.getLong("CannonTarget")) : null;
-        itemSpeed = Math.clamp(tag.getInt("ItemSpeed"), 0, 400);
+        itemSpeed = net.minecraft.util.Mth.clamp(tag.getInt("ItemSpeed"), 0, 400);
         useRedstoneStrength = tag.getBoolean("UseRedstoneStrength");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("Inventory", inventory.serializeNBT(registries));
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.put("Inventory", inventory.serializeNBT());
         if (cannonTarget != null) tag.putLong("CannonTarget", cannonTarget.asLong());
         tag.putInt("ItemSpeed", itemSpeed);
         tag.putBoolean("UseRedstoneStrength", useRedstoneStrength);

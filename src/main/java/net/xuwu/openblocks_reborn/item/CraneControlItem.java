@@ -71,7 +71,7 @@ public class CraneControlItem extends Item {
     }
 
     @Override
-    public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
+    public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
         if (entity instanceof Player player && !entity.level().isClientSide) {
             long gameTime = entity.level().getGameTime();
             Long previous = LAST_SWING.get(entity);
@@ -96,7 +96,7 @@ public class CraneControlItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(ItemStack stack) {
         return 72_000;
     }
 

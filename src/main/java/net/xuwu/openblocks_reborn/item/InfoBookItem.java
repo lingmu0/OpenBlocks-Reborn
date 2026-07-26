@@ -2,12 +2,12 @@ package net.xuwu.openblocks_reborn.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.network.protocol.game.ClientboundOpenBookPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.Filterable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -15,8 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.item.component.WrittenBookContent;
-import net.neoforged.fml.ModList;
+import net.minecraftforge.fml.ModList;
 import net.xuwu.openblocks_reborn.compat.PatchouliCompat;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
 import net.xuwu.openblocks_reborn.registry.ModItems;
@@ -56,9 +55,14 @@ public class InfoBookItem extends Item {
                 PatchouliCompat.openGuide(serverPlayer);
                 return InteractionResultHolder.success(stack);
             }
-            stack.set(DataComponents.WRITTEN_BOOK_CONTENT, new WrittenBookContent(
-                    Filterable.passThrough("OpenBlocks Reborn"), "OpenBlocks", 0,
-                    buildPages(), true));
+            ListTag pages = new ListTag();
+            buildPages().forEach(page -> pages.add(StringTag.valueOf(
+                    Component.Serializer.toJson(page))));
+            stack.getOrCreateTag().putString("title", "OpenBlocks Reborn");
+            stack.getOrCreateTag().putString("author", "OpenBlocks");
+            stack.getOrCreateTag().putInt("generation", 0);
+            stack.getOrCreateTag().putBoolean("resolved", true);
+            stack.getOrCreateTag().put("pages", pages);
             int inventorySlot = hand == InteractionHand.MAIN_HAND
                     ? serverPlayer.getInventory().selected
                     : OFFHAND_INVENTORY_SLOT;
@@ -76,7 +80,7 @@ public class InfoBookItem extends Item {
         return ModList.get().isLoaded("patchouli");
     }
 
-    public static List<Filterable<Component>> buildPages() {
+    public static List<Component> buildPages() {
         Map<ResourceLocation, ItemStack> registered = new LinkedHashMap<>();
         ModItems.BLOCK_ITEMS.values().forEach(holder -> addEntry(registered, holder.get()));
         ModItems.ALL_ITEMS.values().forEach(holder -> addEntry(registered, holder.get()));
@@ -89,24 +93,24 @@ public class InfoBookItem extends Item {
                         .thenComparing(entry -> entry.id().toString()))
                 .toList();
 
-        List<Filterable<Component>> pages = new ArrayList<>();
-        pages.add(Filterable.passThrough(Component.translatable(
-                "message.openblocks_reborn.book.catalog_welcome", entries.size())));
+        List<Component> pages = new ArrayList<>();
+        pages.add(Component.translatable(
+                "message.openblocks_reborn.book.catalog_welcome", entries.size()));
         for (Category category : Category.values()) {
             List<GuideEntry> categoryEntries = entries.stream()
                     .filter(entry -> entry.category() == category).toList();
             if (categoryEntries.isEmpty()) continue;
-            pages.add(Filterable.passThrough(Component.translatable(
+            pages.add(Component.translatable(
                     "message.openblocks_reborn.book.category",
                     Component.translatable(category.titleKey), categoryEntries.size(),
-                    Component.translatable(category.descriptionKey))));
+                    Component.translatable(category.descriptionKey)));
             for (GuideEntry entry : categoryEntries) {
-                pages.add(Filterable.passThrough(Component.translatable(
+                pages.add(Component.translatable(
                         "message.openblocks_reborn.book.entry",
                         entry.stack().getHoverName(),
                         Component.translatable(category.titleKey),
                         entry.id().toString(),
-                        Component.translatable(entryDescriptionKey(entry)))));
+                        Component.translatable(entryDescriptionKey(entry))));
             }
         }
         if (pages.size() > 100) {

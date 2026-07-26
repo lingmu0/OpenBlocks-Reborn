@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:xp_bottler",
+    "pattern":  [
+                    "iii",
+                    "ibi",
+                    "iii"
+                ],
+    "key":  {
+                "b":  {
+                          "item":  "minecraft:glass_bottle"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:xp_bottler"
+               }
+}

@@ -1,6 +1,7 @@
 package net.xuwu.openblocks_reborn.item;
 
-import net.minecraft.core.component.DataComponents;
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -10,7 +11,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 
 public class SlimalyzerItem extends Item {
@@ -33,17 +33,17 @@ public class SlimalyzerItem extends Item {
             player.displayClientMessage(Component.translatable(slimeChunk
                     ? "message.openblocks_reborn.slime_chunk"
                     : "message.openblocks_reborn.not_slime_chunk"), true);
-            stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(stack));
+            stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getEquipmentSlotForItem(stack)));
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     public static boolean isActive(ItemStack stack) {
-        CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        CompoundTag tag = LegacyItemData.copyTag(stack);
         return tag.getBoolean(TAG_ACTIVE);
     }
 
     public static void setActive(ItemStack stack, boolean active) {
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putBoolean(TAG_ACTIVE, active));
+        LegacyItemData.update(stack, tag -> tag.putBoolean(TAG_ACTIVE, active));
     }
 }

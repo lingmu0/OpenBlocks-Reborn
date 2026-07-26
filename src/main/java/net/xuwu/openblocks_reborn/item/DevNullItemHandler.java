@@ -1,7 +1,7 @@
 package net.xuwu.openblocks_reborn.item;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 public final class DevNullItemHandler implements IItemHandlerModifiable {
     private final ItemStack container;
@@ -29,7 +29,7 @@ public final class DevNullItemHandler implements IItemHandlerModifiable {
     public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
         if (slot != 0 || stack.isEmpty() || stack.getItem() instanceof DevNullItem) return stack;
         ItemStack stored = getStackInSlot(0);
-        if (!stored.isEmpty() && !ItemStack.isSameItemSameComponents(stored, stack)) return stack;
+        if (!stored.isEmpty() && !ItemStack.isSameItemSameTags(stored, stack)) return stack;
         int space = stack.getMaxStackSize() - stored.getCount();
         int moved = Math.min(space, stack.getCount());
         if (!simulate && moved > 0) {

@@ -13,7 +13,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 
 public class EpicEraserItem extends Item {
@@ -26,10 +25,11 @@ public class EpicEraserItem extends Item {
         ItemStack eraser = player.getItemInHand(hand);
         InteractionHand otherHand = hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
         ItemStack target = player.getItemInHand(otherHand);
-        if (target.has(DataComponents.LORE)) {
+        var display = target.getTagElement("display");
+        if (display != null && display.contains("Lore")) {
             if (!level.isClientSide) {
-                target.remove(DataComponents.LORE);
-                eraser.hurtAndBreak(1, player, player.getEquipmentSlotForItem(eraser));
+                display.remove("Lore");
+                eraser.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getEquipmentSlotForItem(eraser)));
                 player.displayClientMessage(Component.translatable("message.openblocks_reborn.epic_eraser_cleaned"), true);
             }
             return InteractionResultHolder.sidedSuccess(eraser, level.isClientSide);
@@ -44,8 +44,7 @@ public class EpicEraserItem extends Item {
         if (!context.getLevel().isClientSide) {
             if (state.is(ModBlocks.IMAGINARY.get())) context.getLevel().removeBlock(context.getClickedPos(), false);
             else context.getLevel().setBlock(context.getClickedPos(), state.setValue(ColorableBlock.COLOR, DyeColor.WHITE), Block.UPDATE_ALL);
-            if (context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(),
-                    context.getPlayer().getEquipmentSlotForItem(context.getItemInHand()));
+            if (context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(), p -> p.broadcastBreakEvent(context.getHand()));
         }
         return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
     }

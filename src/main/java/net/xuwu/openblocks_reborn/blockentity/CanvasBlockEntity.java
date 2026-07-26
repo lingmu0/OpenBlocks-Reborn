@@ -2,7 +2,6 @@ package net.xuwu.openblocks_reborn.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -213,8 +212,8 @@ public class CanvasBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         Arrays.fill(pixels, -1);
         Arrays.fill(stencilPatterns, -1);
         Arrays.fill(stencilRotations, 0);
@@ -246,8 +245,8 @@ public class CanvasBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         tag.putIntArray("Colors", copyColors());
         tag.putIntArray("Pixels", pixels);
         tag.putIntArray("StencilPatterns", stencilPatterns);
@@ -255,8 +254,8 @@ public class CanvasBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
     }
 
     @Override
@@ -265,8 +264,8 @@ public class CanvasBlockEntity extends BlockEntity {
     }
 
     private static int pixelIndex(Direction face, int x, int y) {
-        int clampedX = Math.clamp(x, 0, SIDE_SIZE - 1);
-        int clampedY = Math.clamp(y, 0, SIDE_SIZE - 1);
+        int clampedX = net.minecraft.util.Mth.clamp(x, 0, SIDE_SIZE - 1);
+        int clampedY = net.minecraft.util.Mth.clamp(y, 0, SIDE_SIZE - 1);
         return face.get3DDataValue() * PIXELS_PER_FACE + clampedY * SIDE_SIZE + clampedX;
     }
 }

@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:squeegee",
+    "pattern":  [
+                    "sss",
+                    " w ",
+                    " w "
+                ],
+    "key":  {
+                "s":  {
+                          "item":  "openblocks_reborn:sponge"
+                      },
+                "w":  {
+                          "item":  "minecraft:stick"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:squeegee"
+               }
+}

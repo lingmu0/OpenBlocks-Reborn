@@ -1,11 +1,13 @@
 package net.xuwu.openblocks_reborn.recipe;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceLocation;
+
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -15,15 +17,15 @@ import net.xuwu.openblocks_reborn.registry.ModRecipes;
 
 /** Paper plus a magic pencil creates pencil glasses and consumes one use. */
 public class PencilGlassesRecipe extends CustomRecipe {
-    public PencilGlassesRecipe(CraftingBookCategory category) {
-        super(category);
+    public PencilGlassesRecipe(ResourceLocation id, CraftingBookCategory category) {
+        super(id, category);
     }
 
     @Override
-    public boolean matches(CraftingInput input, Level level) {
+    public boolean matches(CraftingContainer input, Level level) {
         int paper = 0;
         int pencils = 0;
-        for (ItemStack stack : input.items()) {
+        for (ItemStack stack : RecipeInputs.items(input)) {
             if (stack.isEmpty()) continue;
             if (stack.is(Items.PAPER)) paper++;
             else if (stack.getItem() instanceof ImaginaryItem
@@ -35,15 +37,15 @@ public class PencilGlassesRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingContainer input, RegistryAccess registries) {
         return matchesIgnoringLevel(input)
                 ? new ItemStack(ModItems.PENCIL_GLASSES.get()) : ItemStack.EMPTY;
     }
 
-    private static boolean matchesIgnoringLevel(CraftingInput input) {
+    private static boolean matchesIgnoringLevel(CraftingContainer input) {
         int paper = 0;
         int pencils = 0;
-        for (ItemStack stack : input.items()) {
+        for (ItemStack stack : RecipeInputs.items(input)) {
             if (stack.isEmpty()) continue;
             if (stack.is(Items.PAPER)) paper++;
             else if (stack.getItem() instanceof ImaginaryItem
@@ -55,9 +57,9 @@ public class PencilGlassesRecipe extends CustomRecipe {
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
-        NonNullList<ItemStack> result = NonNullList.withSize(input.size(), ItemStack.EMPTY);
-        for (int slot = 0; slot < input.size(); slot++) {
+    public NonNullList<ItemStack> getRemainingItems(CraftingContainer input) {
+        NonNullList<ItemStack> result = NonNullList.withSize(input.getContainerSize(), ItemStack.EMPTY);
+        for (int slot = 0; slot < input.getContainerSize(); slot++) {
             ItemStack stack = input.getItem(slot);
             if (!(stack.getItem() instanceof ImaginaryItem)) continue;
             float uses = ImaginaryItem.getUses(stack) - 1.0F;

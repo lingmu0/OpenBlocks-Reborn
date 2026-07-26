@@ -44,7 +44,7 @@ public class SleepingBagItem extends Item {
                     : Component.translatable("message.openblocks_reborn.sleep_failed", failure.name()), true);
         });
         if (result.right().isPresent()) {
-            stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(stack));
+            stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getEquipmentSlotForItem(stack)));
             return InteractionResultHolder.consume(stack);
         }
         return InteractionResultHolder.fail(stack);
@@ -55,7 +55,8 @@ public class SleepingBagItem extends Item {
         if (!player.level().dimensionType().natural()) return Player.BedSleepingProblem.NOT_POSSIBLE_HERE;
         if (player.level().isDay()) return Player.BedSleepingProblem.NOT_POSSIBLE_NOW;
         BlockPos floor = pos.below();
-        if (!player.level().getBlockState(floor).isFaceSturdy(player.level(), floor, net.minecraft.core.Direction.UP)) {
+        if (!player.level().getBlockState(floor).isFaceSturdy(
+                player.level(), floor, net.minecraft.core.Direction.UP)) {
             return Player.BedSleepingProblem.OBSTRUCTED;
         }
         if (!player.level().getBlockState(pos).getCollisionShape(player.level(), pos).isEmpty()) {

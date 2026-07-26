@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
  */
 public class JadedLadderBlock extends TrapDoorBlock {
     public JadedLadderBlock(BlockBehaviour.Properties properties) {
-        super(BlockSetType.OAK, properties);
+        super(properties, BlockSetType.OAK);
     }
 
     @Override

@@ -1,16 +1,15 @@
 package net.xuwu.openblocks_reborn.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -33,10 +32,21 @@ public class TankBlockEntity extends BlockEntity {
         return tank;
     }
 
+    @Override
+    public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(
+            net.minecraftforge.common.capabilities.Capability<T> capability,
+            @javax.annotation.Nullable net.minecraft.core.Direction side) {
+        if (capability == net.minecraftforge.common.capabilities.ForgeCapabilities.FLUID_HANDLER) {
+            return net.minecraftforge.common.util.LazyOptional
+                    .<net.minecraftforge.fluids.capability.IFluidHandler>of(() -> tank).cast();
+        }
+        return super.getCapability(capability, side);
+    }
+
     public ItemStack toItemStack() {
         ItemStack result = new ItemStack(getBlockState().getBlock().asItem());
         CompoundTag data = new CompoundTag();
-        data.put("Tank", tank.writeToNBT(level.registryAccess(), new CompoundTag()));
+        data.put("Tank", tank.writeToNBT(new CompoundTag()));
         BlockItem.setBlockEntityData(result, ModBlockEntities.TANK.get(), data);
         return result;
     }
@@ -59,7 +69,7 @@ public class TankBlockEntity extends BlockEntity {
     }
 
     private static boolean compatible(FluidStack first, FluidStack second) {
-        return first.isEmpty() || second.isEmpty() || FluidStack.isSameFluidSameComponents(first, second);
+        return first.isEmpty() || second.isEmpty() || first.isFluidEqual(second);
     }
 
     private static void transfer(TankBlockEntity from, TankBlockEntity to, int maximum) {
@@ -72,20 +82,20 @@ public class TankBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        tank.readFromNBT(registries, tag.getCompound("Tank"));
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        tank.readFromNBT(tag.getCompound("Tank"));
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("Tank", tank.writeToNBT(registries, new CompoundTag()));
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.put("Tank", tank.writeToNBT(new CompoundTag()));
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
     }
 
     @Override

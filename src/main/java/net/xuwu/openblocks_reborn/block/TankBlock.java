@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -20,9 +20,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.xuwu.openblocks_reborn.blockentity.TankBlockEntity;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
@@ -49,7 +49,7 @@ public class TankBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(DOWN, UP, NORTH, SOUTH, WEST, EAST);
     }
 
@@ -64,7 +64,7 @@ public class TankBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected BlockState updateShape(BlockState state, net.minecraft.core.Direction direction, BlockState neighborState,
+    public BlockState updateShape(BlockState state, net.minecraft.core.Direction direction, BlockState neighborState,
                                      LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         return state.setValue(property(direction), neighborState.is(this));
     }
@@ -96,35 +96,36 @@ public class TankBlock extends Block implements EntityBlock {
         return null;
     }
 
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useHeldItem(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                                Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof TankBlockEntity tank) {
             // Give a filled XP bucket the same priority as a vanilla water bucket:
             // empty it into the tank before any block GUI/default interaction.
             if (XpBucketItem.emptyInto(stack, level, player, hand, tank.getTank())) {
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
             if (FluidUtil.interactWithFluidHandler(player, hand, tank.getTank())) {
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS;
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+        InteractionResult held = useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (held != InteractionResult.PASS) return held;
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof TankBlockEntity tank) {
             var fluid = tank.getTank().getFluid();
             player.displayClientMessage(fluid.isEmpty()
                     ? Component.translatable("message.openblocks_reborn.tank.empty")
-                    : Component.translatable("message.openblocks_reborn.tank.contents", fluid.getHoverName(), fluid.getAmount(), tank.getTank().getCapacity()), true);
+                    : Component.translatable("message.openblocks_reborn.tank.contents", fluid.getDisplayName(), fluid.getAmount(), tank.getTank().getCapacity()), true);
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         BlockEntity blockEntity = params.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (blockEntity instanceof TankBlockEntity tank) return List.of(tank.toItemStack());
         return super.getDrops(state, params);

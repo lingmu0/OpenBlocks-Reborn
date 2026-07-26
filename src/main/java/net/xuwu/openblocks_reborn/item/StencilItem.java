@@ -1,14 +1,18 @@
 package net.xuwu.openblocks_reborn.item;
 
-import net.minecraft.core.component.DataComponents;
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.xuwu.openblocks_reborn.blockentity.CanvasBlockEntity;
 import net.xuwu.openblocks_reborn.registry.ModItems;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.xuwu.openblocks_reborn.client.StencilItemRenderer;
+
+import java.util.function.Consumer;
 
 /**
  * A prepared stencil is a reusable 16x16 cut-out pattern. It is placed on one
@@ -16,6 +20,19 @@ import net.xuwu.openblocks_reborn.registry.ModItems;
  */
 public class StencilItem extends Item {
     private static final String PATTERN = "StencilPattern";
+
+    @Override
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            private StencilItemRenderer renderer;
+
+            @Override
+            public net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) renderer = new StencilItemRenderer();
+                return renderer;
+            }
+        });
+    }
 
     /*
      * Exact pattern order and masks from OpenBlocks 1.8.1. An X is a cut-out
@@ -293,11 +310,11 @@ public class StencilItem extends Item {
 
     public static void setPattern(ItemStack stack, int pattern) {
         int normalized = Math.floorMod(pattern, PATTERN_COUNT);
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(PATTERN, normalized));
+        LegacyItemData.update(stack, tag -> tag.putInt(PATTERN, normalized));
     }
 
     public static int getPattern(ItemStack stack) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         return tag.contains(PATTERN) ? Math.floorMod(tag.getInt(PATTERN), PATTERN_COUNT) : -1;
     }
 
@@ -307,8 +324,8 @@ public class StencilItem extends Item {
 
     /** Returns true for a cut-out pixel after applying the placed stencil rotation. */
     public static boolean isHole(int pattern, int rotation, int x, int y) {
-        int sourceX = Math.clamp(x, 0, CanvasBlockEntity.SIDE_SIZE - 1);
-        int sourceY = Math.clamp(y, 0, CanvasBlockEntity.SIDE_SIZE - 1);
+        int sourceX = net.minecraft.util.Mth.clamp(x, 0, CanvasBlockEntity.SIDE_SIZE - 1);
+        int sourceY = net.minecraft.util.Mth.clamp(y, 0, CanvasBlockEntity.SIDE_SIZE - 1);
         for (int turn = 0; turn < Math.floorMod(rotation, 4); turn++) {
             int previousX = sourceX;
             sourceX = sourceY;

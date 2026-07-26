@@ -12,11 +12,11 @@ import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 
 public final class WearableArmorModels {
     public static final ModelLayerLocation GLASSES = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "glasses_armor"), "main");
+            new ResourceLocation(OpenBlocksReborn.MOD_ID, "glasses_armor"), "main");
     public static final ModelLayerLocation CRANE = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "crane_armor"), "main");
+            new ResourceLocation(OpenBlocksReborn.MOD_ID, "crane_armor"), "main");
     public static final ModelLayerLocation CRANE_MAGNET = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "crane_magnet"), "main");
+            new ResourceLocation(OpenBlocksReborn.MOD_ID, "crane_magnet"), "main");
 
     public static LayerDefinition glassesLayer() {
         MeshDefinition mesh = emptyHumanoid();

@@ -1,6 +1,7 @@
 package net.xuwu.openblocks_reborn.item;
 
-import net.minecraft.core.component.DataComponents;
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,7 +12,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.xuwu.openblocks_reborn.entity.HangGliderEntity;
@@ -25,11 +25,11 @@ public class HangGliderItem extends Item {
     }
 
     public static boolean isDeployed(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getBoolean(DEPLOYED);
+        return LegacyItemData.copyTag(stack).getBoolean(DEPLOYED);
     }
 
     public static void setDeployed(ItemStack stack, boolean deployed) {
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putBoolean(DEPLOYED, deployed));
+        LegacyItemData.update(stack, tag -> tag.putBoolean(DEPLOYED, deployed));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class HangGliderItem extends Item {
                 glider.attachTo(serverPlayer, hand);
                 level.addFreshEntity(glider);
             }
-            level.playSound(null, player.blockPosition(), SoundEvents.ARMOR_EQUIP_ELYTRA.value(),
+            level.playSound(null, player.blockPosition(), SoundEvents.ARMOR_EQUIP_ELYTRA,
                     SoundSource.PLAYERS, 0.6F, deployed ? 1.15F : 0.85F);
             player.displayClientMessage(Component.translatable(deployed
                     ? "message.openblocks_reborn.glider.deployed"

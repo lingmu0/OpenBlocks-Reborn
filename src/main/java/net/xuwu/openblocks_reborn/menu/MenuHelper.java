@@ -4,7 +4,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.ContainerData;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.network.NetworkHooks;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
@@ -31,7 +32,7 @@ public final class MenuHelper {
     public static void open(ServerPlayer player, Component title, IItemHandlerModifiable handler,
                             MachineLayout layout, BooleanSupplier valid, ContainerData data,
                             IntPredicate buttonHandler, Consumer<String> textHandler) {
-        player.openMenu(new SimpleMenuProvider((containerId, inventory, ignored) ->
+        NetworkHooks.openScreen(player, new SimpleMenuProvider((containerId, inventory, ignored) ->
                 new MachineMenu(containerId, inventory, handler, layout, valid, data,
                         buttonHandler, textHandler), title),
                 buffer -> buffer.writeVarInt(layout.ordinal()));

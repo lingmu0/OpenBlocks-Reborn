@@ -27,7 +27,7 @@ public final class StencilItemRenderer extends BlockEntityWithoutLevelRenderer {
         int pattern = StencilItem.getPattern(stack);
         if (pattern < 0) return;
         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
-                .apply(ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "item/stencil"));
+                .apply(new ResourceLocation(OpenBlocksReborn.MOD_ID, "item/stencil"));
         VertexConsumer consumer = buffers.getBuffer(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
         PoseStack.Pose pose = poseStack.last();
         for (int y = 0; y < 16; y++) {
@@ -55,7 +55,7 @@ public final class StencilItemRenderer extends BlockEntityWithoutLevelRenderer {
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
                                float u, float v, int light, int overlay, float normalZ) {
-        consumer.addVertex(pose, x, y, z).setColor(0xFFFFFFFF).setUv(u, v)
-                .setOverlay(overlay).setLight(light).setNormal(pose, 0.0F, 0.0F, normalZ);
+        consumer.vertex(pose.pose(), x, y, z).color(0xFFFFFFFF).uv(u, v)
+                .overlayCoords(overlay).uv2(light).normal(pose.normal(), 0.0F, 0.0F, normalZ).endVertex();
     }
 }

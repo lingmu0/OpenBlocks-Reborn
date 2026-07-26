@@ -24,7 +24,7 @@ public class FanBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
@@ -34,12 +34,12 @@ public class FanBlock extends Block {
     }
 
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         if (!level.isClientSide) level.scheduleTick(pos, this, 1);
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (level.hasNeighborSignal(pos)) {
             Direction facing = state.getValue(FACING);
             AABB area = new AABB(pos).expandTowards(facing.getStepX() * 6.0D, 2.0D, facing.getStepZ() * 6.0D).inflate(0.5D);

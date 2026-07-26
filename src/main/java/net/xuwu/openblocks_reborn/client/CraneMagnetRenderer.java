@@ -12,7 +12,7 @@ import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 /** Exact legacy 6/4/2-pixel three-tier magnet with the original texture offsets. */
 public final class CraneMagnetRenderer {
     private static final float MODEL_HEIGHT = 6.0F / 16.0F;
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation TEXTURE = new ResourceLocation(
             OpenBlocksReborn.MOD_ID, "textures/models/magnet.png");
     private static ModelPart model;
 

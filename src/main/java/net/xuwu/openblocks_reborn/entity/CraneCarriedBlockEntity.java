@@ -82,9 +82,10 @@ public class CraneCarriedBlockEntity extends FallingBlockEntity {
     }
 
     @Override
-    public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
+    public void lerpTo(double x, double y, double z, float yRot, float xRot,
+                       int steps, boolean teleport) {
         if (!level().isClientSide || !isNoGravity()) {
-            super.lerpTo(x, y, z, yRot, xRot, steps);
+            super.lerpTo(x, y, z, yRot, xRot, steps, teleport);
             return;
         }
         interpolationX = x;
@@ -95,27 +96,22 @@ public class CraneCarriedBlockEntity extends FallingBlockEntity {
         interpolationSteps = Math.max(3, steps);
     }
 
-    @Override
     public double lerpTargetX() {
         return interpolationSteps > 0 ? interpolationX : getX();
     }
 
-    @Override
     public double lerpTargetY() {
         return interpolationSteps > 0 ? interpolationY : getY();
     }
 
-    @Override
     public double lerpTargetZ() {
         return interpolationSteps > 0 ? interpolationZ : getZ();
     }
 
-    @Override
     public float lerpTargetXRot() {
         return interpolationSteps > 0 ? interpolationXRot : getXRot();
     }
 
-    @Override
     public float lerpTargetYRot() {
         return interpolationSteps > 0 ? interpolationYRot : getYRot();
     }

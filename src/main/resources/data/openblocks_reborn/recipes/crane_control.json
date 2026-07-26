@@ -1,0 +1,27 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:crane_control",
+    "pattern":  [
+                    "ili",
+                    "grg",
+                    "iri"
+                ],
+    "key":  {
+                "r":  {
+                          "item":  "minecraft:redstone"
+                      },
+                "g":  {
+                          "item":  "minecraft:gold_nugget"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      },
+                "l":  {
+                          "item":  "minecraft:glowstone_dust"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:crane_control"
+               }
+}

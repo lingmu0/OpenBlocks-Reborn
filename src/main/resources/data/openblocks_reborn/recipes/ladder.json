@@ -1,0 +1,16 @@
+{
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "group":  "openblocks_reborn:ladder",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:ladder"
+                        },
+                        {
+                            "item":  "minecraft:oak_trapdoor"
+                        }
+                    ],
+    "result":  {
+                   "item":  "openblocks_reborn:ladder"
+               }
+}

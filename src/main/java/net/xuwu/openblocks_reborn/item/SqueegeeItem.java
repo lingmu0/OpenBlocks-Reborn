@@ -33,8 +33,7 @@ public class SqueegeeItem extends Item {
                 } else {
                     canvas.setColor(context.getClickedFace(), -1);
                 }
-                if (context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(),
-                        context.getPlayer().getEquipmentSlotForItem(context.getItemInHand()));
+                if (context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(), p -> p.broadcastBreakEvent(context.getHand()));
             }
             return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
         }
@@ -42,8 +41,7 @@ public class SqueegeeItem extends Item {
         if (!state.hasProperty(ColorableBlock.COLOR)) return InteractionResult.PASS;
         if (!context.getLevel().isClientSide) {
             context.getLevel().setBlock(context.getClickedPos(), state.setValue(ColorableBlock.COLOR, DyeColor.WHITE), Block.UPDATE_ALL);
-            if (context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(),
-                    context.getPlayer().getEquipmentSlotForItem(context.getItemInHand()));
+            if (context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(), p -> p.broadcastBreakEvent(context.getHand()));
         }
         return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
     }

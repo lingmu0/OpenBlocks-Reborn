@@ -15,7 +15,7 @@ public class SpongeOnAStickItem extends Item {
         if (!context.getLevel().isClientSide) {
             int removed = EnhancedSpongeBlock.drain(context.getLevel(), context.getClickedPos());
             if (removed > 0 && context.getPlayer() != null) {
-                context.getItemInHand().hurtAndBreak(1, context.getPlayer(), context.getPlayer().getEquipmentSlotForItem(context.getItemInHand()));
+                context.getItemInHand().hurtAndBreak(1, context.getPlayer(), p -> p.broadcastBreakEvent(context.getHand()));
             }
         }
         return InteractionResult.sidedSuccess(context.getLevel().isClientSide);

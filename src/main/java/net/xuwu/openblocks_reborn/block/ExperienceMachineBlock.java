@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,9 +33,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.xuwu.openblocks_reborn.registry.ModCapabilities;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.xuwu.openblocks_reborn.blockentity.ExperienceBlockEntity;
 import net.xuwu.openblocks_reborn.entity.ShowerExperienceOrb;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
@@ -60,7 +60,7 @@ public class ExperienceMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
@@ -94,7 +94,7 @@ public class ExperienceMachineBlock extends Block implements EntityBlock {
     private void runServerOperation(BlockState state, ServerLevel level, BlockPos pos,
                                     RandomSource random) {
         if (mode == Mode.DRAIN && level.getBlockEntity(pos) instanceof ExperienceBlockEntity storage) {
-            var receiver = level.getCapability(Capabilities.FluidHandler.BLOCK, pos.below(), Direction.UP);
+            var receiver = ModCapabilities.fluid(level, pos.below(), Direction.UP);
             if (receiver != null) {
                 var offered = storage.getTank().drain(1000, IFluidHandler.FluidAction.SIMULATE);
                 if (!offered.isEmpty()) {
@@ -166,24 +166,23 @@ public class ExperienceMachineBlock extends Block implements EntityBlock {
                                         ExperienceBlockEntity storage) {
         Direction facing = state.getValue(FACING);
         BlockPos sourcePos = pos.relative(facing.getOpposite());
-        IFluidHandler source = level.getCapability(Capabilities.FluidHandler.BLOCK, sourcePos, facing);
+        IFluidHandler source = ModCapabilities.fluid(level, sourcePos, facing);
         if (source == null || storage.getTank().getSpace() <= 0) return;
         int requested = Math.min(100, storage.getTank().getSpace());
         var offered = source.drain(requested, IFluidHandler.FluidAction.SIMULATE);
-        if (offered.isEmpty() || !offered.is(ModFluids.XP_JUICE.get())) return;
+        if (offered.isEmpty() || offered.getFluid() != ModFluids.XP_JUICE.get()) return;
         int accepted = storage.getTank().fill(offered, IFluidHandler.FluidAction.SIMULATE);
         if (accepted <= 0) return;
         var drained = source.drain(accepted, IFluidHandler.FluidAction.EXECUTE);
         storage.getTank().fill(drained, IFluidHandler.FluidAction.EXECUTE);
     }
 
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useHeldItem(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                                Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof ExperienceBlockEntity storage) {
             if (XpBucketItem.emptyInto(stack, level, player, hand, storage.getTank())
                     || FluidUtil.interactWithFluidHandler(player, hand, storage.getTank())) {
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
         if (mode == Mode.BOTTLER && stack.is(Items.GLASS_BOTTLE)
@@ -194,13 +193,15 @@ public class ExperienceMachineBlock extends Block implements EntityBlock {
                 ItemStack bottle = new ItemStack(Items.EXPERIENCE_BOTTLE);
                 if (!player.addItem(bottle)) Block.popResource(level, pos.above(), bottle);
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS;
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+        InteractionResult held = useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (held != InteractionResult.PASS) return held;
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof ExperienceBlockEntity storage) {
             if (mode == Mode.BOTTLER && !player.isShiftKeyDown() && player instanceof ServerPlayer serverPlayer) {
                 MenuHelper.open(serverPlayer, Component.translatable("container.openblocks_reborn.xp_bottler"),
@@ -231,7 +232,7 @@ public class ExperienceMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof ExperienceBlockEntity storage) {
             for (int slot = 0; slot < storage.getInventory().getSlots(); slot++) {
                 Block.popResource(level, pos, storage.getInventory().extractItem(slot, Integer.MAX_VALUE, false));
@@ -241,7 +242,7 @@ public class ExperienceMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (mode == Mode.DRAIN) return Block.box(0, 0, 0, 16, 1, 16);
         if (mode != Mode.SHOWER) return super.getShape(state, level, pos, context);
         return switch (state.getValue(FACING)) {

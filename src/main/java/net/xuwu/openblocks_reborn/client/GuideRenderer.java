@@ -65,7 +65,6 @@ public class GuideRenderer implements BlockEntityRenderer<GuideBlockEntity> {
         return 256;
     }
 
-    @Override
     public AABB getRenderBoundingBox(GuideBlockEntity guide) {
         AABB bounds = new AABB(guide.getBlockPos());
         for (BlockPos position : guide.getShapePositions()) {

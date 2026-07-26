@@ -20,7 +20,8 @@ public class MiniMeRenderer extends MobRenderer<MiniMeEntity, PlayerModel<MiniMe
     @Override
     public ResourceLocation getTextureLocation(MiniMeEntity entity) {
         UUID owner = entity.getOwnerId().orElse(entity.getUUID());
-        return Minecraft.getInstance().getSkinManager().getInsecureSkin(new GameProfile(owner, "MiniMe")).texture();
+        return Minecraft.getInstance().getSkinManager()
+                .getInsecureSkinLocation(new GameProfile(owner, "MiniMe"));
     }
 
     @Override

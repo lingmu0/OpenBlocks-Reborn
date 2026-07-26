@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -33,7 +33,7 @@ import net.xuwu.openblocks_reborn.menu.MachineLayout;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
 import net.xuwu.openblocks_reborn.item.XpBucketItem;
-import net.neoforged.neoforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.FluidUtil;
 
 public class UtilityMachineBlock extends Block implements EntityBlock {
     private static final VoxelShape SPRINKLER_NORTH_SOUTH = Block.box(4.8D, 0.0D, 0.0D, 11.2D, 4.8D, 16.0D);
@@ -74,7 +74,7 @@ public class UtilityMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, POWERED);
     }
 
@@ -87,7 +87,7 @@ public class UtilityMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected FluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(BlockState state) {
         // This marker uses vanilla water semantics without being a placeable or
         // flowing water block. Its legacy replacement is air, so breaking the
         // sprinkler cannot leave a water source behind.
@@ -97,7 +97,7 @@ public class UtilityMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (kind == Kind.PROJECTOR) return PROJECTOR_SHAPE;
         if (kind != Kind.SPRINKLER) return super.getShape(state, level, pos, context);
         return state.getValue(FACING).getAxis() == Direction.Axis.Z
@@ -200,25 +200,26 @@ public class UtilityMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+        InteractionResult held = useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (held != InteractionResult.PASS) return held;
         return open(level, pos, player);
     }
 
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useHeldItem(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                                Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof UtilityMachineBlockEntity machine
                 && machine.exposesFluidTank()) {
             if (XpBucketItem.emptyInto(stack, level, player, hand, machine.getFluidTank())
                     || FluidUtil.interactWithFluidHandler(player, hand, machine.getFluidTank())) {
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.sidedSuccess(level.isClientSide);
             }
         }
-        return ItemInteractionResult.sidedSuccess(open(level, pos, player) != InteractionResult.PASS);
+        return InteractionResult.sidedSuccess(open(level, pos, player) != InteractionResult.PASS);
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
                                    BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide) {
             if (kind == Kind.SPRINKLER || kind == Kind.PROJECTOR) return;
@@ -230,7 +231,7 @@ public class UtilityMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof UtilityMachineBlockEntity machine) {
             for (int slot = 0; slot < machine.getInventory().getSlots(); slot++) {
                 Block.popResource(level, pos, machine.getInventory().extractItem(slot, Integer.MAX_VALUE, false));

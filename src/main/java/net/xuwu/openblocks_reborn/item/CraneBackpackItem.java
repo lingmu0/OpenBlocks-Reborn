@@ -1,7 +1,8 @@
 package net.xuwu.openblocks_reborn.item;
 
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -11,19 +12,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.xuwu.openblocks_reborn.entity.CraneCarriedBlockEntity;
 import net.xuwu.openblocks_reborn.registry.ModEntities;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.xuwu.openblocks_reborn.client.WearableArmorModels;
 
 import java.util.Comparator;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * Chest-worn crane. The backpack owns the arm length and any entity currently
@@ -47,23 +49,36 @@ public class CraneBackpackItem extends ArmorItem {
     }
 
     @Override
-    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot,
-                                            ArmorMaterial.Layer layer, boolean innerModel) {
-        return ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "textures/models/crane.png");
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            private net.minecraft.client.model.HumanoidModel<?> model;
+
+            @Override
+            public net.minecraft.client.model.HumanoidModel<?> getHumanoidArmorModel(
+                    LivingEntity living, ItemStack stack, EquipmentSlot slot,
+                    net.minecraft.client.model.HumanoidModel<?> original) {
+                if (model == null) model = WearableArmorModels.bakeCrane();
+                return model;
+            }
+        });
+    }
+
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        return "openblocks_reborn:textures/models/crane.png";
     }
 
     public static double length(ItemStack stack) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        return tag.contains(LENGTH) ? Math.clamp(tag.getDouble(LENGTH), MIN_LENGTH, MAX_LENGTH) : MIN_LENGTH;
+        var tag = LegacyItemData.copyTag(stack);
+        return tag.contains(LENGTH) ? net.minecraft.util.Mth.clamp(tag.getDouble(LENGTH), MIN_LENGTH, MAX_LENGTH) : MIN_LENGTH;
     }
 
     public static boolean isCarrying(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().hasUUID(CARRIED);
+        return LegacyItemData.copyTag(stack).hasUUID(CARRIED);
     }
 
     public static UUID carriedId(ItemStack stack) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         return tag.hasUUID(CARRIED) ? tag.getUUID(CARRIED) : null;
     }
 
@@ -83,8 +98,8 @@ public class CraneBackpackItem extends ArmorItem {
     }
 
     public static void changeLength(ItemStack stack, double delta) {
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putDouble(LENGTH,
-                Math.clamp(tag.contains(LENGTH) ? tag.getDouble(LENGTH) + delta : MIN_LENGTH + delta,
+        LegacyItemData.update(stack, tag -> tag.putDouble(LENGTH,
+                net.minecraft.util.Mth.clamp(tag.contains(LENGTH) ? tag.getDouble(LENGTH) + delta : MIN_LENGTH + delta,
                         MIN_LENGTH, MAX_LENGTH)));
     }
 
@@ -129,7 +144,7 @@ public class CraneBackpackItem extends ArmorItem {
     public static boolean toggleMagnet(Player player) {
         ItemStack backpack = wornBy(player);
         if (backpack.isEmpty() || !(player.level() instanceof ServerLevel serverLevel)) return false;
-        var tag = backpack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(backpack);
         if (tag.hasUUID(CARRIED)) {
             releaseCarried(player, backpack);
             return true;
@@ -154,7 +169,7 @@ public class CraneBackpackItem extends ArmorItem {
         if (target == null) return false;
         target.setNoGravity(true);
         UUID id = target.getUUID();
-        CustomData.update(DataComponents.CUSTOM_DATA, backpack, data -> {
+        LegacyItemData.update(backpack, data -> {
             data.putUUID(CARRIED, id);
             data.putString(CARRIED_DIMENSION, serverLevel.dimension().location().toString());
         });
@@ -162,7 +177,7 @@ public class CraneBackpackItem extends ArmorItem {
     }
 
     public static boolean releaseCarried(Player player, ItemStack backpack) {
-        var tag = backpack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(backpack);
         if (!tag.hasUUID(CARRIED) || !(player.level() instanceof ServerLevel currentLevel)) return false;
         ServerLevel carriedLevel = currentLevel;
         ResourceLocation dimension = ResourceLocation.tryParse(tag.getString(CARRIED_DIMENSION));
@@ -176,7 +191,7 @@ public class CraneBackpackItem extends ArmorItem {
             carried.setNoGravity(false);
             carried.hurtMarked = true;
         }
-        CustomData.update(DataComponents.CUSTOM_DATA, backpack, data -> {
+        LegacyItemData.update(backpack, data -> {
             data.remove(CARRIED);
             data.remove(CARRIED_DIMENSION);
         });
@@ -190,11 +205,11 @@ public class CraneBackpackItem extends ArmorItem {
             releaseCarried(player, stack);
             return;
         }
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         if (!tag.hasUUID(CARRIED)) return;
         Entity carried = serverLevel.getEntity(tag.getUUID(CARRIED));
         if (carried == null || !carried.isAlive()) {
-            CustomData.update(DataComponents.CUSTOM_DATA, stack, data -> {
+            LegacyItemData.update(stack, data -> {
                 data.remove(CARRIED);
                 data.remove(CARRIED_DIMENSION);
             });

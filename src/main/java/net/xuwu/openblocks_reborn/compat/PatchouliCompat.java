@@ -11,7 +11,7 @@ import vazkii.patchouli.api.PatchouliAPI;
  * optional API on the runtime class path.
  */
 public final class PatchouliCompat {
-    public static final ResourceLocation OPENBLOCKS_GUIDE = ResourceLocation.fromNamespaceAndPath(
+    public static final ResourceLocation OPENBLOCKS_GUIDE = new ResourceLocation(
             OpenBlocksReborn.MOD_ID, "openblocks_guide");
 
     public static void openGuide(ServerPlayer player) {

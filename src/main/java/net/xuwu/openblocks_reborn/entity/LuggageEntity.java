@@ -1,6 +1,5 @@
 package net.xuwu.openblocks_reborn.entity;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,15 +17,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.xuwu.openblocks_reborn.registry.ModItems;
 import net.xuwu.openblocks_reborn.menu.MenuHelper;
 import net.xuwu.openblocks_reborn.menu.MachineLayout;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class LuggageEntity extends PathfinderMob implements ItemSupplier {
@@ -54,39 +50,36 @@ public class LuggageEntity extends PathfinderMob implements ItemSupplier {
     }
 
     public void restoreFromItem(ItemStack stack) {
-        ItemContainerContents contents = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
-        for (int slot = 0; slot < Math.min(contents.getSlots(), inventory.getSlots()); slot++) {
-            inventory.setStackInSlot(slot, contents.getStackInSlot(slot));
+        CompoundTag tag = stack.getTag();
+        if (tag != null && tag.contains("Inventory")) {
+            inventory.deserializeNBT(tag.getCompound("Inventory"));
         }
-        if (stack.has(DataComponents.CUSTOM_NAME)) setCustomName(stack.getHoverName());
+        if (stack.hasCustomHoverName()) setCustomName(stack.getHoverName());
     }
 
     public ItemStack toItem() {
         ItemStack result = new ItemStack(ModItems.LUGGAGE.get());
-        List<ItemStack> stacks = new ArrayList<>(SLOTS);
-        for (int slot = 0; slot < SLOTS; slot++) stacks.add(inventory.getStackInSlot(slot));
-        result.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(stacks));
-        if (hasCustomName()) result.set(DataComponents.CUSTOM_NAME, getCustomName());
+        result.getOrCreateTag().put("Inventory", inventory.serializeNBT());
+        if (hasCustomName()) result.setHoverName(getCustomName());
         return result;
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
+    protected void defineSynchedData() {
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.hasUUID("Owner")) owner = tag.getUUID("Owner");
-        if (tag.contains("Inventory")) inventory.deserializeNBT(level().registryAccess(), tag.getCompound("Inventory"));
+        if (tag.contains("Inventory")) inventory.deserializeNBT(tag.getCompound("Inventory"));
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         if (owner != null) tag.putUUID("Owner", owner);
-        tag.put("Inventory", inventory.serializeNBT(level().registryAccess()));
+        tag.put("Inventory", inventory.serializeNBT());
     }
 
     @Override
@@ -178,12 +171,6 @@ public class LuggageEntity extends PathfinderMob implements ItemSupplier {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         return false;
-    }
-
-    @Override
-    protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean recentlyHit) {
-        super.dropCustomDeathLoot(level, source, recentlyHit);
-        dropPackedForm(level);
     }
 
     @Override

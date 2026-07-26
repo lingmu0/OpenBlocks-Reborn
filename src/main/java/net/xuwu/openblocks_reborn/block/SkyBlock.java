@@ -39,7 +39,7 @@ public class SkyBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(POWERED, INVERTED);
     }
 
@@ -49,25 +49,25 @@ public class SkyBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return isActive(state) ? RenderShape.INVISIBLE : RenderShape.MODEL;
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         // The legacy active sky block deliberately had no selection outline,
         // while retaining a normal solid collision volume.
         return isActive(state) ? Shapes.empty() : Shapes.block();
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
                                    BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide) level.scheduleTick(pos, this, 1);
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         boolean powered = level.hasNeighborSignal(pos);
         if (powered != state.getValue(POWERED)) {
             level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_ALL);
@@ -75,8 +75,7 @@ public class SkyBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
-                                               Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide) {
             level.setBlock(pos, state.cycle(INVERTED), Block.UPDATE_ALL);
         }
@@ -84,7 +83,7 @@ public class SkyBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         return List.of(SkyBlockItem.create(state.getValue(INVERTED)));
     }
 }

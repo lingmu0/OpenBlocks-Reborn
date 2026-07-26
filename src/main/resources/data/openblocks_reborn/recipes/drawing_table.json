@@ -1,0 +1,27 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:drawing_table",
+    "pattern":  [
+                    "sks",
+                    "pcp",
+                    "ppp"
+                ],
+    "key":  {
+                "p":  {
+                          "item":  "minecraft:oak_planks"
+                      },
+                "c":  {
+                          "item":  "minecraft:crafting_table"
+                      },
+                "s":  {
+                          "item":  "openblocks_reborn:unprepared_stencil"
+                      },
+                "k":  {
+                          "item":  "openblocks_reborn:sketching_pencil"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:drawing_table"
+               }
+}

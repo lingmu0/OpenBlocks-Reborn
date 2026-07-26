@@ -1,31 +1,26 @@
 package net.xuwu.openblocks_reborn.network;
 
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.xuwu.openblocks_reborn.OpenBlocksReborn;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import net.xuwu.openblocks_reborn.menu.MachineMenu;
 
-public record RenameAutoAnvilPayload(int containerId, String itemName) implements CustomPacketPayload {
-    public static final Type<RenameAutoAnvilPayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "rename_auto_anvil"));
-    public static final StreamCodec<RegistryFriendlyByteBuf, RenameAutoAnvilPayload> STREAM_CODEC =
-            StreamCodec.composite(
-                    ByteBufCodecs.VAR_INT, RenameAutoAnvilPayload::containerId,
-                    ByteBufCodecs.stringUtf8(50), RenameAutoAnvilPayload::itemName,
-                    RenameAutoAnvilPayload::new);
+import java.util.function.Supplier;
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
+public record RenameAutoAnvilPayload(int containerId, String itemName) {
+    public static void encode(RenameAutoAnvilPayload payload, FriendlyByteBuf buffer) {
+        buffer.writeVarInt(payload.containerId);
+        buffer.writeUtf(payload.itemName, 50);
     }
 
-    public static void handle(RenameAutoAnvilPayload payload, IPayloadContext context) {
-        if (context.player().containerMenu instanceof MachineMenu menu) {
+    public static RenameAutoAnvilPayload decode(FriendlyByteBuf buffer) {
+        return new RenameAutoAnvilPayload(buffer.readVarInt(), buffer.readUtf(50));
+    }
+
+    public static void handle(RenameAutoAnvilPayload payload, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        if (context.getSender() != null && context.getSender().containerMenu instanceof MachineMenu menu) {
             menu.handleTextUpdate(payload.containerId(), payload.itemName());
         }
+        context.setPacketHandled(true);
     }
 }

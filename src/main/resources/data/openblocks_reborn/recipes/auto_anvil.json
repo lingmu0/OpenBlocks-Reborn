@@ -1,0 +1,24 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:auto_anvil",
+    "pattern":  [
+                    "iii",
+                    "iai",
+                    "rrr"
+                ],
+    "key":  {
+                "a":  {
+                          "item":  "minecraft:anvil"
+                      },
+                "r":  {
+                          "item":  "minecraft:redstone"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:auto_anvil"
+               }
+}

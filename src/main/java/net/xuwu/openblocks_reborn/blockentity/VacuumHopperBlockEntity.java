@@ -1,7 +1,6 @@
 package net.xuwu.openblocks_reborn.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -10,12 +9,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.capabilities.Capabilities;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.xuwu.openblocks_reborn.registry.ModCapabilities;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
 import net.minecraft.core.Direction;
@@ -24,7 +23,7 @@ import net.xuwu.openblocks_reborn.block.VacuumHopperBlock;
 public class VacuumHopperBlockEntity extends BlockEntity {
     public static final int FLUID_CAPACITY = 4_000;
     private final FluidTank experienceTank = new FluidTank(FLUID_CAPACITY,
-            stack -> stack.is(ModFluids.XP_JUICE.get())) {
+            stack -> stack.getFluid() == ModFluids.XP_JUICE.get()) {
         @Override
         protected void onContentsChanged() {
             VacuumHopperBlockEntity.this.setChanged();
@@ -50,6 +49,21 @@ public class VacuumHopperBlockEntity extends BlockEntity {
 
     public FluidTank getExperienceTank() {
         return experienceTank;
+    }
+
+    @Override
+    public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(
+            net.minecraftforge.common.capabilities.Capability<T> capability,
+            @javax.annotation.Nullable Direction side) {
+        if (capability == net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER) {
+            return net.minecraftforge.common.util.LazyOptional
+                    .<net.minecraftforge.items.IItemHandler>of(() -> inventory).cast();
+        }
+        if (capability == net.minecraftforge.common.capabilities.ForgeCapabilities.FLUID_HANDLER) {
+            return net.minecraftforge.common.util.LazyOptional
+                    .<IFluidHandler>of(() -> experienceTank).cast();
+        }
+        return super.getCapability(capability, side);
     }
 
     public int getItemOutputMask() {
@@ -113,8 +127,7 @@ public class VacuumHopperBlockEntity extends BlockEntity {
     private void outputToNeighbors(ServerLevel level, BlockPos pos) {
         for (Direction direction : Direction.values()) {
             boolean outputExperience = (experienceOutputMask & 1 << direction.get3DDataValue()) != 0;
-            var fluidHandler = outputExperience ? level.getCapability(Capabilities.FluidHandler.BLOCK,
-                    pos.relative(direction), direction.getOpposite()) : null;
+            var fluidHandler = outputExperience ? ModCapabilities.fluid(level, pos.relative(direction), direction.getOpposite()) : null;
             if (fluidHandler != null && !experienceTank.isEmpty()) {
                 FluidStack offered = experienceTank.drain(100, IFluidHandler.FluidAction.SIMULATE);
                 int accepted = fluidHandler.fill(offered, IFluidHandler.FluidAction.SIMULATE);
@@ -122,7 +135,7 @@ public class VacuumHopperBlockEntity extends BlockEntity {
                         IFluidHandler.FluidAction.EXECUTE);
             }
             if ((itemOutputMask & 1 << direction.get3DDataValue()) == 0) continue;
-            var itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos.relative(direction), direction.getOpposite());
+            var itemHandler = ModCapabilities.item(level, pos.relative(direction), direction.getOpposite());
             if (itemHandler == null) continue;
             for (int slot = 0; slot < inventory.getSlots(); slot++) {
                 ItemStack available = inventory.extractItem(slot, 1, true);
@@ -135,11 +148,11 @@ public class VacuumHopperBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        inventory.deserializeNBT(tag.getCompound("Inventory"));
         if (tag.contains("ExperienceTank")) {
-            experienceTank.readFromNBT(registries, tag.getCompound("ExperienceTank"));
+            experienceTank.readFromNBT(tag.getCompound("ExperienceTank"));
         } else if (tag.contains("Experience")) {
             experienceTank.fill(new FluidStack(ModFluids.XP_JUICE.get(), ModFluids.xpToFluid(tag.getInt("Experience"))),
                     IFluidHandler.FluidAction.EXECUTE);
@@ -149,10 +162,10 @@ public class VacuumHopperBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("Inventory", inventory.serializeNBT(registries));
-        tag.put("ExperienceTank", experienceTank.writeToNBT(registries, new CompoundTag()));
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.put("Inventory", inventory.serializeNBT());
+        tag.put("ExperienceTank", experienceTank.writeToNBT(new CompoundTag()));
         tag.putInt("ItemOutputMask", itemOutputMask);
         tag.putInt("ExperienceOutputMask", experienceOutputMask);
     }

@@ -1,7 +1,6 @@
 package net.xuwu.openblocks_reborn.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -63,16 +62,16 @@ public class GoldenEggBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         if (tag.hasUUID("Owner")) owner = tag.getUUID("Owner");
         ownerName = tag.getString("OwnerName");
         progress = tag.getInt("Progress");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         if (owner != null) tag.putUUID("Owner", owner);
         tag.putString("OwnerName", ownerName);
         tag.putInt("Progress", progress);

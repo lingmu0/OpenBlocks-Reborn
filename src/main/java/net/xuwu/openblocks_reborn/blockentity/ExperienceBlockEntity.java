@@ -2,7 +2,6 @@ package net.xuwu.openblocks_reborn.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -11,12 +10,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.xuwu.openblocks_reborn.registry.ModCapabilities;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
 import net.xuwu.openblocks_reborn.registry.ModBlocks;
@@ -47,7 +46,7 @@ public class ExperienceBlockEntity extends BlockEntity {
         int capacity = state.getBlock() instanceof ExperienceMachineBlock machine
                 && machine.mode() != ExperienceMachineBlock.Mode.BOTTLER
                 ? DRAIN_AND_SHOWER_CAPACITY : CAPACITY;
-        tank = new FluidTank(capacity, stack -> stack.is(ModFluids.XP_JUICE.get())) {
+        tank = new FluidTank(capacity, stack -> stack.getFluid() == ModFluids.XP_JUICE.get()) {
             @Override
             protected void onContentsChanged() {
                 ExperienceBlockEntity.this.setChanged();
@@ -66,6 +65,22 @@ public class ExperienceBlockEntity extends BlockEntity {
 
     public ItemStackHandler getInventory() {
         return inventory;
+    }
+
+    @Override
+    public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(
+            net.minecraftforge.common.capabilities.Capability<T> capability,
+            @javax.annotation.Nullable Direction side) {
+        if (capability == net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER) {
+            return net.minecraftforge.common.util.LazyOptional
+                    .<IItemHandler>of(() -> getItemHandler(side)).cast();
+        }
+        if (capability == net.minecraftforge.common.capabilities.ForgeCapabilities.FLUID_HANDLER) {
+            return net.minecraftforge.common.util.LazyOptional
+                    .<IFluidHandler>of(() -> new ConfiguredFluidHandler(
+                            tank, allowsFluidInput(side), true)).cast();
+        }
+        return super.getCapability(capability, side);
     }
 
     public boolean supportsSideConfiguration() {
@@ -169,8 +184,7 @@ public class ExperienceBlockEntity extends BlockEntity {
     private void pullItemIntoSlot(ServerLevel level, BlockPos pos, int targetSlot, int sideMask) {
         for (Direction direction : Direction.values()) {
             if ((sideMask & 1 << direction.get3DDataValue()) == 0) continue;
-            IItemHandler source = level.getCapability(Capabilities.ItemHandler.BLOCK,
-                    pos.relative(direction), direction.getOpposite());
+            IItemHandler source = ModCapabilities.item(level, pos.relative(direction), direction.getOpposite());
             if (source == null) continue;
             for (int sourceSlot = 0; sourceSlot < source.getSlots(); sourceSlot++) {
                 ItemStack offered = source.extractItem(sourceSlot, 64, true);
@@ -191,8 +205,7 @@ public class ExperienceBlockEntity extends BlockEntity {
         if (offered.isEmpty()) return;
         for (Direction direction : Direction.values()) {
             if ((sideMask & 1 << direction.get3DDataValue()) == 0) continue;
-            IItemHandler destination = level.getCapability(Capabilities.ItemHandler.BLOCK,
-                    pos.relative(direction), direction.getOpposite());
+            IItemHandler destination = ModCapabilities.item(level, pos.relative(direction), direction.getOpposite());
             if (destination == null) continue;
             for (int targetSlot = 0; targetSlot < destination.getSlots(); targetSlot++) {
                 ItemStack remainder = destination.insertItem(targetSlot, offered, true);
@@ -210,12 +223,11 @@ public class ExperienceBlockEntity extends BlockEntity {
         if (tank.getSpace() <= 0) return;
         for (Direction direction : Direction.values()) {
             if ((sideMask & 1 << direction.get3DDataValue()) == 0) continue;
-            IFluidHandler source = level.getCapability(Capabilities.FluidHandler.BLOCK,
-                    pos.relative(direction), direction.getOpposite());
+            IFluidHandler source = ModCapabilities.fluid(level, pos.relative(direction), direction.getOpposite());
             if (source == null) continue;
             FluidStack offered = source.drain(Math.min(250, tank.getSpace()),
                     IFluidHandler.FluidAction.SIMULATE);
-            if (offered.isEmpty() || !offered.is(ModFluids.XP_JUICE.get())) continue;
+            if (offered.isEmpty() || offered.getFluid() != ModFluids.XP_JUICE.get()) continue;
             int accepted = tank.fill(offered, IFluidHandler.FluidAction.SIMULATE);
             if (accepted <= 0) continue;
             FluidStack drained = source.drain(accepted, IFluidHandler.FluidAction.EXECUTE);
@@ -247,14 +259,14 @@ public class ExperienceBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         if (tag.contains("Tank")) {
-            tank.readFromNBT(registries, tag.getCompound("Tank"));
+            tank.readFromNBT(tag.getCompound("Tank"));
         } else if (tag.contains("Experience")) {
             addExperience(tag.getInt("Experience"));
         }
-        inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
+        inventory.deserializeNBT(tag.getCompound("Inventory"));
         if (tag.contains("SideMasks")) {
             int[] savedMasks = tag.getIntArray("SideMasks");
             for (int index = 0; index < Math.min(savedMasks.length, sideMasks.length); index++) {
@@ -262,14 +274,14 @@ public class ExperienceBlockEntity extends BlockEntity {
             }
         }
         automaticChannels = tag.getInt("AutomaticChannels") & 0x7;
-        bottlingProgress = Math.clamp(tag.getInt("BottlingProgress"), 0, BOTTLING_TICKS - 1);
+        bottlingProgress = net.minecraft.util.Mth.clamp(tag.getInt("BottlingProgress"), 0, BOTTLING_TICKS - 1);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("Tank", tank.writeToNBT(registries, new CompoundTag()));
-        tag.put("Inventory", inventory.serializeNBT(registries));
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.put("Tank", tank.writeToNBT(new CompoundTag()));
+        tag.put("Inventory", inventory.serializeNBT());
         tag.putIntArray("SideMasks", sideMasks);
         tag.putInt("AutomaticChannels", automaticChannels);
         tag.putInt("BottlingProgress", bottlingProgress);

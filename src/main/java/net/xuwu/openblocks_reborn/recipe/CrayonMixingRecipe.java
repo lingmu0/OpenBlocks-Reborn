@@ -1,10 +1,12 @@
 package net.xuwu.openblocks_reborn.recipe;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceLocation;
+
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -21,16 +23,16 @@ import java.util.Map;
 public class CrayonMixingRecipe extends CustomRecipe {
     private static final float CRAFTING_COST = 1.0F;
 
-    public CrayonMixingRecipe(CraftingBookCategory category) {
-        super(category);
+    public CrayonMixingRecipe(ResourceLocation id, CraftingBookCategory category) {
+        super(id, category);
     }
 
     @Override
-    public boolean matches(CraftingInput input, Level level) {
+    public boolean matches(CraftingContainer input, Level level) {
         int count = 0;
         Integer firstColor = null;
         boolean differentColor = false;
-        for (ItemStack stack : input.items()) {
+        for (ItemStack stack : RecipeInputs.items(input)) {
             if (stack.isEmpty()) continue;
             if (!(stack.getItem() instanceof ImaginaryItem) || !ImaginaryItem.isCrayon(stack)
                     || ImaginaryItem.getUses(stack) < CRAFTING_COST) return false;
@@ -44,13 +46,13 @@ public class CrayonMixingRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingContainer input, RegistryAccess registries) {
         int count = 0;
         int red = 0;
         int green = 0;
         int blue = 0;
         Map<Integer, Integer> modes = new HashMap<>();
-        for (ItemStack stack : input.items()) {
+        for (ItemStack stack : RecipeInputs.items(input)) {
             if (stack.isEmpty()) continue;
             if (!(stack.getItem() instanceof ImaginaryItem) || !ImaginaryItem.isCrayon(stack)
                     || ImaginaryItem.getUses(stack) < CRAFTING_COST) return ItemStack.EMPTY;
@@ -69,9 +71,9 @@ public class CrayonMixingRecipe extends CustomRecipe {
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
-        NonNullList<ItemStack> remaining = NonNullList.withSize(input.size(), ItemStack.EMPTY);
-        for (int slot = 0; slot < input.size(); slot++) {
+    public NonNullList<ItemStack> getRemainingItems(CraftingContainer input) {
+        NonNullList<ItemStack> remaining = NonNullList.withSize(input.getContainerSize(), ItemStack.EMPTY);
+        for (int slot = 0; slot < input.getContainerSize(); slot++) {
             ItemStack stack = input.getItem(slot);
             if (stack.isEmpty() || !(stack.getItem() instanceof ImaginaryItem)) continue;
             float uses = ImaginaryItem.getUses(stack) - CRAFTING_COST;

@@ -5,7 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -46,7 +46,7 @@ public class ImaginaryBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, SHAPE);
     }
 
@@ -60,23 +60,23 @@ public class ImaginaryBlock extends Block implements EntityBlock {
         return new ImaginaryBlockEntity(pos, state);
     }
 
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level,
+    public InteractionResult useHeldItem(ItemStack stack, BlockState state, Level level,
                                               BlockPos pos, Player player, InteractionHand hand,
                                               BlockHitResult hit) {
-        if (!(stack.getItem() instanceof ImaginaryItem)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (!(stack.getItem() instanceof ImaginaryItem)) return InteractionResult.PASS;
         if (!level.isClientSide) level.setBlock(pos, state.cycle(SHAPE), Block.UPDATE_ALL);
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
-                                               Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+        InteractionResult held = useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (held != InteractionResult.PASS) return held;
         return InteractionResult.PASS;
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         // Visibility is player/glasses dependent, so the ordinary chunk model
         // cannot decide whether this block should be drawn.
         return RenderShape.INVISIBLE;
@@ -106,7 +106,7 @@ public class ImaginaryBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (!(level.getBlockEntity(pos) instanceof ImaginaryBlockEntity imaginary)
                 || !(context instanceof net.minecraft.world.phys.shapes.EntityCollisionContext entityContext)
                 || !(entityContext.getEntity() instanceof Player player)
@@ -118,7 +118,7 @@ public class ImaginaryBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
                                            CollisionContext context) {
         if (!(level.getBlockEntity(pos) instanceof ImaginaryBlockEntity imaginary)) return Shapes.empty();
         if (!(context instanceof net.minecraft.world.phys.shapes.EntityCollisionContext entityContext)

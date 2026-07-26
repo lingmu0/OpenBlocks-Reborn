@@ -32,7 +32,7 @@ public class FlagBlock extends ColorableBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FACING, FACE);
     }
@@ -52,12 +52,12 @@ public class FlagBlock extends ColorableBlock {
     }
 
     @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Block.box(0, 0, 0, 0, 0, 0);
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (state.getValue(FACE) == AttachFace.FLOOR) return Block.box(7, 0, 7, 9, 16, 9);
         return switch (state.getValue(FACING)) {
             case NORTH, SOUTH -> Block.box(7, 0, 3, 9, 16, 13);
@@ -67,7 +67,7 @@ public class FlagBlock extends ColorableBlock {
     }
 
     @Override
-    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         Direction supportDirection = state.getValue(FACE) == AttachFace.WALL
                 ? state.getValue(FACING).getOpposite()
                 : Direction.DOWN;
@@ -82,7 +82,7 @@ public class FlagBlock extends ColorableBlock {
     }
 
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                      net.minecraft.world.level.LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         Direction supportDirection = state.getValue(FACE) == AttachFace.WALL
                 ? state.getValue(FACING).getOpposite()
@@ -94,12 +94,12 @@ public class FlagBlock extends ColorableBlock {
     }
 
     @Override
-    protected BlockState rotate(BlockState state, Rotation rotation) {
+    public BlockState rotate(BlockState state, Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
+    public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 }

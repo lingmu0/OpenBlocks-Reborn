@@ -15,8 +15,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.xuwu.openblocks_reborn.registry.ModCapabilities;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class BlockBreakerBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, POWERED);
     }
 
@@ -40,7 +40,7 @@ public class BlockBreakerBlock extends Block {
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor, BlockPos neighborPos, boolean movedByPiston) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor, BlockPos neighborPos, boolean movedByPiston) {
         if (level.isClientSide) return;
         boolean powered = level.hasNeighborSignal(pos);
         if (powered && !state.getValue(POWERED)) {
@@ -65,7 +65,7 @@ public class BlockBreakerBlock extends Block {
         level.levelEvent(2001, target, Block.getId(targetState));
 
         BlockPos outputPos = breakerPos.relative(facing.getOpposite());
-        var output = level.getCapability(Capabilities.ItemHandler.BLOCK, outputPos, facing);
+        var output = ModCapabilities.item(level, outputPos, facing);
         for (ItemStack drop : drops) {
             ItemStack remainder = output == null ? drop : ItemHandlerHelper.insertItem(output, drop, false);
             if (!remainder.isEmpty()) Block.popResource(level, outputPos, remainder);

@@ -1,7 +1,8 @@
 package net.xuwu.openblocks_reborn.item;
 
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -10,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -54,17 +54,16 @@ public class ImaginaryItem extends BlockItem {
     }
 
     public static float getUses(ItemStack stack) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         return tag.contains(USES) ? Math.max(0.0F, tag.getFloat(USES)) : DEFAULT_USES;
     }
 
     public static boolean isCrayon(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().contains(COLOR);
+        return LegacyItemData.copyTag(stack).contains(COLOR);
     }
 
     public static int getColor(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(COLOR) & 0xFFFFFF;
+        return LegacyItemData.copyTag(stack).getInt(COLOR) & 0xFFFFFF;
     }
 
     public static ItemStack createCrayon(int color) {
@@ -72,8 +71,8 @@ public class ImaginaryItem extends BlockItem {
     }
 
     public static ItemStack createConfigured(@Nullable Integer color, int mode, float uses) {
-        ItemStack result = new ItemStack(net.xuwu.openblocks_reborn.registry.ModBlocks.IMAGINARY.asItem());
-        CustomData.update(DataComponents.CUSTOM_DATA, result, tag -> {
+        ItemStack result = new ItemStack(net.xuwu.openblocks_reborn.registry.ModBlocks.IMAGINARY.get().asItem());
+        LegacyItemData.update(result, tag -> {
             tag.putFloat(USES, Math.max(0.0F, uses));
             if (color != null) tag.putInt(COLOR, color & 0xFFFFFF);
             tag.putInt(MODE, Math.floorMod(mode, PlacementMode.values().length));
@@ -82,7 +81,7 @@ public class ImaginaryItem extends BlockItem {
     }
 
     public static int getModeIndex(ItemStack stack) {
-        int mode = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt(MODE);
+        int mode = LegacyItemData.copyTag(stack).getInt(MODE);
         return Math.floorMod(mode, PlacementMode.values().length);
     }
 
@@ -117,7 +116,7 @@ public class ImaginaryItem extends BlockItem {
             float remaining = Math.max(0.0F, getUses(stack) - mode.cost);
             if (remaining > 0.0F) {
                 stack.setCount(1);
-                CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putFloat(USES, remaining));
+                LegacyItemData.update(stack, tag -> tag.putFloat(USES, remaining));
             }
         }
         return result;
@@ -128,7 +127,7 @@ public class ImaginaryItem extends BlockItem {
         ItemStack stack = player.getItemInHand(hand);
         if (!player.isShiftKeyDown()) return InteractionResultHolder.pass(stack);
         int next = (getMode(stack).ordinal() + 1) % PlacementMode.values().length;
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(MODE, next));
+        LegacyItemData.update(stack, tag -> tag.putInt(MODE, next));
         if (!level.isClientSide) {
             player.displayClientMessage(Component.translatable(
                     "message.openblocks_reborn.imaginary_mode",
@@ -145,7 +144,7 @@ public class ImaginaryItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable net.minecraft.world.level.Level level,
                                 List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.openblocks_reborn.imaginary_uses",
                 String.format(java.util.Locale.ROOT, "%.2f", getUses(stack))));

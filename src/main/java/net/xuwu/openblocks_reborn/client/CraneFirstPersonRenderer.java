@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 import net.xuwu.openblocks_reborn.item.CraneBackpackItem;
 
@@ -26,7 +26,7 @@ import net.xuwu.openblocks_reborn.item.CraneBackpackItem;
  * pitch, matching the horizontal overhead crane shown by the original mod.
  */
 public final class CraneFirstPersonRenderer {
-    private static final ResourceLocation CRANE_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation CRANE_TEXTURE = new ResourceLocation(
             OpenBlocksReborn.MOD_ID, "textures/models/crane.png");
     private static ModelPart boom;
 
@@ -40,7 +40,7 @@ public final class CraneFirstPersonRenderer {
         var backpack = CraneBackpackItem.wornBy(player);
         if (backpack.isEmpty()) return;
 
-        float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
+        float partialTick = event.getPartialTick();
         Vec3 playerPosition = new Vec3(
                 Mth.lerp(partialTick, player.xo, player.getX()),
                 Mth.lerp(partialTick, player.yo, player.getY()),
@@ -97,12 +97,12 @@ public final class CraneFirstPersonRenderer {
             Vec3 from = start.add(delta.scale(index / (double)segments));
             Vec3 to = start.add(delta.scale((index + 1) / (double)segments));
             int color = (index & 1) == 0 ? 0xFFFFD43B : 0xFF111111;
-            cable.addVertex(poses.last(), (float)from.x, (float)from.y, (float)from.z)
-                    .setColor(color)
-                    .setNormal(poses.last(), (float)normal.x, (float)normal.y, (float)normal.z);
-            cable.addVertex(poses.last(), (float)to.x, (float)to.y, (float)to.z)
-                    .setColor(color)
-                    .setNormal(poses.last(), (float)normal.x, (float)normal.y, (float)normal.z);
+            cable.vertex(poses.last().pose(), (float)from.x, (float)from.y, (float)from.z)
+                    .color(color)
+                    .normal(poses.last().normal(), (float)normal.x, (float)normal.y, (float)normal.z).endVertex();
+            cable.vertex(poses.last().pose(), (float)to.x, (float)to.y, (float)to.z)
+                    .color(color)
+                    .normal(poses.last().normal(), (float)normal.x, (float)normal.y, (float)normal.z).endVertex();
         }
     }
 

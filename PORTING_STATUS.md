@@ -211,3 +211,17 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 玩家第三人称的长吊臂、钢索和磁头统一移到 `AFTER_ENTITIES` 世界渲染阶段：吊臂从身体朝向后移 0.45 格的背包支点出发，沿头部偏航朝前；钢索和磁头直接使用相机相对世界坐标，因此不会再被 `RenderPlayerEvent` 的玩家模型矩阵二次旋转。
 - 背包主体与 24 像素竖支架仍由原版盔甲层随身体动画渲染；盔甲架等非玩家展示实体继续使用旧版自定义吊臂子节点，避免展示模型回退。
 - `runClient -PopenblocksModelSmokeTest` 在实际单人世界完成第三/第一人称截图并正常自行退出；第三人称截图确认 42 像素吊臂从玩家背包上方朝视线前方延伸，不再朝玩家背后/镜头突出。最终 `build` 成功。
+
+## 2026-07-27 Forge 1.20.1 分支移植
+
+- 当前章节仅对应 Git 分支 `1.20.1`；完整的 NeoForge 1.21.1 实现和 23 项 GameTest 保留在 `1.21.1` 分支。
+- 构建骨架不是手写猜测：已通过 IntelliJ IDEA 2024.1.4 中安装的 Minecraft Development 2024.1-1.8.4 插件实际运行项目向导。该插件的 NeoForge 向导不提供 Minecraft 1.20.1，因此按 1.20.1 的真实加载器支持范围选择 Forge 模板，生成 Minecraft 1.20.1、Forge 47.4.22、Java 17、ForgeGradle 6 的项目骨架，再将本模组源码和资源迁入。
+- 生产代码已从 NeoForge 21.1 API 改为 Forge 47 API：注册表使用 `DeferredRegister`/`RegistryObject`，网络使用 `SimpleChannel`，物品数据组件改为兼容旧存档格式的 NBT，菜单、事件、实体同步数据、流体能力、物品能力、客户端特殊模型和自定义配方均完成 1.20.1 签名适配。
+- 数据包目录已按 1.20.1 规则改为 `recipes`、`loot_tables`、`structures`、`tags/items` 和 `tags/fluids`，配方结果字段由 1.21 的 `id` 改为 1.20.1 的 `item`。三种附魔改为 1.20.1 代码注册，移除了只适用于 1.21 数据驱动附魔系统的 JSON 和 `minecraft:enchantable/*` 标签。
+- 机器保留分面物品/流体能力；大炮、战利品雕像、模板、眼镜和起重机背包注册 Forge 1.20.1 的特殊物品/装备渲染器。Patchouli 仍是可选编译接口，JEI/Jade 仍只作为可关闭的开发运行辅助，不会打进发布 JAR。
+- 1.21.1 的 `PortGameTests` 依赖 1.21 GameTest 和数据组件 API，不伪装成 1.20.1 测试结果；该测试源仅保留在 `1.21.1` 分支，1.20.1 分支以生产代码编译、完整重混淆构建、数据生成器启动和专用 GameTest Server 模组加载作为当前验收依据。
+- `.\gradlew.bat classes --no-daemon --console=plain -PopenblocksNoRuntimeHelpers`：成功。
+- `.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers`：成功，包含 `reobfJar`；产物为 `build/libs/openblocks_reborn-1.0.0-1.20.1.jar`。
+- `.\gradlew.bat runData --no-daemon --console=plain -PopenblocksNoRuntimeHelpers`：Forge 47.4.22 和 OpenBlocks Reborn 均成功加载，数据生成进程正常结束。
+- `.\gradlew.bat runGameTestServer --no-daemon --console=plain -PopenblocksNoRuntimeHelpers`：Forge 专用 GameTest Server 成功完成模组注册、数据包解析、三维度创建和关闭；当前为 0 项测试，因此只计作服务端加载验证，不计作功能 GameTest。
+- `src/main/resources` 下 1.20.1 发布资源 JSON 均通过静态解析；最终提交前再次执行完整 `build` 和服务端加载检查。

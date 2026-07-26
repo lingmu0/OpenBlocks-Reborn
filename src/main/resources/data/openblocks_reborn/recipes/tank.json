@@ -1,0 +1,22 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:tank",
+    "pattern":  [
+                    "ogo",
+                    "ggg",
+                    "ogo"
+                ],
+    "key":  {
+                "g":  {
+                          "item":  "minecraft:glass_pane"
+                      },
+                "o":  {
+                          "item":  "minecraft:obsidian"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:tank",
+                   "count":  2
+               }
+}

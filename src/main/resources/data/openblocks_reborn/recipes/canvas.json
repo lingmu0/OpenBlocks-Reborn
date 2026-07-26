@@ -1,0 +1,22 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:canvas",
+    "pattern":  [
+                    "ppp",
+                    "pfp",
+                    "ppp"
+                ],
+    "key":  {
+                "p":  {
+                          "item":  "minecraft:paper"
+                      },
+                "f":  {
+                          "item":  "minecraft:oak_fence"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:canvas",
+                   "count":  9
+               }
+}

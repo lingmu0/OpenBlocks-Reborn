@@ -1,0 +1,16 @@
+{
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "group":  "openblocks_reborn:info_book",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:clay_ball"
+                        },
+                        {
+                            "item":  "minecraft:book"
+                        }
+                    ],
+    "result":  {
+                   "item":  "openblocks_reborn:info_book"
+               }
+}

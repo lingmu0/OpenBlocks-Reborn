@@ -40,7 +40,7 @@ public class WrenchItem extends Item {
                 context.getLevel().setBlock(context.getClickedPos(), rotated, 3);
                 context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.IRON_TRAPDOOR_OPEN, SoundSource.BLOCKS, 0.5F, 1.2F);
                 if (player != null) context.getItemInHand().hurtAndBreak(
-                        1, player, player.getEquipmentSlotForItem(context.getItemInHand()));
+                        1, player, p -> p.broadcastBreakEvent(context.getHand()));
             }
             return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
         }

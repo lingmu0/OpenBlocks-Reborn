@@ -38,7 +38,7 @@ public class CanvasRenderer implements BlockEntityRenderer<CanvasBlockEntity> {
         }
 
         TextureAtlasSprite stencilSprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
-                .apply(ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "item/stencil"));
+                .apply(new ResourceLocation(OpenBlocksReborn.MOD_ID, "item/stencil"));
         VertexConsumer stencilConsumer = buffers.getBuffer(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
         float stencilOffset = 0.002F;
         for (Direction face : Direction.values()) {
@@ -90,7 +90,7 @@ public class CanvasRenderer implements BlockEntityRenderer<CanvasBlockEntity> {
 
     private static void vertex(VertexConsumer c, PoseStack.Pose pose,float x,float y,float z,float u,float v,
                                int color,int light,float nx,float ny,float nz) {
-        c.addVertex(pose,x,y,z).setColor(color).setUv(u,v).setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(light).setNormal(pose,nx,ny,nz);
+        c.vertex(pose.pose(),x,y,z).color(color).uv(u,v).overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(light).normal(pose.normal(),nx,ny,nz).endVertex();
     }
 }

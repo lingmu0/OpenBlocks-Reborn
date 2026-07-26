@@ -28,10 +28,10 @@ public class HangGliderEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(OWNER, 0);
-        builder.define(OFF_HAND, false);
-        builder.define(FLYING, false);
+    protected void defineSynchedData() {
+        entityData.define(OWNER, 0);
+        entityData.define(OFF_HAND, false);
+        entityData.define(FLYING, false);
     }
 
     public void attachTo(Player player, InteractionHand hand) {
@@ -92,7 +92,7 @@ public class HangGliderEntity extends Entity {
             owner.hurtMarked = true;
         }
         if (tickCount % 80 == 0 && owner instanceof ServerPlayer serverPlayer) {
-            stack.hurtAndBreak(1, serverPlayer, serverPlayer.getEquipmentSlotForItem(stack));
+            stack.hurtAndBreak(1, serverPlayer, p -> p.broadcastBreakEvent(serverPlayer.getEquipmentSlotForItem(stack)));
         }
     }
 

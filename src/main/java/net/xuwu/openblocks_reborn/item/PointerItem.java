@@ -1,15 +1,15 @@
 package net.xuwu.openblocks_reborn.item;
 
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.xuwu.openblocks_reborn.blockentity.ItemMachineBlockEntity;
 import net.xuwu.openblocks_reborn.registry.ModBlocks;
@@ -59,21 +59,21 @@ public class PointerItem extends Item {
     }
 
     public static void bind(ItemStack stack, ResourceLocation dimension, BlockPos pos) {
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+        LegacyItemData.update(stack, tag -> {
             tag.putString(DIMENSION, dimension.toString());
             tag.putLong(CANNON, pos.asLong());
         });
     }
 
     private static CompoundTagView getBinding(ItemStack stack) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         ResourceLocation dimension = ResourceLocation.tryParse(tag.getString(DIMENSION));
         return dimension == null || !tag.contains(CANNON) ? null
                 : new CompoundTagView(dimension, BlockPos.of(tag.getLong(CANNON)));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable net.minecraft.world.level.Level level, List<Component> tooltip, TooltipFlag flag) {
         CompoundTagView binding = getBinding(stack);
         if (binding == null) {
             tooltip.add(Component.translatable("tooltip.openblocks_reborn.pointer_unbound").withStyle(ChatFormatting.GRAY));

@@ -18,8 +18,8 @@ import net.xuwu.openblocks_reborn.blockentity.ItemMachineBlockEntity;
 
 public class CannonRenderer implements BlockEntityRenderer<ItemMachineBlockEntity> {
     public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID, "cannon"), "main");
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
+            new ResourceLocation(OpenBlocksReborn.MOD_ID, "cannon"), "main");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(
             OpenBlocksReborn.MOD_ID, "textures/models/cannon.png");
 
     private final CannonModel model;

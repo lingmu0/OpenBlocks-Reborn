@@ -2,6 +2,7 @@ package net.xuwu.openblocks_reborn.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -10,9 +11,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.FastColor;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.client.textures.FluidSpriteCache;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.fluids.FluidStack;
 import net.xuwu.openblocks_reborn.blockentity.TankBlockEntity;
 
 public class TankRenderer implements BlockEntityRenderer<TankBlockEntity> {
@@ -25,8 +25,9 @@ public class TankRenderer implements BlockEntityRenderer<TankBlockEntity> {
         FluidStack fluid = tank.getTank().getFluid();
         if (fluid.isEmpty()) return;
         IClientFluidTypeExtensions properties = IClientFluidTypeExtensions.of(fluid.getFluid());
-        TextureAtlasSprite sprite = FluidSpriteCache.getSprite(properties.getStillTexture(fluid.getFluid().defaultFluidState(),
-                tank.getLevel(), tank.getBlockPos()));
+        TextureAtlasSprite sprite = Minecraft.getInstance()
+                .getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
+                .apply(properties.getStillTexture());
         int tint = properties.getTintColor(fluid);
         int alpha = Math.max(160, FastColor.ARGB32.alpha(tint));
         int color = FastColor.ARGB32.color(alpha, FastColor.ARGB32.red(tint), FastColor.ARGB32.green(tint), FastColor.ARGB32.blue(tint));
@@ -63,7 +64,7 @@ public class TankRenderer implements BlockEntityRenderer<TankBlockEntity> {
             return false;
         }
         FluidStack otherFluid = other.getTank().getFluid();
-        return !otherFluid.isEmpty() && FluidStack.isSameFluidSameComponents(fluid, otherFluid);
+        return !otherFluid.isEmpty() && fluid.isFluidEqual(otherFluid);
     }
 
     private static void quad(VertexConsumer consumer, PoseStack.Pose pose,
@@ -79,7 +80,7 @@ public class TankRenderer implements BlockEntityRenderer<TankBlockEntity> {
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
                                float u, float v, int color, int light, float nx, float ny, float nz) {
-        consumer.addVertex(pose, x, y, z).setColor(color).setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, nx, ny, nz);
+        consumer.vertex(pose.pose(), x, y, z).color(color).uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(pose.normal(), nx, ny, nz).endVertex();
     }
 }

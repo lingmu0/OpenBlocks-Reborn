@@ -22,8 +22,8 @@ import net.xuwu.openblocks_reborn.blockentity.VacuumHopperBlockEntity;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
 import net.xuwu.openblocks_reborn.menu.MenuHelper;
 import net.xuwu.openblocks_reborn.menu.MachineLayout;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.util.StringRepresentable;
 
@@ -62,7 +62,7 @@ public class VacuumHopperBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(DOWN, UP, NORTH, SOUTH, WEST, EAST);
     }
 
@@ -105,7 +105,9 @@ public class VacuumHopperBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+        InteractionResult held = useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (held != InteractionResult.PASS) return held;
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof VacuumHopperBlockEntity hopper) {
             if (player.isShiftKeyDown()) {
                 int xp = hopper.takeExperience();
@@ -140,18 +142,17 @@ public class VacuumHopperBlock extends Block implements EntityBlock {
         return false;
     }
 
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useHeldItem(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                                Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof VacuumHopperBlockEntity hopper
                 && FluidUtil.interactWithFluidHandler(player, hand, hopper.getExperienceTank())) {
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS;
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof VacuumHopperBlockEntity hopper) {
             for (int slot = 0; slot < hopper.getInventory().getSlots(); slot++) {
                 Block.popResource(level, pos, hopper.getInventory().extractItem(slot, Integer.MAX_VALUE, false));

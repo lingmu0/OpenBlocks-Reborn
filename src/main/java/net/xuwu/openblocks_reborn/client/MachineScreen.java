@@ -3,7 +3,6 @@ package net.xuwu.openblocks_reborn.client;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,8 +17,8 @@ import net.xuwu.openblocks_reborn.menu.MachineMenu;
 import net.xuwu.openblocks_reborn.item.StencilItem;
 import net.xuwu.openblocks_reborn.item.HeightMapItem;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
+import net.xuwu.openblocks_reborn.network.ModNetworking;
 import net.xuwu.openblocks_reborn.network.RenameAutoAnvilPayload;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.awt.Color;
 
@@ -122,9 +121,9 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     private void onAnvilNameChanged(String value) {
         if (updatingAnvilName || minecraft == null || menu.getSlot(0).getItem().isEmpty()) return;
         ItemStack input = menu.getSlot(0).getItem();
-        String requested = !input.has(DataComponents.CUSTOM_NAME)
+        String requested = !input.hasCustomHoverName()
                 && value.equals(input.getHoverName().getString()) ? "" : value;
-        PacketDistributor.sendToServer(new RenameAutoAnvilPayload(menu.containerId, requested));
+        ModNetworking.sendToServer(new RenameAutoAnvilPayload(menu.containerId, requested));
     }
 
     @Override
@@ -211,7 +210,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 
     private void renderAutoEnchant(GuiGraphics graphics, int x, int y) {
         int maximum = Math.max(1, menu.data(3));
-        int selected = Math.clamp(menu.data(2), 1, maximum);
+        int selected = net.minecraft.util.Mth.clamp(menu.data(2), 1, maximum);
         centeredText(graphics, Component.translatable("gui.openblocks_reborn.enchant_level_short",
                 selected, maximum), x + 66, y + 28, TEXT);
         centeredText(graphics, Component.translatable("gui.openblocks_reborn.available_power",
@@ -219,7 +218,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         recessed(graphics, x + 43, y + 42, 47, 8);
         graphics.fill(x + 45, y + 44, x + 45 + selected * 43 / maximum, y + 48, 0xFF72B146);
         int handleX = x + 43 + (maximum <= 1 ? 0
-                : Math.clamp(Math.round((selected - 1) * 43.0F / (maximum - 1)), 0, 43));
+                : net.minecraft.util.Mth.clamp(Math.round((selected - 1) * 43.0F / (maximum - 1)), 0, 43));
         bevel(graphics, handleX, y + 41, 4, 11,
                 isHovered(x + 43, y + 41, 47, 11) || dragControl == DragControl.ENCHANT_POWER
                         ? 0xFFE0E0E0 : 0xFFC6C6C6);
@@ -248,8 +247,8 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             }
         }
         graphics.renderOutline(pickerX - 1, pickerY - 1, 102, 52, FRAME_DARK);
-        int cursorX = pickerX + Math.clamp(Math.round(selectedHsb[0] * 99), 0, 99);
-        int cursorY = pickerY + Math.clamp(Math.round((1.0F - selectedHsb[2]) * 49), 0, 49);
+        int cursorX = pickerX + net.minecraft.util.Mth.clamp(Math.round(selectedHsb[0] * 99), 0, 99);
+        int cursorY = pickerY + net.minecraft.util.Mth.clamp(Math.round((1.0F - selectedHsb[2]) * 49), 0, 49);
         graphics.renderOutline(cursorX - 2, cursorY - 2, 5, 5, selectedHsb[2] > 0.55F ? 0xFF151515 : 0xFFF4F4F4);
 
         recessed(graphics, x + 10, y + 75, 100, 12);
@@ -257,7 +256,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             int color = Color.HSBtoRGB(selectedHsb[0], column / 95.0F, selectedHsb[2]);
             graphics.fill(x + 12 + column, y + 78, x + 13 + column, y + 84, color);
         }
-        int saturationX = x + 9 + Math.clamp(Math.round(selectedHsb[1] * 96), 0, 96);
+        int saturationX = x + 9 + net.minecraft.util.Mth.clamp(Math.round(selectedHsb[1] * 96), 0, 96);
         bevel(graphics, saturationX, y + 73, 8, 16, 0xFFD8D8D8);
         bevel(graphics, x + 10, y + 90, 45, 10, 0xFF000000 | selectedColor);
         recessed(graphics, x + 65, y + 90, 44, 10);
@@ -271,7 +270,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         }
 
         recessed(graphics, x + 125, y + 43, 30, 9);
-        int progress = Math.clamp(menu.data(1), 0, 300);
+        int progress = net.minecraft.util.Mth.clamp(menu.data(1), 0, 300);
         if (progress > 0) {
             int completedWidth = Math.max(1, (300 - progress) * 26 / 300);
             graphics.fill(x + 127, y + 45, x + 127 + completedWidth, y + 50, ACCENT);
@@ -398,7 +397,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 
     private void renderXpBottler(GuiGraphics graphics, int x, int y) {
         arrow(graphics, x + 70, y + 36, 28, FRAME_SHADOW);
-        int progressWidth = Math.clamp(menu.data(2), 0, ExperienceBlockEntity.BOTTLING_TICKS) * 24
+        int progressWidth = net.minecraft.util.Mth.clamp(menu.data(2), 0, ExperienceBlockEntity.BOTTLING_TICKS) * 24
                 / ExperienceBlockEntity.BOTTLING_TICKS;
         if (progressWidth > 0) {
             graphics.fill(x + 70, y + 35, x + 70 + progressWidth, y + 38, ACCENT);
@@ -411,14 +410,14 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     private void renderItemDropper(GuiGraphics graphics, int x, int y) {
-        int speed = Math.clamp(menu.data(2), 0, 400);
-        graphics.blitSprite(SLIDER_SPRITE, x + 70, y + 16, 98, 20);
+        int speed = net.minecraft.util.Mth.clamp(menu.data(2), 0, 400);
+        blitSprite(graphics, SLIDER_SPRITE, x + 70, y + 16, 98, 20);
         int knobX = x + 70 + speed * 90 / 400;
-        graphics.blitSprite(isHovered(x + 70, y + 16, 98, 20) || dragControl == DragControl.DROP_SPEED
+        blitSprite(graphics, isHovered(x + 70, y + 16, 98, 20) || dragControl == DragControl.DROP_SPEED
                 ? SLIDER_HANDLE_HIGHLIGHTED_SPRITE : SLIDER_HANDLE_SPRITE, knobX, y + 16, 8, 20);
         centeredText(graphics, Component.translatable("gui.openblocks_reborn.drop_speed",
                 String.format(java.util.Locale.ROOT, "%.1f", speed / 100.0D)), x + 119, y + 39, TEXT);
-        graphics.blitSprite(menu.data(3) != 0 ? CHECKBOX_SELECTED_SPRITE : CHECKBOX_SPRITE,
+        blitSprite(graphics, menu.data(3) != 0 ? CHECKBOX_SELECTED_SPRITE : CHECKBOX_SPRITE,
                 x + 70, y + 49, 20, 20);
         graphics.drawString(font, Component.translatable("gui.openblocks_reborn.use_redstone_strength"),
                 x + 93, y + 55, TEXT, false);
@@ -468,7 +467,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 
     private void renderIoConfiguration(GuiGraphics graphics, int x, int y) {
         int channelCount = ioChannelCount();
-        ioChannel = Math.clamp(ioChannel, 0, channelCount - 1);
+        ioChannel = net.minecraft.util.Mth.clamp(ioChannel, 0, channelCount - 1);
         int panelX = x - 108;
         int panelY = y + 16;
         containerPanel(graphics, panelX, panelY, 86, 106);
@@ -752,25 +751,25 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         int current = menu.data(0) & 0xFFFFFF;
         float[] hsb = Color.RGBtoHSB(current >> 16 & 0xFF, current >> 8 & 0xFF, current & 0xFF, null);
         if (saturationOnly) {
-            float saturation = Math.clamp((float)(mouseX - leftPos - 10) / 99.0F, 0.0F, 1.0F);
+            float saturation = net.minecraft.util.Mth.clamp((float)(mouseX - leftPos - 10) / 99.0F, 0.0F, 1.0F);
             sendPaintColor(Color.HSBtoRGB(hsb[0], saturation, hsb[2]));
         } else {
-            float hue = Math.clamp((float)(mouseX - leftPos - 10) / 99.0F, 0.0F, 1.0F);
-            float brightness = 1.0F - Math.clamp((float)(mouseY - topPos - 20) / 49.0F, 0.0F, 1.0F);
+            float hue = net.minecraft.util.Mth.clamp((float)(mouseX - leftPos - 10) / 99.0F, 0.0F, 1.0F);
+            float brightness = 1.0F - net.minecraft.util.Mth.clamp((float)(mouseY - topPos - 20) / 49.0F, 0.0F, 1.0F);
             sendPaintColor(Color.HSBtoRGB(hue, hsb[1], brightness));
         }
     }
 
     private void updateEnchantPower(double mouseX) {
         int maximum = Math.max(1, menu.data(3));
-        int level = maximum <= 1 ? 1 : Math.clamp(
+        int level = maximum <= 1 ? 1 : net.minecraft.util.Mth.clamp(
                 (int)Math.round((mouseX - leftPos - 43) * (maximum - 1.0D) / 47.0D) + 1,
                 1, maximum);
         minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 0x03000000 | level);
     }
 
     private void updateDropSpeed(double mouseX) {
-        int step = Math.clamp((int)Math.round((mouseX - leftPos - 70) * 40.0D / 98.0D), 0, 40);
+        int step = net.minecraft.util.Mth.clamp((int)Math.round((mouseX - leftPos - 70) * 40.0D / 98.0D), 0, 40);
         minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 1_000 + step * 10);
     }
 
@@ -827,11 +826,11 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     private void slotFrame(GuiGraphics graphics, int x, int y) {
-        graphics.blitSprite(SLOT_SPRITE, x - 1, y - 1, 18, 18);
+        blitSprite(graphics, SLOT_SPRITE, x - 1, y - 1, 18, 18);
     }
 
     private void button(GuiGraphics graphics, int x, int y, int width, int height, Component label) {
-        graphics.blitSprite(isHovered(x, y, width, height) ? BUTTON_HIGHLIGHTED_SPRITE : BUTTON_SPRITE,
+        blitSprite(graphics, isHovered(x, y, width, height) ? BUTTON_HIGHLIGHTED_SPRITE : BUTTON_SPRITE,
                 x, y, width, height);
         int textX = x + (width - font.width(label)) / 2;
         int textY = y + (height - 8) / 2;
@@ -841,7 +840,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     private void disabledButton(GuiGraphics graphics, int x, int y, int width, int height, Component label) {
-        graphics.blitSprite(BUTTON_DISABLED_SPRITE, x, y, width, height);
+        blitSprite(graphics, BUTTON_DISABLED_SPRITE, x, y, width, height);
         int textX = x + (width - font.width(label)) / 2;
         int textY = y + (height - 8) / 2;
         graphics.enableScissor(x + 2, y + 2, x + width - 2, y + height - 2);
@@ -879,6 +878,30 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 
     private boolean isHovered(int x, int y, int width, int height) {
         return uiMouseX >= x && uiMouseX < x + width && uiMouseY >= y && uiMouseY < y + height;
+    }
+
+    /**
+     * Minecraft 1.20.1 predates GuiGraphics' atlas-sprite helper. Recreate the
+     * same vanilla widget bevels locally while retaining the shared layout code.
+     */
+    private void blitSprite(GuiGraphics graphics, ResourceLocation sprite,
+                            int x, int y, int width, int height) {
+        if (sprite.equals(SLOT_SPRITE)) {
+            graphics.fill(x, y, x + width, y + height, 0xFF373737);
+            graphics.fill(x + 1, y + 1, x + width, y + height, 0xFFFFFFFF);
+            graphics.fill(x + 1, y + 1, x + width - 1, y + height - 1, 0xFF8B8B8B);
+            return;
+        }
+        boolean highlighted = sprite.equals(BUTTON_HIGHLIGHTED_SPRITE)
+                || sprite.equals(SLIDER_HANDLE_HIGHLIGHTED_SPRITE);
+        boolean disabled = sprite.equals(BUTTON_DISABLED_SPRITE);
+        int surface = disabled ? 0xFF8A8A8A : highlighted ? 0xFFD6D6D6 : 0xFFC6C6C6;
+        graphics.fill(x, y, x + width, y + height, 0xFFFFFFFF);
+        graphics.fill(x, y, x + width - 1, y + height - 1, 0xFF555555);
+        graphics.fill(x + 1, y + 1, x + width - 1, y + height - 1, surface);
+        if (sprite.equals(CHECKBOX_SELECTED_SPRITE)) {
+            graphics.drawCenteredString(font, "x", x + width / 2, y + 2, 0xFF404040);
+        }
     }
 
     private static void arrow(GuiGraphics graphics, int x, int y, int width, int color) {

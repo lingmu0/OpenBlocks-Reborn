@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:sketching_pencil",
+    "pattern":  [
+                    "c  ",
+                    " s ",
+                    "  s"
+                ],
+    "key":  {
+                "c":  {
+                          "item":  "minecraft:coal"
+                      },
+                "s":  {
+                          "item":  "minecraft:stick"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:sketching_pencil"
+               }
+}

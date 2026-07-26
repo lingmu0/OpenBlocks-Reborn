@@ -1,6 +1,7 @@
 package net.xuwu.openblocks_reborn.item;
 
-import net.minecraft.core.component.DataComponents;
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -34,25 +34,25 @@ public class PaintBrushItem extends Item {
     }
 
     public static DyeColor getColor(ItemStack stack) {
-        int id = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt(COLOR);
+        int id = LegacyItemData.copyTag(stack).getInt(COLOR);
         return DyeColor.byId(id);
     }
 
     public static void setColor(ItemStack stack, DyeColor color) {
-        setRgbColor(stack, color.getTextureDiffuseColor());
+        setRgbColor(stack, color.getTextColor());
     }
 
     public static int getRgbColor(ItemStack stack) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = LegacyItemData.copyTag(stack);
         return tag.contains(RGB_COLOR)
                 ? tag.getInt(RGB_COLOR) & 0xFFFFFF
-                : getColor(stack).getTextureDiffuseColor() & 0xFFFFFF;
+                : getColor(stack).getTextColor() & 0xFFFFFF;
     }
 
     public static void setRgbColor(ItemStack stack, int rgb) {
         int normalized = rgb & 0xFFFFFF;
         DyeColor nearest = nearestDyeColor(normalized);
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+        LegacyItemData.update(stack, tag -> {
             tag.putInt(COLOR, nearest.getId());
             tag.putInt(RGB_COLOR, normalized);
         });
@@ -65,7 +65,7 @@ public class PaintBrushItem extends Item {
         DyeColor result = DyeColor.WHITE;
         int bestDistance = Integer.MAX_VALUE;
         for (DyeColor candidate : DyeColor.values()) {
-            int candidateRgb = candidate.getTextureDiffuseColor();
+            int candidateRgb = candidate.getTextColor();
             int dr = red - (candidateRgb >> 16 & 0xFF);
             int dg = green - (candidateRgb >> 8 & 0xFF);
             int db = blue - (candidateRgb & 0xFF);
@@ -111,8 +111,7 @@ public class PaintBrushItem extends Item {
                     canvas.applyPaint(context.getClickedFace(), color);
                     painted = true;
                 }
-                if (painted && context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(),
-                        context.getPlayer().getEquipmentSlotForItem(context.getItemInHand()));
+                if (painted && context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(), p -> p.broadcastBreakEvent(context.getHand()));
             }
             return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
         }
@@ -125,8 +124,7 @@ public class PaintBrushItem extends Item {
                 setColor(context.getItemInHand(), color);
             } else {
                 context.getLevel().setBlock(context.getClickedPos(), state.setValue(ColorableBlock.COLOR, color), Block.UPDATE_ALL);
-                if (context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(),
-                        context.getPlayer().getEquipmentSlotForItem(context.getItemInHand()));
+                if (context.getPlayer() != null) context.getItemInHand().hurtAndBreak(1, context.getPlayer(), p -> p.broadcastBreakEvent(context.getHand()));
             }
         }
         return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
@@ -158,8 +156,8 @@ public class PaintBrushItem extends Item {
             default -> { u = 0.5D; v = 0.5D; }
         }
         return new int[] {
-                Math.clamp((int)Math.floor(u * CanvasBlockEntity.SIDE_SIZE), 0, CanvasBlockEntity.SIDE_SIZE - 1),
-                Math.clamp((int)Math.floor(v * CanvasBlockEntity.SIDE_SIZE), 0, CanvasBlockEntity.SIDE_SIZE - 1)
+                net.minecraft.util.Mth.clamp((int)Math.floor(u * CanvasBlockEntity.SIDE_SIZE), 0, CanvasBlockEntity.SIDE_SIZE - 1),
+                net.minecraft.util.Mth.clamp((int)Math.floor(v * CanvasBlockEntity.SIDE_SIZE), 0, CanvasBlockEntity.SIDE_SIZE - 1)
         };
     }
 }

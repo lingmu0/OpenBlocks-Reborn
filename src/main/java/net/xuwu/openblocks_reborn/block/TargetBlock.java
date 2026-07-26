@@ -37,7 +37,7 @@ public class TargetBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(POWER, DEPLOYED, FACING);
     }
 
@@ -49,7 +49,7 @@ public class TargetBlock extends Block {
     }
 
     @Override
-    protected void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
+    public void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
         if (level.isClientSide || !state.getValue(DEPLOYED)) return;
         Vec3 local = hit.getLocation().subtract(Vec3.atLowerCornerOf(hit.getBlockPos()));
         Direction face = hit.getDirection();
@@ -62,12 +62,12 @@ public class TargetBlock extends Block {
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(POWER) != 0) level.setBlock(pos, state.setValue(POWER, 0), Block.UPDATE_ALL);
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
                                    BlockPos neighborPos, boolean movedByPiston) {
         if (level.isClientSide) return;
         boolean deployed = level.hasNeighborSignal(pos);
@@ -84,24 +84,24 @@ public class TargetBlock extends Block {
         for (AbstractArrow arrow : level.getEntitiesOfClass(AbstractArrow.class,
                 new net.minecraft.world.phys.AABB(pos).inflate(0.2D))) {
             if (arrow.pickup == AbstractArrow.Pickup.ALLOWED) {
-                Block.popResource(level, pos, arrow.getPickupItemStackOrigin().copy());
+                Block.popResource(level, pos, arrow.getPickResult());
             }
             arrow.discard();
         }
     }
 
     @Override
-    protected boolean isSignalSource(BlockState state) {
+    public boolean isSignalSource(BlockState state) {
         return true;
     }
 
     @Override
-    protected int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return state.getValue(POWER);
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (!state.getValue(DEPLOYED)) return Block.box(0, 0, 0, 16, 2, 16);
         return switch (state.getValue(FACING)) {
             case NORTH -> Block.box(0, 0, 0, 16, 16, 2);

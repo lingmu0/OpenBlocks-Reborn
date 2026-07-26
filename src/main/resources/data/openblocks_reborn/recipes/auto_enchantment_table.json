@@ -1,0 +1,24 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:auto_enchantment_table",
+    "pattern":  [
+                    "iii",
+                    "iei",
+                    "rrr"
+                ],
+    "key":  {
+                "r":  {
+                          "item":  "minecraft:redstone"
+                      },
+                "e":  {
+                          "item":  "minecraft:enchanting_table"
+                      },
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:auto_enchantment_table"
+               }
+}

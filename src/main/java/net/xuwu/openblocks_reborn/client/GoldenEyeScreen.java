@@ -6,9 +6,9 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.xuwu.openblocks_reborn.menu.GoldenEyeMenu;
 import net.xuwu.openblocks_reborn.network.GoldenEyeSelectPayload;
+import net.xuwu.openblocks_reborn.network.ModNetworking;
 
 import java.util.List;
 import java.util.Locale;
@@ -107,7 +107,7 @@ public final class GoldenEyeScreen extends AbstractContainerScreen<GoldenEyeMenu
                     && mouseY >= listY && mouseY < listY + ROWS * ROW_HEIGHT) {
                 int index = scroll + (int)(mouseY - listY) / ROW_HEIGHT;
                 if (index >= 0 && index < filtered.size()) {
-                    PacketDistributor.sendToServer(new GoldenEyeSelectPayload(
+                    ModNetworking.sendToServer(new GoldenEyeSelectPayload(
                             menu.containerId, filtered.get(index).toString()));
                     return true;
                 }
@@ -117,14 +117,14 @@ public final class GoldenEyeScreen extends AbstractContainerScreen<GoldenEyeMenu
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollY) {
         if (mouseX >= leftPos + 9 && mouseX < leftPos + imageWidth - 9
                 && mouseY >= topPos + 43 && mouseY < topPos + 175) {
             int maximum = Math.max(0, filtered.size() - ROWS);
-            scroll = Math.clamp(scroll - (int)Math.signum(scrollY), 0, maximum);
+            scroll = net.minecraft.util.Mth.clamp(scroll - (int)Math.signum(scrollY), 0, maximum);
             return true;
         }
-        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+        return super.mouseScrolled(mouseX, mouseY, scrollY);
     }
 
     @Override

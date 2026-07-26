@@ -8,8 +8,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
 
 public class XpBucketItem extends BucketItem {

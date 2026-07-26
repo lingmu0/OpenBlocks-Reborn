@@ -34,7 +34,7 @@ public class ImaginaryBlockRenderer implements BlockEntityRenderer<ImaginaryBloc
                 GlassesItem.ImaginaryProperty.VISIBLE)) return;
 
         ImaginaryBlock.Shape shape = imaginary.getBlockState().getValue(ImaginaryBlock.SHAPE);
-        ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(OpenBlocksReborn.MOD_ID,
+        ResourceLocation texture = new ResourceLocation(OpenBlocksReborn.MOD_ID,
                 switch (shape) {
                     case BLOCK -> "block/crayon_block";
                     case PANEL -> "block/crayon_panel";
@@ -112,8 +112,8 @@ public class ImaginaryBlockRenderer implements BlockEntityRenderer<ImaginaryBloc
     private static void vertex(VertexConsumer out, PoseStack.Pose pose,
                                float x,float y,float z,float u,float v,int color,int light,
                                float nx,float ny,float nz) {
-        out.addVertex(pose, x, y, z).setColor(color).setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(light)
-                .setNormal(pose, nx, ny, nz);
+        out.vertex(pose.pose(), x, y, z).color(color).uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
+                .normal(pose.normal(), nx, ny, nz).endVertex();
     }
 }

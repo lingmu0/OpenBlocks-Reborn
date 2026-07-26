@@ -1,6 +1,7 @@
 package net.xuwu.openblocks_reborn.item;
 
-import net.minecraft.core.component.DataComponents;
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -10,7 +11,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,8 +22,8 @@ public class MagnetItem extends Item {
     }
 
     public static boolean isEnabled(ItemStack stack) {
-        CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        return !data.contains(ENABLED) || data.copyTag().getBoolean(ENABLED);
+        var data = LegacyItemData.copyTag(stack);
+        return !data.contains(ENABLED) || data.getBoolean(ENABLED);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class MagnetItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
         boolean enabled = !isEnabled(stack);
         if (!level.isClientSide) {
-            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putBoolean(ENABLED, enabled));
+            LegacyItemData.update(stack, tag -> tag.putBoolean(ENABLED, enabled));
             player.displayClientMessage(Component.translatable(enabled
                     ? "message.openblocks_reborn.magnet_on" : "message.openblocks_reborn.magnet_off"), true);
         }

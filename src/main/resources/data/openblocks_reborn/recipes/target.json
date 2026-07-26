@@ -1,0 +1,21 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:target",
+    "pattern":  [
+                    "www",
+                    "www",
+                    "s s"
+                ],
+    "key":  {
+                "s":  {
+                          "item":  "minecraft:stick"
+                      },
+                "w":  {
+                          "item":  "minecraft:white_wool"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:target"
+               }
+}

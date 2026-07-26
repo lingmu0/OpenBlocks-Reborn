@@ -9,7 +9,6 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerEntity;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -41,16 +40,16 @@ public class GlyphEntity extends HangingEntity {
     public GlyphEntity(Level level, BlockPos pos, Direction direction, int character, int offsetX, int offsetY) {
         super(ModEntities.GLYPH.get(), level, pos);
         setCharacter(character);
-        entityData.set(OFFSET_X, Math.clamp(offsetX, 0, 16));
-        entityData.set(OFFSET_Y, Math.clamp(offsetY, 0, 16));
+        entityData.set(OFFSET_X, net.minecraft.util.Mth.clamp(offsetX, 0, 16));
+        entityData.set(OFFSET_Y, net.minecraft.util.Mth.clamp(offsetY, 0, 16));
         setDirection(direction);
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(CHARACTER, (int)'?');
-        builder.define(OFFSET_X, 8);
-        builder.define(OFFSET_Y, 8);
+    protected void defineSynchedData() {
+        entityData.define(CHARACTER, (int)'?');
+        entityData.define(OFFSET_X, 8);
+        entityData.define(OFFSET_Y, 8);
     }
 
     @Override
@@ -67,7 +66,6 @@ public class GlyphEntity extends HangingEntity {
         entityData.set(CHARACTER, GlyphItem.sanitizeCharacter(character));
     }
 
-    @Override
     protected AABB calculateBoundingBox(BlockPos pos, Direction direction) {
         Vec3 center = Vec3.atCenterOf(pos).relative(direction, -0.46875D);
         Direction left = direction.getCounterClockWise();
@@ -76,6 +74,16 @@ public class GlyphEntity extends HangingEntity {
         double widthX = direction.getAxis() == Direction.Axis.X ? 0.0625D : 0.5D;
         double widthZ = direction.getAxis() == Direction.Axis.Z ? 0.0625D : 0.5D;
         return AABB.ofSize(center, widthX, 0.5D, widthZ);
+    }
+
+    @Override
+    public int getWidth() {
+        return 8;
+    }
+
+    @Override
+    public int getHeight() {
+        return 8;
     }
 
     @Override
@@ -90,8 +98,8 @@ public class GlyphEntity extends HangingEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         setCharacter(tag.getInt("Character"));
-        entityData.set(OFFSET_X, Math.clamp(tag.getInt("OffsetX"), 0, 16));
-        entityData.set(OFFSET_Y, Math.clamp(tag.getInt("OffsetY"), 0, 16));
+        entityData.set(OFFSET_X, net.minecraft.util.Mth.clamp(tag.getInt("OffsetX"), 0, 16));
+        entityData.set(OFFSET_Y, net.minecraft.util.Mth.clamp(tag.getInt("OffsetY"), 0, 16));
         direction = Direction.from2DDataValue(tag.getByte("Facing"));
         super.readAdditionalSaveData(tag);
         setDirection(direction);
@@ -101,7 +109,7 @@ public class GlyphEntity extends HangingEntity {
     public void dropItem(@Nullable Entity brokenEntity) {
         if (!level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) return;
         playSound(SoundEvents.ITEM_FRAME_BREAK, 1.0F, 1.0F);
-        if (brokenEntity instanceof Player player && player.hasInfiniteMaterials()) return;
+        if (brokenEntity instanceof Player player && player.getAbilities().instabuild) return;
         spawnAtLocation(GlyphItem.createStack(getCharacter()));
     }
 
@@ -116,7 +124,8 @@ public class GlyphEntity extends HangingEntity {
     }
 
     @Override
-    public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
+    public void lerpTo(double x, double y, double z, float yRot, float xRot,
+                       int steps, boolean teleport) {
         setPos(x, y, z);
     }
 
@@ -126,7 +135,7 @@ public class GlyphEntity extends HangingEntity {
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return new ClientboundAddEntityPacket(this, direction.get3DDataValue(), getPos());
     }
 

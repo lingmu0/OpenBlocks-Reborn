@@ -1,9 +1,10 @@
 package net.xuwu.openblocks_reborn.item;
 
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -16,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -39,12 +39,12 @@ public class GlyphItem extends Item {
     }
 
     public static int getCharacter(ItemStack stack) {
-        CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        CompoundTag tag = LegacyItemData.copyTag(stack);
         return tag.contains(TAG_CHARACTER) ? sanitizeCharacter(tag.getInt(TAG_CHARACTER)) : '?';
     }
 
     public static void setCharacter(ItemStack stack, int character) {
-        CustomData.update(DataComponents.CUSTOM_DATA, stack,
+        LegacyItemData.update(stack,
                 tag -> tag.putInt(TAG_CHARACTER, sanitizeCharacter(character)));
     }
 
@@ -92,7 +92,7 @@ public class GlyphItem extends Item {
             level.gameEvent(player, GameEvent.ENTITY_PLACE, glyph.position());
             level.addFreshEntity(glyph);
         }
-        stack.consume(1, player);
+        if (!player.getAbilities().instabuild) stack.shrink(1);
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
@@ -118,7 +118,7 @@ public class GlyphItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable net.minecraft.world.level.Level level, List<Component> tooltip, TooltipFlag flag) {
         int character = getCharacter(stack);
         tooltip.add(Component.translatable("tooltip.openblocks_reborn.glyph_character",
                 String.format("U+%04X", character)).withStyle(ChatFormatting.GRAY));

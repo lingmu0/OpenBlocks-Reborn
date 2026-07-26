@@ -1,0 +1,18 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "misc",
+    "group":  "openblocks_reborn:wrench",
+    "pattern":  [
+                    " ii",
+                    "iii",
+                    "ii "
+                ],
+    "key":  {
+                "i":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "result":  {
+                   "item":  "openblocks_reborn:wrench"
+               }
+}

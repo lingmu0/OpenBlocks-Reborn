@@ -62,8 +62,8 @@ public class GoldenEyeEntity extends Entity implements ItemSupplier {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(ITEM, new ItemStack(ModItems.GOLDEN_EYE.get()));
+    protected void defineSynchedData() {
+        entityData.define(ITEM, new ItemStack(ModItems.GOLDEN_EYE.get()));
     }
 
     @Override
@@ -120,7 +120,7 @@ public class GoldenEyeEntity extends Entity implements ItemSupplier {
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.put("Item", getItem().save(registryAccess()));
+        tag.put("Item", getItem().save(new CompoundTag()));
         tag.putDouble("TargetX", targetX);
         tag.putDouble("TargetY", targetY);
         tag.putDouble("TargetZ", targetZ);
@@ -131,8 +131,7 @@ public class GoldenEyeEntity extends Entity implements ItemSupplier {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         if (tag.contains("Item", CompoundTag.TAG_COMPOUND)) {
-            setItem(ItemStack.parse(registryAccess(), tag.getCompound("Item"))
-                    .orElseGet(() -> new ItemStack(ModItems.GOLDEN_EYE.get())));
+            setItem(ItemStack.of(tag.getCompound("Item")));
         }
         targetX = tag.getDouble("TargetX");
         targetY = tag.getDouble("TargetY");

@@ -1,24 +1,28 @@
 package net.xuwu.openblocks_reborn.registry;
 
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.IItemHandler;
 
+/**
+ * Forge 1.20.1 capability lookup helpers. NeoForge's level-based capability
+ * lookup API did not exist yet, so queries are routed through block entities.
+ */
 public final class ModCapabilities {
-    public static void register(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.TANK.get(), (tank, side) -> tank.getTank());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.VACUUM_HOPPER.get(), (hopper, side) -> hopper.getInventory());
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.VACUUM_HOPPER.get(), (hopper, side) -> hopper.getExperienceTank());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.ITEM_MACHINE.get(), (machine, side) -> machine.getInventory());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.UTILITY_MACHINE.get(),
-                (machine, side) -> machine.getItemHandler(side));
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.UTILITY_MACHINE.get(),
-                (machine, side) -> machine.exposesFluidTank() && machine.allowsExperienceInput(side)
-                        ? machine.getFluidTank() : null);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.EXPERIENCE_MACHINE.get(),
-                (machine, side) -> machine.getItemHandler(side));
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.EXPERIENCE_MACHINE.get(),
-                (machine, side) -> machine.allowsFluidInput(side) ? machine.getTank() : null);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.BIG_BUTTON.get(), (button, side) -> button.getInventory());
+    public static IItemHandler item(Level level, BlockPos pos, Direction side) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        return blockEntity == null ? null
+                : blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, side).orElse(null);
+    }
+
+    public static IFluidHandler fluid(Level level, BlockPos pos, Direction side) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        return blockEntity == null ? null
+                : blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER, side).orElse(null);
     }
 
     private ModCapabilities() {

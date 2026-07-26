@@ -1,8 +1,8 @@
 package net.xuwu.openblocks_reborn.item;
 
-import net.minecraft.core.component.DataComponents;
+import net.xuwu.openblocks_reborn.util.LegacyItemData;
+
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,10 +13,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.xuwu.openblocks_reborn.blockentity.ImaginaryBlockEntity;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.xuwu.openblocks_reborn.client.WearableArmorModels;
+
+import java.util.function.Consumer;
 
 /**
  * The legacy glasses are real helmets. Right-click uses ArmorItem's vanilla
@@ -40,8 +42,24 @@ public class GlassesItem extends ArmorItem {
     }
 
     @Override
-    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot,
-                                            ArmorMaterial.Layer layer, boolean innerModel) {
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            private net.minecraft.client.model.HumanoidModel<?> model;
+
+            @Override
+            public net.minecraft.client.model.HumanoidModel<?> getHumanoidArmorModel(
+                    LivingEntity living, ItemStack stack, EquipmentSlot slot,
+                    net.minecraft.client.model.HumanoidModel<?> original) {
+                if (model == null) {
+                    model = WearableArmorModels.bake(WearableArmorModels.GLASSES);
+                }
+                return model;
+            }
+        });
+    }
+
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         String texture = switch (mode) {
             case SONIC -> "glasses";
             case PENCIL -> "glasses_pencil";
@@ -49,8 +67,7 @@ public class GlassesItem extends ArmorItem {
             case TECHNICOLOR -> "glasses_technicolor";
             case SERIOUS -> "glasses_admin";
         };
-        return ResourceLocation.fromNamespaceAndPath("openblocks_reborn",
-                "textures/models/" + texture + ".png");
+        return "openblocks_reborn:textures/models/" + texture + ".png";
     }
 
     public static boolean isWearing(Player player, Mode mode) {
@@ -60,13 +77,12 @@ public class GlassesItem extends ArmorItem {
 
     public static ItemStack createCrayonGlasses(int color) {
         ItemStack result = new ItemStack(net.xuwu.openblocks_reborn.registry.ModItems.CRAYON_GLASSES.get());
-        CustomData.update(DataComponents.CUSTOM_DATA, result, tag -> tag.putInt(COLOR, color & 0xFFFFFF));
+        LegacyItemData.update(result, tag -> tag.putInt(COLOR, color & 0xFFFFFF));
         return result;
     }
 
     public static int getGlassesColor(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(COLOR) & 0xFFFFFF;
+        return LegacyItemData.copyTag(stack).getInt(COLOR) & 0xFFFFFF;
     }
 
     /**

@@ -1,6 +1,6 @@
 package net.xuwu.openblocks_reborn.menu;
 
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,8 +17,8 @@ public final class GoldenEyeMenu extends AbstractContainerMenu {
     private final InteractionHand hand;
     private final List<ResourceLocation> structures;
 
-    public GoldenEyeMenu(int containerId, Inventory inventory, RegistryFriendlyByteBuf data) {
-        this(containerId, inventory, InteractionHand.values()[Math.clamp(data.readVarInt(), 0,
+    public GoldenEyeMenu(int containerId, Inventory inventory, FriendlyByteBuf data) {
+        this(containerId, inventory, InteractionHand.values()[net.minecraft.util.Mth.clamp(data.readVarInt(), 0,
                 InteractionHand.values().length - 1)], readStructures(data));
     }
 
@@ -29,8 +29,8 @@ public final class GoldenEyeMenu extends AbstractContainerMenu {
         this.structures = List.copyOf(structures);
     }
 
-    private static List<ResourceLocation> readStructures(RegistryFriendlyByteBuf data) {
-        int count = Math.clamp(data.readVarInt(), 0, 4096);
+    private static List<ResourceLocation> readStructures(FriendlyByteBuf data) {
+        int count = net.minecraft.util.Mth.clamp(data.readVarInt(), 0, 4096);
         List<ResourceLocation> result = new ArrayList<>(count);
         for (int index = 0; index < count; index++) {
             ResourceLocation id = ResourceLocation.tryParse(data.readUtf(256));

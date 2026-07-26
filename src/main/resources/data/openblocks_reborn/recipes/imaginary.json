@@ -1,0 +1,22 @@
+{
+    "type":  "minecraft:crafting_shapeless",
+    "category":  "misc",
+    "group":  "openblocks_reborn:imaginary",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:coal"
+                        },
+                        {
+                            "item":  "minecraft:stick"
+                        },
+                        {
+                            "item":  "minecraft:ender_eye"
+                        },
+                        {
+                            "item":  "minecraft:slime_ball"
+                        }
+                    ],
+    "result":  {
+                   "item":  "openblocks_reborn:imaginary"
+               }
+}

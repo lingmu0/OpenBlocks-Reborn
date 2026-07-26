@@ -8,19 +8,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
-import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent;
-import net.neoforged.neoforge.event.entity.player.CanContinueSleepingEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
+import net.minecraftforge.event.TickEvent;
 import net.xuwu.openblocks_reborn.block.ElevatorBlock;
 import net.xuwu.openblocks_reborn.blockentity.GraveBlockEntity;
 import net.xuwu.openblocks_reborn.item.DevNullItem;
@@ -68,11 +66,10 @@ import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +118,7 @@ public final class CommonEvents {
     /**
      * Reserve right click for the controller before the target block sees it.
      * onItemUseFirst is kept as the item-side fallback, while this high-priority
-     * event also covers blocks whose NeoForge interaction hooks run unusually
+     * event also covers blocks whose Forge interaction hooks run unusually
      * early.
      */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -160,8 +157,7 @@ public final class CommonEvents {
                 || event.getEntity() instanceof net.minecraft.world.entity.player.Player
                 || event.getEntity().getType() == ModEntities.MINI_ME.get()) return;
         int looting = net.minecraft.world.item.enchantment.EnchantmentHelper.getItemEnchantmentLevel(
-                killer.level().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
-                        .getOrThrow(net.minecraft.world.item.enchantment.Enchantments.LOOTING),
+                net.minecraft.world.item.enchantment.Enchantments.MOB_LOOTING,
                 killer.getMainHandItem());
         float chance = 0.0025F + looting * 0.0025F;
         if (killer.getRandom().nextFloat() >= chance) return;
@@ -172,14 +168,15 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onItemPickup(ItemEntityPickupEvent.Pre event) {
-        ItemStack incoming = event.getItemEntity().getItem();
+    public void onItemPickup(EntityItemPickupEvent event) {
+        ItemStack incoming = event.getItem().getItem();
         if (incoming.isEmpty()) return;
-        var inventory = event.getPlayer().getInventory();
+        var inventory = event.getEntity().getInventory();
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
             ItemStack container = inventory.getItem(slot);
             if (container.getItem() instanceof DevNullItem devNull && devNull.absorb(container, incoming)) {
-                event.getItemEntity().discard();
+                event.getItem().discard();
+                event.setCanceled(true);
                 return;
             }
         }
@@ -196,8 +193,9 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerTick(PlayerTickEvent.Post event) {
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        if (!(event.player instanceof ServerPlayer player)) return;
         if (Boolean.getBoolean("openblocks_reborn.smokeTest")) runSmokeTest(player);
         CompoundTag data = player.getPersistentData();
         int cooldown = data.getInt(ELEVATOR_COOLDOWN);
@@ -215,36 +213,16 @@ public final class CommonEvents {
         if (!player.isSleeping() && data.getBoolean(SLEEPING_BAG_ACTIVE)) data.remove(SLEEPING_BAG_ACTIVE);
     }
 
-    @SubscribeEvent
-    public void onSleepingBagStart(CanPlayerSleepEvent event) {
-        ServerPlayer player = event.getEntity();
-        boolean hasBag = player.getMainHandItem().getItem() instanceof SleepingBagItem
-                || player.getOffhandItem().getItem() instanceof SleepingBagItem;
-        if (hasBag && event.getProblem() == net.minecraft.world.entity.player.Player.BedSleepingProblem.NOT_POSSIBLE_HERE) {
-            player.getPersistentData().putBoolean(SLEEPING_BAG_ACTIVE, true);
-            event.setProblem(null);
-        }
-    }
-
-    @SubscribeEvent
-    public void onSleepingBagContinue(CanContinueSleepingEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player
-                && player.getPersistentData().getBoolean(SLEEPING_BAG_ACTIVE)
-                && event.getProblem() == net.minecraft.world.entity.player.Player.BedSleepingProblem.NOT_POSSIBLE_HERE) {
-            event.setContinueSleeping(true);
-        }
-    }
-
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onLastStand(LivingDamageEvent.Pre event) {
+    public void onLastStand(LivingDamageEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         int levels = armorEnchantLevels(player, ModEnchantments.LAST_STAND);
-        if (levels <= 0 || player.getHealth() - event.getNewDamage() >= 1.0F) return;
-        int required = Math.max(1, (int)Math.ceil((1.0F - (player.getHealth() - event.getNewDamage())) * 50.0F / levels));
+        if (levels <= 0 || player.getHealth() - event.getAmount() >= 1.0F) return;
+        int required = Math.max(1, (int)Math.ceil((1.0F - (player.getHealth() - event.getAmount())) * 50.0F / levels));
         if (player.totalExperience < required) return;
         player.giveExperiencePoints(-required);
         player.setHealth(1.0F);
-        event.setNewDamage(0.0F);
+        event.setAmount(0.0F);
         player.level().playSound(null, player.blockPosition(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 0.7F, 1.25F);
     }
 
@@ -265,7 +243,7 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent
-    public void onExplosiveHit(LivingIncomingDamageEvent event) {
+    public void onExplosiveHit(LivingHurtEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player) || event.getSource().getEntity() == null
                 || player.getPersistentData().getBoolean(EXPLOSION_GUARD)) return;
         int level = 0;
@@ -284,7 +262,7 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent
-    public void onFlimFlamAttack(LivingDamageEvent.Post event) {
+    public void onFlimFlamAttack(LivingDamageEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer target)
                 || !(event.getSource().getEntity() instanceof ServerPlayer attacker) || attacker == target) return;
         int weapon = ModEnchantments.level(attacker, attacker.getMainHandItem(), ModEnchantments.FLIM_FLAM);
@@ -298,7 +276,8 @@ public final class CommonEvents {
                 victim.getPersistentData().getInt(FLIM_FLAM_LUCK) - penalty);
     }
 
-    private static int armorEnchantLevels(ServerPlayer player, net.minecraft.resources.ResourceKey<net.minecraft.world.item.enchantment.Enchantment> key) {
+    private static int armorEnchantLevels(ServerPlayer player,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.enchantment.Enchantment> key) {
         int result = 0;
         for (ItemStack stack : player.getArmorSlots()) result += ModEnchantments.level(player, stack, key);
         return result;
@@ -380,7 +359,7 @@ public final class CommonEvents {
             }
             case 3 -> {
                 ItemStack stack = player.getMainHandItem();
-                if (!stack.isEmpty()) stack.set(DataComponents.CUSTOM_NAME, Component.literal("Definitely Not " + stack.getHoverName().getString()));
+                if (!stack.isEmpty()) stack.setHoverName(Component.literal("Definitely Not " + stack.getHoverName().getString()));
             }
             case 4 -> player.randomTeleport(player.getX() + player.getRandom().nextInt(13) - 6,
                     player.getY(), player.getZ() + player.getRandom().nextInt(13) - 6, true);
@@ -425,7 +404,7 @@ public final class CommonEvents {
             switch (smokeTicks) {
                 case 1 -> {
                     setupModelCloseup(player);
-                    player.getInventory().setItem(0, new ItemStack(ModBlocks.CANNON.asItem()));
+                    player.getInventory().setItem(0, new ItemStack(ModBlocks.CANNON.get().asItem()));
                     player.getAbilities().flying = true;
                     player.onUpdateAbilities();
                     moveSmokeCamera(player, smokeBase.offset(6, 19, 11), smokeBase.offset(6, 16, 4));
@@ -483,7 +462,7 @@ public final class CommonEvents {
             case 620 -> moveSmokeCamera(player, smokeBase.offset(-7, 5, 5), smokeBase.offset(6, 1, 5));
             case 650 -> moveSmokeCamera(player, smokeBase.offset(20, 5, 5), smokeBase.offset(6, 1, 5));
             case 680 -> {
-                player.getInventory().setItem(0, new ItemStack(ModBlocks.CANNON.asItem()));
+                player.getInventory().setItem(0, new ItemStack(ModBlocks.CANNON.get().asItem()));
                 moveSmokeCamera(player, smokeBase.offset(6, 6, 12), smokeBase.offset(6, 6, -3));
             }
             case 710 -> moveSmokeCamera(player, findGalleryBlock("vacuum_hopper").above(6),
@@ -557,7 +536,7 @@ public final class CommonEvents {
         // Repeated smoke runs reuse the quick-play world. Cap the platform below the cloud
         // layer and clear its test volume so an older gallery cannot raise WORLD_SURFACE
         // by another thirty blocks on every run.
-        int y = Math.clamp(surface + 30, 100, 160);
+        int y = net.minecraft.util.Mth.clamp(surface + 30, 100, 160);
         smokeBase = new BlockPos(originX, y, originZ);
         AABB smokeVolume = new AABB(Vec3.atLowerCornerOf(smokeBase.offset(-5, 0, -8)),
                 Vec3.atLowerCornerOf(smokeBase.offset(20, 20, 15)));
@@ -604,7 +583,7 @@ public final class CommonEvents {
         }
         for (BlockPos pos : positions) {
             if (level.getBlockEntity(pos) instanceof TankBlockEntity tank) {
-                tank.getTank().fill(new FluidStack(Fluids.WATER, 12_000), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+                tank.getTank().fill(new FluidStack(Fluids.WATER, 12_000), net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
             } else if (level.getBlockEntity(pos) instanceof CanvasBlockEntity canvas) {
                 canvas.setColor(Direction.UP, 0xFFFFCC33);
                 canvas.setColor(Direction.NORTH, 0xFF3366FF);
@@ -723,16 +702,16 @@ public final class CommonEvents {
                     machine.getInventory().setStackInSlot(0, tool);
                     machine.getInventory().setStackInSlot(1, new ItemStack(Items.IRON_PICKAXE));
                     machine.getExperienceTank().fill(new FluidStack(ModFluids.XP_JUICE.get(), ModFluids.xpToFluid(10)),
-                            net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+                            net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
                 }
                 case "auto_enchantment_table" -> {
                     machine.getInventory().setStackInSlot(0, new ItemStack(Items.DIAMOND_SWORD));
                     machine.getInventory().setStackInSlot(1, new ItemStack(Items.LAPIS_LAZULI, 3));
                     machine.getExperienceTank().fill(new FluidStack(ModFluids.XP_JUICE.get(), ModFluids.xpToFluid(30)),
-                            net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+                            net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
                 }
                 case "paint_mixer" -> {
-                    machine.getInventory().setStackInSlot(0, new ItemStack(ModBlocks.PAINT_CAN.asItem()));
+                    machine.getInventory().setStackInSlot(0, new ItemStack(ModBlocks.PAINT_CAN.get().asItem()));
                     machine.getInventory().setStackInSlot(2, new ItemStack(Items.CYAN_DYE));
                     machine.getInventory().setStackInSlot(3, new ItemStack(Items.MAGENTA_DYE));
                     machine.getInventory().setStackInSlot(4, new ItemStack(Items.YELLOW_DYE));
@@ -745,7 +724,7 @@ public final class CommonEvents {
                 case "sprinkler" -> {
                     machine.getInventory().setStackInSlot(0, new ItemStack(Items.BONE_MEAL, 16));
                     machine.getFluidTank().fill(new FluidStack(Fluids.WATER, 1000),
-                            net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+                            net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
                 }
                 case "projector" -> machine.getInventory().setStackInSlot(0,
                         net.xuwu.openblocks_reborn.item.HeightMapItem.create(player.level(), player.blockPosition()));

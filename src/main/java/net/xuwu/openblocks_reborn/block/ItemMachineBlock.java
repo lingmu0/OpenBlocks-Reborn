@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -46,7 +46,7 @@ public class ItemMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, POWERED);
     }
 
@@ -65,22 +65,23 @@ public class ItemMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return mode == Mode.CANNON ? RenderShape.ENTITYBLOCK_ANIMATED : RenderShape.MODEL;
     }
 
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useHeldItem(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                                Player player, InteractionHand hand, BlockHitResult hit) {
         // Continue into useWithoutItem so the menu opens even when the player is
         // holding something. Previously this path swallowed every right-click by
         // trying to quick-insert the held stack, making all three item machines
         // appear to have no GUI.
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS;
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+        InteractionResult held = useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (held != InteractionResult.PASS) return held;
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer
                 && level.getBlockEntity(pos) instanceof ItemMachineBlockEntity machine) {
             if (player.isShiftKeyDown()) {
@@ -121,7 +122,7 @@ public class ItemMachineBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor, BlockPos neighborPos, boolean movedByPiston) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor, BlockPos neighborPos, boolean movedByPiston) {
         if (level.isClientSide) return;
         boolean powered = level.hasNeighborSignal(pos);
         int redstoneStrength = level.getBestNeighborSignal(pos);
@@ -183,8 +184,8 @@ public class ItemMachineBlock extends Block implements EntityBlock {
     }
 
     public static double calculateDropperSpeed(int configuredSpeed, boolean useRedstoneStrength, int redstoneStrength) {
-        double result = Math.clamp(configuredSpeed, 0, 400) / 100.0D;
-        return useRedstoneStrength ? result * Math.clamp(redstoneStrength, 0, 15) / 15.0D : result;
+        double result = net.minecraft.util.Mth.clamp(configuredSpeed, 0, 400) / 100.0D;
+        return useRedstoneStrength ? result * net.minecraft.util.Mth.clamp(redstoneStrength, 0, 15) / 15.0D : result;
     }
 
     /** Approximates the vanilla dropped-item gravity so the projectile reaches the selected block. */
@@ -194,15 +195,15 @@ public class ItemMachineBlock extends Block implements EntityBlock {
         double dz = destination.z - origin.z;
         double horizontal = Math.sqrt(dx * dx + dz * dz);
         if (horizontal < 0.001D) return new net.minecraft.world.phys.Vec3(0.0D, 0.7D, 0.0D);
-        double speed = Math.clamp(0.45D + horizontal * 0.012D, 0.45D, 1.2D);
+        double speed = net.minecraft.util.Mth.clamp(0.45D + horizontal * 0.012D, 0.45D, 1.2D);
         double ticks = Math.max(1.0D, horizontal / speed);
         double vertical = (destination.y - origin.y + 0.02D * ticks * ticks) / ticks;
-        vertical = Math.clamp(vertical, -0.2D, 1.5D);
+        vertical = net.minecraft.util.Mth.clamp(vertical, -0.2D, 1.5D);
         return new net.minecraft.world.phys.Vec3(dx / horizontal * speed, vertical, dz / horizontal * speed);
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof ItemMachineBlockEntity machine) {
             for (int slot = 0; slot < machine.getInventory().getSlots(); slot++) {
                 Block.popResource(level, pos, machine.getInventory().extractItem(slot, Integer.MAX_VALUE, false));

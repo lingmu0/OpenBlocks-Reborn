@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 import net.xuwu.openblocks_reborn.item.CraneBackpackItem;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * to rotate the world-space cable and magnet a second time away from the boom.
  */
 public final class CraneThirdPersonRenderer {
-    private static final ResourceLocation CRANE_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation CRANE_TEXTURE = new ResourceLocation(
             OpenBlocksReborn.MOD_ID, "textures/models/crane.png");
     private static ModelPart boom;
 
@@ -42,7 +42,7 @@ public final class CraneThirdPersonRenderer {
                 .toList();
         if (players.isEmpty()) return;
 
-        float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
+        float partialTick = event.getPartialTick();
         Vec3 camera = event.getCamera().getPosition();
         PoseStack poses = event.getPoseStack();
         var buffers = minecraft.renderBuffers().bufferSource();
