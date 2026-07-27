@@ -56,8 +56,12 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             ResourceLocation.withDefaultNamespace("widget/slider_handle_highlighted");
     private static final ResourceLocation CHECKBOX_SPRITE =
             ResourceLocation.withDefaultNamespace("widget/checkbox");
+    private static final ResourceLocation CHECKBOX_HIGHLIGHTED_SPRITE =
+            ResourceLocation.withDefaultNamespace("widget/checkbox_highlighted");
     private static final ResourceLocation CHECKBOX_SELECTED_SPRITE =
             ResourceLocation.withDefaultNamespace("widget/checkbox_selected");
+    private static final ResourceLocation CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE =
+            ResourceLocation.withDefaultNamespace("widget/checkbox_selected_highlighted");
     private static final int FRAME_DARK = 0xFF373737;
     private static final int FRAME_SHADOW = 0xFF555555;
     private static final int FRAME_LIGHT = 0xFFFFFFFF;
@@ -429,7 +433,9 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                 ? SLIDER_HANDLE_HIGHLIGHTED_SPRITE : SLIDER_HANDLE_SPRITE, knobX, y + 16, 8, 20);
         centeredText(graphics, Component.translatable("gui.openblocks_reborn.drop_speed",
                 String.format(java.util.Locale.ROOT, "%.1f", speed / 100.0D)), x + 119, y + 39, TEXT);
-        blitSprite(graphics, menu.data(3) != 0 ? CHECKBOX_SELECTED_SPRITE : CHECKBOX_SPRITE,
+        boolean redstoneStrength = menu.data(3) != 0;
+        boolean checkboxHovered = isHovered(x + 70, y + 49, 20, 20);
+        blitSprite(graphics, checkboxSprite(redstoneStrength, checkboxHovered),
                 x + 70, y + 49, 20, 20);
         graphics.drawString(font, Component.translatable("gui.openblocks_reborn.use_redstone_strength"),
                 x + 93, y + 55, TEXT, false);
@@ -511,17 +517,13 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                     enabled ? 0xFF173817 : TEXT);
         }
         int automaticX = panelX + 12;
-        int automaticY = panelY + 84;
+        int automaticY = panelY + 82;
         boolean automatic = (configuration & 0x40) != 0;
-        boolean automaticHovered = isHovered(automaticX, automaticY, 14, 14);
-        bevel(graphics, automaticX, automaticY, 14, 14, automatic
-                ? (automaticHovered ? 0xFF7BC77B : 0xFF65AA65)
-                : (automaticHovered ? 0xFFD8D8D8 : SURFACE));
-        if (automatic) {
-            centeredText(graphics, Component.literal("\u2713"), automaticX + 7, automaticY + 3, 0xFF173817);
-        }
+        boolean automaticHovered = isHovered(automaticX, automaticY, 20, 20);
+        blitSprite(graphics, checkboxSprite(automatic, automaticHovered),
+                automaticX, automaticY, 20, 20);
         graphics.drawString(font, Component.translatable("gui.openblocks_reborn.io_automatic"),
-                panelX + 31, panelY + 87, TEXT, false);
+                automaticX + 24, automaticY + 6, TEXT, false);
     }
 
     private Component ioChannelLabel(int channel) {
@@ -752,7 +754,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                 return true;
             }
         }
-        if (relativeX >= -96 && relativeX < -82 && relativeY >= 100 && relativeY < 114) {
+        if (relativeX >= -96 && relativeX < -76 && relativeY >= 98 && relativeY < 118) {
             minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 6_100 + ioChannel);
             return true;
         }
@@ -915,9 +917,15 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                     20, 4, 200, 20, 0, textureY);
             return;
         }
-        if (sprite.equals(CHECKBOX_SPRITE) || sprite.equals(CHECKBOX_SELECTED_SPRITE)) {
-            graphics.blit(CHECKBOX_TEXTURE, x, y, 0.0F,
-                    sprite.equals(CHECKBOX_SELECTED_SPRITE) ? 20.0F : 0.0F,
+        if (sprite.equals(CHECKBOX_SPRITE) || sprite.equals(CHECKBOX_HIGHLIGHTED_SPRITE)
+                || sprite.equals(CHECKBOX_SELECTED_SPRITE)
+                || sprite.equals(CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE)) {
+            boolean selected = sprite.equals(CHECKBOX_SELECTED_SPRITE)
+                    || sprite.equals(CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE);
+            boolean highlighted = sprite.equals(CHECKBOX_HIGHLIGHTED_SPRITE)
+                    || sprite.equals(CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE);
+            graphics.blit(CHECKBOX_TEXTURE, x, y, highlighted ? 20.0F : 0.0F,
+                    selected ? 20.0F : 0.0F,
                     width, height, 64, 64);
             return;
         }
@@ -927,26 +935,35 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                 20, 4, 200, 20, 0, textureY);
     }
 
+    private static ResourceLocation checkboxSprite(boolean selected, boolean highlighted) {
+        if (selected) {
+            return highlighted ? CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE : CHECKBOX_SELECTED_SPRITE;
+        }
+        return highlighted ? CHECKBOX_HIGHLIGHTED_SPRITE : CHECKBOX_SPRITE;
+    }
+
     private static void arrow(GuiGraphics graphics, int x, int y, int width, int color) {
-        graphics.fill(x, y - 1, x + width - 4, y + 2, color);
-        graphics.fill(x + width - 7, y - 4, x + width - 4, y + 5, color);
-        graphics.fill(x + width - 4, y - 3, x + width - 2, y + 4, color);
-        graphics.fill(x + width - 2, y - 2, x + width, y + 3, color);
+        int tipX = x + width - 1;
+        graphics.fill(x, y - 1, x + width - 5, y + 2, color);
+        graphics.fill(x + width - 7, y - 4, x + width - 5, y + 5, color);
+        graphics.fill(x + width - 5, y - 3, x + width - 3, y + 4, color);
+        graphics.fill(x + width - 3, y - 2, tipX, y + 3, color);
+        graphics.fill(tipX, y - 1, tipX + 1, y + 2, color);
     }
 
     private static void recessed(GuiGraphics graphics, int x, int y, int width, int height) {
         graphics.blitNineSliced(MACHINE_RECESSED_TEXTURE, x, y, width, height,
-                2, 2, 5, 5, 0, 0);
+                2, 2, 256, 256, 0, 0);
     }
 
     private static void containerPanel(GuiGraphics graphics, int x, int y, int width, int height) {
         graphics.blitNineSliced(MACHINE_PANEL_TEXTURE, x, y, width, height,
-                4, 4, 9, 9, 0, 0);
+                4, 4, 256, 256, 0, 0);
     }
 
     private static void bevel(GuiGraphics graphics, int x, int y, int width, int height, int color) {
         graphics.fill(x, y, x + width, y + height, color);
         graphics.blitNineSliced(MACHINE_BEVEL_FRAME_TEXTURE, x, y, width, height,
-                2, 2, 5, 5, 0, 0);
+                2, 2, 256, 256, 0, 0);
     }
 }
