@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.ModList;
 import net.xuwu.openblocks_reborn.compat.PatchouliCompat;
@@ -66,12 +67,17 @@ public class InfoBookItem extends Item {
             int inventorySlot = hand == InteractionHand.MAIN_HAND
                     ? serverPlayer.getInventory().selected
                     : OFFHAND_INVENTORY_SLOT;
-            // ClientboundOpenBookPacket only identifies the hand. Synchronize the
-            // newly written stack first so a freshly obtained guide opens on the
-            // first use instead of requiring a second click.
+            // Minecraft 1.20.1 only opens the vanilla book screen when the held
+            // client stack is literally minecraft:written_book. Briefly sync a
+            // display-only written-book copy, open it, then restore the actual
+            // guide. WrittenBookAccess copies the pages during screen creation.
+            ItemStack displayBook = new ItemStack(Items.WRITTEN_BOOK);
+            displayBook.setTag(stack.getTag().copy());
+            serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(
+                    DIRECT_INVENTORY_CONTAINER_ID, 0, inventorySlot, displayBook));
+            serverPlayer.connection.send(new ClientboundOpenBookPacket(hand));
             serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(
                     DIRECT_INVENTORY_CONTAINER_ID, 0, inventorySlot, stack.copy()));
-            serverPlayer.connection.send(new ClientboundOpenBookPacket(hand));
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }

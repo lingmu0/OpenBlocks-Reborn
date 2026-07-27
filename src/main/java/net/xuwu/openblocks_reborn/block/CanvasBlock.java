@@ -3,7 +3,6 @@ package net.xuwu.openblocks_reborn.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
@@ -42,20 +41,23 @@ public class CanvasBlock extends Block implements EntityBlock {
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
-        // The default interaction rotates/removes an attached stencil. Painting,
-        // scraping and placing a stencil are implemented by the items themselves,
-        // so they must skip that default interaction and reach Item#useOn.
-        if (stack.getItem() instanceof PaintBrushItem
-                || stack.getItem() instanceof SqueegeeItem
-                || stack.getItem() instanceof StencilItem) {
-            return InteractionResult.CONSUME;
-        }
         return InteractionResult.PASS;
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
-        InteractionResult held = useHeldItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        ItemStack stack = player.getItemInHand(hand);
+        // Forge 1.20.1 calls the block before Item#useOn for an ordinary
+        // right-click. Returning CONSUME here prevents the brush/squeegee/stencil
+        // from ever receiving that click; sneaking only appeared to work because
+        // it bypassed the block interaction. PASS hands control to the item while
+        // also skipping this block's rotate/remove-stencil fallback.
+        if (stack.getItem() instanceof PaintBrushItem
+                || stack.getItem() instanceof SqueegeeItem
+                || stack.getItem() instanceof StencilItem) {
+            return InteractionResult.PASS;
+        }
+        InteractionResult held = useHeldItem(stack, state, level, pos, player, hand, hit);
         if (held != InteractionResult.PASS) return held;
         if (!(level.getBlockEntity(pos) instanceof CanvasBlockEntity canvas)
                 || canvas.getStencilPattern(hit.getDirection()) < 0) {

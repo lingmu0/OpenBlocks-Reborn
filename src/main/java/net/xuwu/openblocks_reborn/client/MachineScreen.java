@@ -38,8 +38,8 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             new ResourceLocation("openblocks_reborn", "textures/gui/sprites/machine/recessed.png");
     private static final ResourceLocation MACHINE_BEVEL_FRAME_TEXTURE =
             new ResourceLocation("openblocks_reborn", "textures/gui/sprites/machine/bevel_frame.png");
-    private static final ResourceLocation SLOT_SPRITE =
-            ResourceLocation.withDefaultNamespace("container/slot");
+    private static final ResourceLocation MACHINE_SLOT_TEXTURE =
+            new ResourceLocation("openblocks_reborn", "textures/gui/sprites/machine/slot.png");
     private static final ResourceLocation BUTTON_SPRITE =
             ResourceLocation.withDefaultNamespace("widget/button");
     private static final ResourceLocation BUTTON_HIGHLIGHTED_SPRITE =
@@ -839,7 +839,8 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     private void slotFrame(GuiGraphics graphics, int x, int y) {
-        blitSprite(graphics, SLOT_SPRITE, x - 1, y - 1, 18, 18);
+        graphics.blit(MACHINE_SLOT_TEXTURE, x - 1, y - 1,
+                18, 18, 0.0F, 0.0F, 18, 18, 18, 18);
     }
 
     private void button(GuiGraphics graphics, int x, int y, int width, int height, Component label) {
@@ -901,10 +902,6 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
      */
     private void blitSprite(GuiGraphics graphics, ResourceLocation sprite,
                             int x, int y, int width, int height) {
-        if (sprite.equals(SLOT_SPRITE)) {
-            graphics.blit(GENERIC_CONTAINER_TEXTURE, x, y, 7, 17, width, height);
-            return;
-        }
         if (sprite.equals(SLIDER_SPRITE)) {
             graphics.blitNineSliced(SLIDER_TEXTURE, x, y, width, height,
                     20, 4, 200, 20, 0, 0);
