@@ -38,44 +38,50 @@ function Save-Texture([System.Drawing.Bitmap]$bitmap, [string]$name) {
     }
 }
 
-# A 9x9 canonical instance of the previous containerPanel() renderer.
-# Four-pixel nine-slice borders preserve every corner and bevel pixel.
-$panel = New-Texture 9 9
-Fill-TextureRect $panel 0 3 9 6 $black
-Fill-TextureRect $panel 1 3 8 6 $light
-Fill-TextureRect $panel 3 3 6 6 $surface
-Fill-TextureRect $panel 6 3 8 6 $shadow
-Fill-TextureRect $panel 2 0 6 1 $black
-Fill-TextureRect $panel 1 1 6 2 $black
-Fill-TextureRect $panel 2 1 5 2 $light
-Fill-TextureRect $panel 0 2 8 3 $black
-Fill-TextureRect $panel 1 2 6 3 $light
-Fill-TextureRect $panel 6 2 7 3 $surface
+$textureSize = 256
+
+# Render a large canonical instance of the previous containerPanel() renderer.
+# Its 248px repeatable centre is larger than every current machine panel, so
+# GuiGraphics needs only the nine border/centre slices instead of tens of
+# thousands of 1px repeated tiles.
+$panel = New-Texture $textureSize $textureSize
+Fill-TextureRect $panel 0 3 $textureSize ($textureSize - 3) $black
+Fill-TextureRect $panel 1 3 ($textureSize - 1) ($textureSize - 3) $light
+Fill-TextureRect $panel 3 3 ($textureSize - 3) ($textureSize - 3) $surface
+Fill-TextureRect $panel ($textureSize - 3) 3 ($textureSize - 1) ($textureSize - 3) $shadow
+Fill-TextureRect $panel 2 0 ($textureSize - 3) 1 $black
+Fill-TextureRect $panel 1 1 ($textureSize - 3) 2 $black
+Fill-TextureRect $panel 2 1 ($textureSize - 4) 2 $light
+Fill-TextureRect $panel 0 2 ($textureSize - 1) 3 $black
+Fill-TextureRect $panel 1 2 ($textureSize - 3) 3 $light
+Fill-TextureRect $panel ($textureSize - 3) 2 ($textureSize - 2) 3 $surface
 Fill-TextureRect $panel 1 3 4 4 $light
-Fill-TextureRect $panel 5 5 6 6 $shadow
-Fill-TextureRect $panel 1 6 9 7 $black
-Fill-TextureRect $panel 2 6 3 7 $surface
-Fill-TextureRect $panel 3 6 8 7 $shadow
-Fill-TextureRect $panel 2 7 8 8 $black
-Fill-TextureRect $panel 3 7 7 8 $shadow
-Fill-TextureRect $panel 3 8 7 9 $black
+Fill-TextureRect $panel ($textureSize - 4) ($textureSize - 4) `
+    ($textureSize - 3) ($textureSize - 3) $shadow
+Fill-TextureRect $panel 1 ($textureSize - 3) $textureSize ($textureSize - 2) $black
+Fill-TextureRect $panel 2 ($textureSize - 3) 3 ($textureSize - 2) $surface
+Fill-TextureRect $panel 3 ($textureSize - 3) ($textureSize - 1) ($textureSize - 2) $shadow
+Fill-TextureRect $panel 2 ($textureSize - 2) ($textureSize - 1) ($textureSize - 1) $black
+Fill-TextureRect $panel 3 ($textureSize - 2) ($textureSize - 2) ($textureSize - 1) $shadow
+Fill-TextureRect $panel 3 ($textureSize - 1) ($textureSize - 2) $textureSize $black
 Save-Texture $panel 'panel.png'
 
-# A 5x5 canonical instance of the previous recessed() renderer.
-$recessed = New-Texture 5 5
-Fill-TextureRect $recessed 0 0 5 5 $dark
-Fill-TextureRect $recessed 1 1 5 5 $light
-Fill-TextureRect $recessed 2 2 4 4 $recess
+# Large canonical instances likewise keep recessed fields and bevel frames at
+# no more than nine texture slices each.
+$recessed = New-Texture $textureSize $textureSize
+Fill-TextureRect $recessed 0 0 $textureSize $textureSize $dark
+Fill-TextureRect $recessed 1 1 $textureSize $textureSize $light
+Fill-TextureRect $recessed 2 2 ($textureSize - 1) ($textureSize - 1) $recess
 Save-Texture $recessed 'recessed.png'
 
 # Transparent scalable frame drawn over the dynamic bevel fill colour.
-$bevel = New-Texture 5 5
-Fill-TextureRect $bevel 0 0 4 1 $light
-Fill-TextureRect $bevel 0 0 1 4 $light
-Fill-TextureRect $bevel 0 4 5 5 $dark
-Fill-TextureRect $bevel 4 0 5 5 $dark
-Fill-TextureRect $bevel 1 3 4 4 $shadow
-Fill-TextureRect $bevel 3 1 4 4 $shadow
+$bevel = New-Texture $textureSize $textureSize
+Fill-TextureRect $bevel 0 0 ($textureSize - 1) 1 $light
+Fill-TextureRect $bevel 0 0 1 ($textureSize - 1) $light
+Fill-TextureRect $bevel 0 ($textureSize - 1) $textureSize $textureSize $dark
+Fill-TextureRect $bevel ($textureSize - 1) 0 $textureSize $textureSize $dark
+Fill-TextureRect $bevel 1 ($textureSize - 2) ($textureSize - 1) ($textureSize - 1) $shadow
+Fill-TextureRect $bevel ($textureSize - 2) 1 ($textureSize - 1) ($textureSize - 1) $shadow
 Save-Texture $bevel 'bevel_frame.png'
 
 Write-Output "Generated machine GUI textures in $outputRoot"

@@ -45,8 +45,12 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             ResourceLocation.withDefaultNamespace("widget/slider_handle_highlighted");
     private static final ResourceLocation CHECKBOX_SPRITE =
             ResourceLocation.withDefaultNamespace("widget/checkbox");
+    private static final ResourceLocation CHECKBOX_HIGHLIGHTED_SPRITE =
+            ResourceLocation.withDefaultNamespace("widget/checkbox_highlighted");
     private static final ResourceLocation CHECKBOX_SELECTED_SPRITE =
             ResourceLocation.withDefaultNamespace("widget/checkbox_selected");
+    private static final ResourceLocation CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE =
+            ResourceLocation.withDefaultNamespace("widget/checkbox_selected_highlighted");
     private static final ResourceLocation MACHINE_PANEL_SPRITE =
             ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/panel");
     private static final ResourceLocation MACHINE_RECESSED_SPRITE =
@@ -424,7 +428,9 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                 ? SLIDER_HANDLE_HIGHLIGHTED_SPRITE : SLIDER_HANDLE_SPRITE, knobX, y + 16, 8, 20);
         centeredText(graphics, Component.translatable("gui.openblocks_reborn.drop_speed",
                 String.format(java.util.Locale.ROOT, "%.1f", speed / 100.0D)), x + 119, y + 39, TEXT);
-        graphics.blitSprite(menu.data(3) != 0 ? CHECKBOX_SELECTED_SPRITE : CHECKBOX_SPRITE,
+        boolean redstoneStrength = menu.data(3) != 0;
+        boolean checkboxHovered = isHovered(x + 70, y + 49, 20, 20);
+        graphics.blitSprite(checkboxSprite(redstoneStrength, checkboxHovered),
                 x + 70, y + 49, 20, 20);
         graphics.drawString(font, Component.translatable("gui.openblocks_reborn.use_redstone_strength"),
                 x + 93, y + 55, TEXT, false);
@@ -508,15 +514,11 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         int automaticX = panelX + 12;
         int automaticY = panelY + 84;
         boolean automatic = (configuration & 0x40) != 0;
-        boolean automaticHovered = isHovered(automaticX, automaticY, 14, 14);
-        bevel(graphics, automaticX, automaticY, 14, 14, automatic
-                ? (automaticHovered ? 0xFF7BC77B : 0xFF65AA65)
-                : (automaticHovered ? 0xFFD8D8D8 : SURFACE));
-        if (automatic) {
-            centeredText(graphics, Component.literal("\u2713"), automaticX + 7, automaticY + 3, 0xFF173817);
-        }
+        boolean automaticHovered = isHovered(automaticX, automaticY, 20, 20);
+        graphics.blitSprite(checkboxSprite(automatic, automaticHovered),
+                automaticX, automaticY, 20, 20);
         graphics.drawString(font, Component.translatable("gui.openblocks_reborn.io_automatic"),
-                panelX + 31, panelY + 87, TEXT, false);
+                automaticX + 24, automaticY + 6, TEXT, false);
     }
 
     private Component ioChannelLabel(int channel) {
@@ -747,7 +749,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                 return true;
             }
         }
-        if (relativeX >= -96 && relativeX < -82 && relativeY >= 100 && relativeY < 114) {
+        if (relativeX >= -96 && relativeX < -76 && relativeY >= 100 && relativeY < 120) {
             minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 6_100 + ioChannel);
             return true;
         }
@@ -887,11 +889,20 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         return uiMouseX >= x && uiMouseX < x + width && uiMouseY >= y && uiMouseY < y + height;
     }
 
+    private static ResourceLocation checkboxSprite(boolean selected, boolean highlighted) {
+        if (selected) {
+            return highlighted ? CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE : CHECKBOX_SELECTED_SPRITE;
+        }
+        return highlighted ? CHECKBOX_HIGHLIGHTED_SPRITE : CHECKBOX_SPRITE;
+    }
+
     private static void arrow(GuiGraphics graphics, int x, int y, int width, int color) {
-        graphics.fill(x, y - 1, x + width - 4, y + 2, color);
-        graphics.fill(x + width - 7, y - 4, x + width - 4, y + 5, color);
-        graphics.fill(x + width - 4, y - 3, x + width - 2, y + 4, color);
-        graphics.fill(x + width - 2, y - 2, x + width, y + 3, color);
+        int tipX = x + width - 1;
+        graphics.fill(x, y - 1, x + width - 5, y + 2, color);
+        graphics.fill(x + width - 7, y - 4, x + width - 5, y + 5, color);
+        graphics.fill(x + width - 5, y - 3, x + width - 3, y + 4, color);
+        graphics.fill(x + width - 3, y - 2, tipX, y + 3, color);
+        graphics.fill(tipX, y - 1, tipX + 1, y + 2, color);
     }
 
     private static void recessed(GuiGraphics graphics, int x, int y, int width, int height) {
