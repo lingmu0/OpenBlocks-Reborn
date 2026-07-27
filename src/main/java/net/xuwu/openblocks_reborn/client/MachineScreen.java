@@ -43,14 +43,14 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             ResourceLocation.withDefaultNamespace("widget/slider_handle");
     private static final ResourceLocation SLIDER_HANDLE_HIGHLIGHTED_SPRITE =
             ResourceLocation.withDefaultNamespace("widget/slider_handle_highlighted");
-    private static final ResourceLocation CHECKBOX_SPRITE =
-            ResourceLocation.withDefaultNamespace("widget/checkbox");
-    private static final ResourceLocation CHECKBOX_HIGHLIGHTED_SPRITE =
-            ResourceLocation.withDefaultNamespace("widget/checkbox_highlighted");
-    private static final ResourceLocation CHECKBOX_SELECTED_SPRITE =
-            ResourceLocation.withDefaultNamespace("widget/checkbox_selected");
-    private static final ResourceLocation CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE =
-            ResourceLocation.withDefaultNamespace("widget/checkbox_selected_highlighted");
+    private static final ResourceLocation OPENBLOCKS_CHECKBOX_SPRITE =
+            ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/checkbox");
+    private static final ResourceLocation OPENBLOCKS_CHECKBOX_SELECTED_SPRITE =
+            ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/checkbox_selected");
+    private static final ResourceLocation OPENBLOCKS_PLUS_SPRITE =
+            ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/plus");
+    private static final ResourceLocation OPENBLOCKS_ARROW_SPRITE =
+            ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/arrow");
     private static final ResourceLocation MACHINE_PANEL_SPRITE =
             ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/panel");
     private static final ResourceLocation MACHINE_RECESSED_SPRITE =
@@ -210,8 +210,8 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 
     private void renderAutoAnvil(GuiGraphics graphics, int x, int y) {
         recessed(graphics, x + 13, y + 17, 98, 18);
-        centeredText(graphics, Component.literal("+"), x + 46, y + 43, TEXT);
-        arrow(graphics, x + 78, y + 47, 18, ACCENT);
+        graphics.blitSprite(OPENBLOCKS_PLUS_SPRITE, x + 36, y + 41, 13, 13);
+        arrow(graphics, x + 78, y + 47, 18);
         graphics.renderItem(new ItemStack(Items.ANVIL), x + 116, y + 17);
         fluidGauge(graphics, x + 140, y + 30, 17, 37, menu.data(0), menu.data(1), 0xFFE6FF3C);
         centeredText(graphics, Component.translatable("gui.openblocks_reborn.repair"), x + 88, y + 69, TEXT);
@@ -233,7 +233,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         bevel(graphics, handleX, y + 41, 4, 11,
                 isHovered(x + 43, y + 41, 47, 11) || dragControl == DragControl.ENCHANT_POWER
                         ? 0xFFE0E0E0 : 0xFFC6C6C6);
-        arrow(graphics, x + 76, y + 58, 17, ACCENT);
+        arrow(graphics, x + 76, y + 58, 17);
         fluidGauge(graphics, x + 140, y + 30, 17, 37, menu.data(0), menu.data(1), 0xFFE6FF3C);
         centeredText(graphics, Component.translatable("gui.openblocks_reborn.enchant_cost",
                 Math.max(0, menu.data(9))), x + 88, y + 66, TEXT);
@@ -299,7 +299,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         boolean glyphMode = menu.data(0) == 1;
         button(graphics, x + 8, y + 35, 50, 14, Component.translatable(glyphMode
                 ? "gui.openblocks_reborn.drawing_mode_glyphs" : "gui.openblocks_reborn.drawing_mode_stencils"));
-        arrow(graphics, x + 80, y + 42, 14, ACCENT);
+        arrow(graphics, x + 80, y + 42, 14);
         button(graphics, x + 116, y + 34, 18, 17, Component.literal("<"));
         button(graphics, x + 136, y + 34, 18, 17, Component.literal(">"));
         Component selection = glyphMode
@@ -407,7 +407,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     private void renderXpBottler(GuiGraphics graphics, int x, int y) {
-        arrow(graphics, x + 70, y + 36, 28, FRAME_SHADOW);
+        arrow(graphics, x + 70, y + 36, 28);
         int progressWidth = Math.clamp(menu.data(2), 0, ExperienceBlockEntity.BOTTLING_TICKS) * 24
                 / ExperienceBlockEntity.BOTTLING_TICKS;
         if (progressWidth > 0) {
@@ -429,11 +429,11 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         centeredText(graphics, Component.translatable("gui.openblocks_reborn.drop_speed",
                 String.format(java.util.Locale.ROOT, "%.1f", speed / 100.0D)), x + 119, y + 39, TEXT);
         boolean redstoneStrength = menu.data(3) != 0;
-        boolean checkboxHovered = isHovered(x + 70, y + 49, 20, 20);
-        graphics.blitSprite(checkboxSprite(redstoneStrength, checkboxHovered),
-                x + 70, y + 49, 20, 20);
+        graphics.blitSprite(redstoneStrength
+                        ? OPENBLOCKS_CHECKBOX_SELECTED_SPRITE : OPENBLOCKS_CHECKBOX_SPRITE,
+                x + 70, y + 50, 8, 8);
         graphics.drawString(font, Component.translatable("gui.openblocks_reborn.use_redstone_strength"),
-                x + 93, y + 55, TEXT, false);
+                x + 85, y + 50, TEXT, false);
     }
 
     private void renderCannon(GuiGraphics graphics, int x, int y) {
@@ -511,14 +511,14 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             centeredText(graphics, Component.literal(sideNames[index]), buttonX + 7, buttonY + 3,
                     enabled ? 0xFF173817 : TEXT);
         }
-        int automaticX = panelX + 12;
+        int automaticX = panelX + 10;
         int automaticY = panelY + 84;
         boolean automatic = (configuration & 0x40) != 0;
-        boolean automaticHovered = isHovered(automaticX, automaticY, 20, 20);
-        graphics.blitSprite(checkboxSprite(automatic, automaticHovered),
-                automaticX, automaticY, 20, 20);
+        graphics.blitSprite(automatic
+                        ? OPENBLOCKS_CHECKBOX_SELECTED_SPRITE : OPENBLOCKS_CHECKBOX_SPRITE,
+                automaticX, automaticY, 8, 8);
         graphics.drawString(font, Component.translatable("gui.openblocks_reborn.io_automatic"),
-                automaticX + 24, automaticY + 6, TEXT, false);
+                automaticX + 12, automaticY, TEXT, false);
     }
 
     private Component ioChannelLabel(int channel) {
@@ -749,7 +749,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                 return true;
             }
         }
-        if (relativeX >= -96 && relativeX < -76 && relativeY >= 100 && relativeY < 120) {
+        if (relativeX >= -98 && relativeX < -90 && relativeY >= 100 && relativeY < 108) {
             minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 6_100 + ioChannel);
             return true;
         }
@@ -889,20 +889,9 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         return uiMouseX >= x && uiMouseX < x + width && uiMouseY >= y && uiMouseY < y + height;
     }
 
-    private static ResourceLocation checkboxSprite(boolean selected, boolean highlighted) {
-        if (selected) {
-            return highlighted ? CHECKBOX_SELECTED_HIGHLIGHTED_SPRITE : CHECKBOX_SELECTED_SPRITE;
-        }
-        return highlighted ? CHECKBOX_HIGHLIGHTED_SPRITE : CHECKBOX_SPRITE;
-    }
-
-    private static void arrow(GuiGraphics graphics, int x, int y, int width, int color) {
-        int tipX = x + width - 1;
-        graphics.fill(x, y - 1, x + width - 5, y + 2, color);
-        graphics.fill(x + width - 7, y - 4, x + width - 5, y + 5, color);
-        graphics.fill(x + width - 5, y - 3, x + width - 3, y + 4, color);
-        graphics.fill(x + width - 3, y - 2, tipX, y + 3, color);
-        graphics.fill(tipX, y - 1, tipX + 1, y + 2, color);
+    private static void arrow(GuiGraphics graphics, int x, int y, int width) {
+        int height = Math.min(15, Math.max(1, Math.round(width * 15.0F / 22.0F)));
+        graphics.blitSprite(OPENBLOCKS_ARROW_SPRITE, x, y - height / 2, width, height);
     }
 
     private static void recessed(GuiGraphics graphics, int x, int y, int width, int height) {
