@@ -4,7 +4,10 @@ import com.mojang.logging.LogUtils;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.xuwu.openblocks_reborn.config.OpenBlocksConfig;
 import net.xuwu.openblocks_reborn.event.CommonEvents;
 import net.xuwu.openblocks_reborn.registry.ModBlocks;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
@@ -39,6 +42,7 @@ public final class OpenBlocksReborn {
         ModCreativeTabs.TABS.register(modEventBus);
         modEventBus.addListener(ModEntities::registerAttributes);
         ModNetworking.register();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, OpenBlocksConfig.SERVER_SPEC);
         MinecraftForge.EVENT_BUS.register(new CommonEvents());
 
         LOGGER.info("Loading OpenBlocks Reborn for Minecraft 1.20.1");

@@ -34,8 +34,12 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             ResourceLocation.withDefaultNamespace("textures/gui/slider.png");
     private static final ResourceLocation CHECKBOX_TEXTURE =
             ResourceLocation.withDefaultNamespace("textures/gui/checkbox.png");
-    private static final ResourceLocation FURNACE_TEXTURE =
-            ResourceLocation.withDefaultNamespace("textures/gui/container/furnace.png");
+    private static final ResourceLocation MACHINE_PANEL_TEXTURE =
+            new ResourceLocation("openblocks_reborn", "textures/gui/sprites/machine/panel.png");
+    private static final ResourceLocation MACHINE_RECESSED_TEXTURE =
+            new ResourceLocation("openblocks_reborn", "textures/gui/sprites/machine/recessed.png");
+    private static final ResourceLocation MACHINE_BEVEL_FRAME_TEXTURE =
+            new ResourceLocation("openblocks_reborn", "textures/gui/sprites/machine/bevel_frame.png");
     private static final ResourceLocation SLOT_SPRITE =
             ResourceLocation.withDefaultNamespace("container/slot");
     private static final ResourceLocation BUTTON_SPRITE =
@@ -924,33 +928,25 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     private static void arrow(GuiGraphics graphics, int x, int y, int width, int color) {
-        setTextureColor(graphics, color);
-        graphics.blit(FURNACE_TEXTURE, x, y - 4, width, 9,
-                176, 14, 24, 17, 256, 256);
-        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+        graphics.fill(x, y - 1, x + width - 4, y + 2, color);
+        graphics.fill(x + width - 7, y - 4, x + width - 4, y + 5, color);
+        graphics.fill(x + width - 4, y - 3, x + width - 2, y + 4, color);
+        graphics.fill(x + width - 2, y - 2, x + width, y + 3, color);
     }
 
     private static void recessed(GuiGraphics graphics, int x, int y, int width, int height) {
-        graphics.blitNineSliced(GENERIC_CONTAINER_TEXTURE, x, y, width, height,
-                2, 2, 2, 2, 18, 18, 7, 17);
+        graphics.blitNineSliced(MACHINE_RECESSED_TEXTURE, x, y, width, height,
+                2, 2, 5, 5, 0, 0);
     }
 
     private static void containerPanel(GuiGraphics graphics, int x, int y, int width, int height) {
-        graphics.blitNineSliced(WIDGETS_TEXTURE, x, y, width, height,
-                20, 4, 200, 20, 0, 66);
+        graphics.blitNineSliced(MACHINE_PANEL_TEXTURE, x, y, width, height,
+                4, 4, 9, 9, 0, 0);
     }
 
     private static void bevel(GuiGraphics graphics, int x, int y, int width, int height, int color) {
-        setTextureColor(graphics, color == SURFACE ? 0xFFFFFFFF : color);
-        graphics.blitNineSliced(WIDGETS_TEXTURE, x, y, width, height,
-                20, 4, 200, 20, 0, 66);
-        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-    }
-
-    private static void setTextureColor(GuiGraphics graphics, int color) {
-        graphics.setColor((color >> 16 & 0xFF) / 255.0F,
-                (color >> 8 & 0xFF) / 255.0F,
-                (color & 0xFF) / 255.0F,
-                (color >>> 24) / 255.0F);
+        graphics.fill(x, y, x + width, y + height, color);
+        graphics.blitNineSliced(MACHINE_BEVEL_FRAME_TEXTURE, x, y, width, height,
+                2, 2, 5, 5, 0, 0);
     }
 }

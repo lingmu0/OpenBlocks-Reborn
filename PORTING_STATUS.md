@@ -228,6 +228,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 
 ## 2026-07-27 机器 GUI 材质包兼容与想象方块掉落
 
-- 1.20.1 机器 GUI 不再在兼容层中用硬编码色块伪造槽位、按钮、滑条、复选框、凹槽、面板和进度箭头；这些部件现在直接采样原版 `generic_54.png`、`widgets.png`、`slider.png`、`checkbox.png` 与 `furnace.png`，因此覆盖原版 GUI 的资源包会同步改变 OpenBlocks Reborn 的机器界面。
-- 动态流体、颜料与开关状态仍由程序着色，但它们的边框和控件底图来自资源包；绘制结束后会恢复白色着色，避免颜色泄漏到物品或文字渲染。
+- 1.20.1 的槽位、按钮、滑条和复选框改为直接采样原版 `generic_54.png`、`widgets.png`、`slider.png` 与 `checkbox.png`，覆盖原版 GUI 的资源包会同步改变这些通用控件。
+- 主面板、凹槽和分面按钮边框逐像素转制为 `assets/openblocks_reborn/textures/gui/sprites/machine/` 下的九宫格纹理。默认纹理严格复现修改前的灰色面板、圆角缺口和非对称高光/阴影；资源包可覆盖模组自己的三个 PNG，而不会被迫采用放大的原版按钮背景。
 - 想象方块的战利品表改为空池：生存模式破坏后不再掉落想象方块物品，创造模式的直接移除行为不变。
+- 新增服务端配置 `grave.generateOnPlayerDeath`（默认 `true`）；关闭后玩家死亡沿用普通物品掉落，不生成墓碑且不会清空掉落实体。Forge 1.20.1 会将它写入世界的 `serverconfig/openblocks_reborn-server.toml`。
+- `build` 成功并生成完成重混淆的 1.20.1 JAR；专用 GameTest Server 成功加载模组、数据包和新增服务端配置，实际生成配置文件后完成三维度创建并正常关闭。该分支仍为 0 项测试，因此只计作服务端加载验证。
