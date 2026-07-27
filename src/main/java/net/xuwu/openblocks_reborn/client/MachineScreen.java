@@ -28,6 +28,14 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             ResourceLocation.withDefaultNamespace("textures/gui/container/generic_54.png");
     private static final ResourceLocation DISPENSER_TEXTURE =
             ResourceLocation.withDefaultNamespace("textures/gui/container/dispenser.png");
+    private static final ResourceLocation WIDGETS_TEXTURE =
+            ResourceLocation.withDefaultNamespace("textures/gui/widgets.png");
+    private static final ResourceLocation SLIDER_TEXTURE =
+            ResourceLocation.withDefaultNamespace("textures/gui/slider.png");
+    private static final ResourceLocation CHECKBOX_TEXTURE =
+            ResourceLocation.withDefaultNamespace("textures/gui/checkbox.png");
+    private static final ResourceLocation FURNACE_TEXTURE =
+            ResourceLocation.withDefaultNamespace("textures/gui/container/furnace.png");
     private static final ResourceLocation SLOT_SPRITE =
             ResourceLocation.withDefaultNamespace("container/slot");
     private static final ResourceLocation BUTTON_SPRITE =
@@ -881,84 +889,68 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     /**
-     * Minecraft 1.20.1 predates GuiGraphics' atlas-sprite helper. Recreate the
-     * same vanilla widget bevels locally while retaining the shared layout code.
+     * Minecraft 1.20.1 predates the GUI sprite-atlas helper used by 1.21.
+     * Draw the matching vanilla source textures directly instead of recreating
+     * them with hard-coded colours. Resource packs can therefore skin these
+     * controls through the same files used by vanilla containers and widgets.
      */
     private void blitSprite(GuiGraphics graphics, ResourceLocation sprite,
                             int x, int y, int width, int height) {
         if (sprite.equals(SLOT_SPRITE)) {
-            graphics.fill(x, y, x + width, y + height, 0xFF373737);
-            graphics.fill(x + 1, y + 1, x + width, y + height, 0xFFFFFFFF);
-            graphics.fill(x + 1, y + 1, x + width - 1, y + height - 1, 0xFF8B8B8B);
+            graphics.blit(GENERIC_CONTAINER_TEXTURE, x, y, 7, 17, width, height);
             return;
         }
-        boolean highlighted = sprite.equals(BUTTON_HIGHLIGHTED_SPRITE)
-                || sprite.equals(SLIDER_HANDLE_HIGHLIGHTED_SPRITE);
-        boolean disabled = sprite.equals(BUTTON_DISABLED_SPRITE);
-        int surface = disabled ? 0xFF8A8A8A : highlighted ? 0xFFD6D6D6 : 0xFFC6C6C6;
-        graphics.fill(x, y, x + width, y + height, 0xFFFFFFFF);
-        graphics.fill(x, y, x + width - 1, y + height - 1, 0xFF555555);
-        graphics.fill(x + 1, y + 1, x + width - 1, y + height - 1, surface);
-        if (sprite.equals(CHECKBOX_SELECTED_SPRITE)) {
-            graphics.drawCenteredString(font, "x", x + width / 2, y + 2, 0xFF404040);
+        if (sprite.equals(SLIDER_SPRITE)) {
+            graphics.blitNineSliced(SLIDER_TEXTURE, x, y, width, height,
+                    20, 4, 200, 20, 0, 0);
+            return;
         }
+        if (sprite.equals(SLIDER_HANDLE_SPRITE) || sprite.equals(SLIDER_HANDLE_HIGHLIGHTED_SPRITE)) {
+            int textureY = sprite.equals(SLIDER_HANDLE_HIGHLIGHTED_SPRITE) ? 60 : 40;
+            graphics.blitNineSliced(SLIDER_TEXTURE, x, y, width, height,
+                    20, 4, 200, 20, 0, textureY);
+            return;
+        }
+        if (sprite.equals(CHECKBOX_SPRITE) || sprite.equals(CHECKBOX_SELECTED_SPRITE)) {
+            graphics.blit(CHECKBOX_TEXTURE, x, y, 0.0F,
+                    sprite.equals(CHECKBOX_SELECTED_SPRITE) ? 20.0F : 0.0F,
+                    width, height, 64, 64);
+            return;
+        }
+        int textureY = sprite.equals(BUTTON_DISABLED_SPRITE) ? 46
+                : sprite.equals(BUTTON_HIGHLIGHTED_SPRITE) ? 86 : 66;
+        graphics.blitNineSliced(WIDGETS_TEXTURE, x, y, width, height,
+                20, 4, 200, 20, 0, textureY);
     }
 
     private static void arrow(GuiGraphics graphics, int x, int y, int width, int color) {
-        graphics.fill(x, y - 1, x + width - 4, y + 2, color);
-        graphics.fill(x + width - 7, y - 4, x + width - 4, y + 5, color);
-        graphics.fill(x + width - 4, y - 3, x + width - 2, y + 4, color);
-        graphics.fill(x + width - 2, y - 2, x + width, y + 3, color);
+        setTextureColor(graphics, color);
+        graphics.blit(FURNACE_TEXTURE, x, y - 4, width, 9,
+                176, 14, 24, 17, 256, 256);
+        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     private static void recessed(GuiGraphics graphics, int x, int y, int width, int height) {
-        graphics.fill(x, y, x + width, y + height, FRAME_DARK);
-        graphics.fill(x + 1, y + 1, x + width, y + height, FRAME_LIGHT);
-        graphics.fill(x + 2, y + 2, x + width - 1, y + height - 1, RECESS);
+        graphics.blitNineSliced(GENERIC_CONTAINER_TEXTURE, x, y, width, height,
+                2, 2, 2, 2, 18, 18, 7, 17);
     }
 
-    /**
-     * Pixel-for-pixel outer-corner profile used by vanilla container textures.
-     * The centre is scalable, while the four three-pixel cut corners retain the
-     * original black/white/light-grey/dark-grey border sequence.
-     */
     private static void containerPanel(GuiGraphics graphics, int x, int y, int width, int height) {
-        int black = 0xFF000000;
-
-        // Middle body and the asymmetric vanilla raised border.
-        graphics.fill(x, y + 3, x + width, y + height - 3, black);
-        graphics.fill(x + 1, y + 3, x + width - 1, y + height - 3, FRAME_LIGHT);
-        graphics.fill(x + 3, y + 3, x + width - 3, y + height - 3, SURFACE);
-        graphics.fill(x + width - 3, y + 3, x + width - 1, y + height - 3, FRAME_SHADOW);
-
-        // Top-left and top-right corner pixels match generic_54.png.
-        graphics.fill(x + 2, y, x + width - 3, y + 1, black);
-        graphics.fill(x + 1, y + 1, x + width - 3, y + 2, black);
-        graphics.fill(x + 2, y + 1, x + width - 4, y + 2, FRAME_LIGHT);
-        graphics.fill(x, y + 2, x + width - 1, y + 3, black);
-        graphics.fill(x + 1, y + 2, x + width - 3, y + 3, FRAME_LIGHT);
-        graphics.fill(x + width - 3, y + 2, x + width - 2, y + 3, SURFACE);
-        graphics.fill(x + 1, y + 3, x + 4, y + 4, FRAME_LIGHT);
-
-        // Bottom corners use vanilla's darker lower/right bevel.
-        graphics.fill(x + width - 4, y + height - 4, x + width - 3, y + height - 3, FRAME_SHADOW);
-        graphics.fill(x + 1, y + height - 3, x + width, y + height - 2, black);
-        graphics.fill(x + 2, y + height - 3, x + 3, y + height - 2, SURFACE);
-        graphics.fill(x + 3, y + height - 3, x + width - 1, y + height - 2, FRAME_SHADOW);
-        graphics.fill(x + 2, y + height - 2, x + width - 1, y + height - 1, black);
-        graphics.fill(x + 3, y + height - 2, x + width - 2, y + height - 1, FRAME_SHADOW);
-        graphics.fill(x + 3, y + height - 1, x + width - 2, y + height, black);
+        graphics.blitNineSliced(WIDGETS_TEXTURE, x, y, width, height,
+                20, 4, 200, 20, 0, 66);
     }
 
     private static void bevel(GuiGraphics graphics, int x, int y, int width, int height, int color) {
-        graphics.fill(x, y, x + width, y + height, color);
-        graphics.fill(x, y, x + width - 1, y + 1, FRAME_LIGHT);
-        graphics.fill(x, y, x + 1, y + height - 1, FRAME_LIGHT);
-        graphics.fill(x, y + height - 1, x + width, y + height, FRAME_DARK);
-        graphics.fill(x + width - 1, y, x + width, y + height, FRAME_DARK);
-        if (width > 3 && height > 3) {
-            graphics.fill(x + 1, y + height - 2, x + width - 1, y + height - 1, FRAME_SHADOW);
-            graphics.fill(x + width - 2, y + 1, x + width - 1, y + height - 1, FRAME_SHADOW);
-        }
+        setTextureColor(graphics, color == SURFACE ? 0xFFFFFFFF : color);
+        graphics.blitNineSliced(WIDGETS_TEXTURE, x, y, width, height,
+                20, 4, 200, 20, 0, 66);
+        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    private static void setTextureColor(GuiGraphics graphics, int color) {
+        graphics.setColor((color >> 16 & 0xFF) / 255.0F,
+                (color >> 8 & 0xFF) / 255.0F,
+                (color & 0xFF) / 255.0F,
+                (color >>> 24) / 255.0F);
     }
 }

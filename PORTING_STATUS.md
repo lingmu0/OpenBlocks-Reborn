@@ -225,3 +225,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - `.\gradlew.bat runData --no-daemon --console=plain -PopenblocksNoRuntimeHelpers`：Forge 47.4.22 和 OpenBlocks Reborn 均成功加载，数据生成进程正常结束。
 - `.\gradlew.bat runGameTestServer --no-daemon --console=plain -PopenblocksNoRuntimeHelpers`：Forge 专用 GameTest Server 成功完成模组注册、数据包解析、三维度创建和关闭；当前为 0 项测试，因此只计作服务端加载验证，不计作功能 GameTest。
 - `src/main/resources` 下 1.20.1 发布资源 JSON 均通过静态解析；最终提交前再次执行完整 `build` 和服务端加载检查。
+
+## 2026-07-27 机器 GUI 材质包兼容与想象方块掉落
+
+- 1.20.1 机器 GUI 不再在兼容层中用硬编码色块伪造槽位、按钮、滑条、复选框、凹槽、面板和进度箭头；这些部件现在直接采样原版 `generic_54.png`、`widgets.png`、`slider.png`、`checkbox.png` 与 `furnace.png`，因此覆盖原版 GUI 的资源包会同步改变 OpenBlocks Reborn 的机器界面。
+- 动态流体、颜料与开关状态仍由程序着色，但它们的边框和控件底图来自资源包；绘制结束后会恢复白色着色，避免颜色泄漏到物品或文字渲染。
+- 想象方块的战利品表改为空池：生存模式破坏后不再掉落想象方块物品，创造模式的直接移除行为不变。
