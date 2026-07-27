@@ -23,6 +23,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.xuwu.openblocks_reborn.block.ElevatorBlock;
 import net.xuwu.openblocks_reborn.blockentity.GraveBlockEntity;
+import net.xuwu.openblocks_reborn.config.OpenBlocksConfig;
 import net.xuwu.openblocks_reborn.item.DevNullItem;
 import net.xuwu.openblocks_reborn.item.PaintBrushItem;
 import net.xuwu.openblocks_reborn.item.DevNullItemHandler;
@@ -134,7 +135,9 @@ public final class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerDrops(LivingDropsEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer player) || event.getDrops().isEmpty()) return;
+        if (!OpenBlocksConfig.GENERATE_GRAVES.get()
+                || !(event.getEntity() instanceof ServerPlayer player)
+                || event.getDrops().isEmpty()) return;
         var level = player.serverLevel();
         BlockPos origin = player.blockPosition();
         BlockPos gravePos = null;

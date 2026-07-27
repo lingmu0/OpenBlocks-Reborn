@@ -47,6 +47,12 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             ResourceLocation.withDefaultNamespace("widget/checkbox");
     private static final ResourceLocation CHECKBOX_SELECTED_SPRITE =
             ResourceLocation.withDefaultNamespace("widget/checkbox_selected");
+    private static final ResourceLocation MACHINE_PANEL_SPRITE =
+            ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/panel");
+    private static final ResourceLocation MACHINE_RECESSED_SPRITE =
+            ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/recessed");
+    private static final ResourceLocation MACHINE_BEVEL_FRAME_SPRITE =
+            ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/bevel_frame");
     private static final int FRAME_DARK = 0xFF373737;
     private static final int FRAME_SHADOW = 0xFF555555;
     private static final int FRAME_LIGHT = 0xFFFFFFFF;
@@ -889,53 +895,15 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     private static void recessed(GuiGraphics graphics, int x, int y, int width, int height) {
-        graphics.fill(x, y, x + width, y + height, FRAME_DARK);
-        graphics.fill(x + 1, y + 1, x + width, y + height, FRAME_LIGHT);
-        graphics.fill(x + 2, y + 2, x + width - 1, y + height - 1, RECESS);
+        graphics.blitSprite(MACHINE_RECESSED_SPRITE, x, y, width, height);
     }
 
-    /**
-     * Pixel-for-pixel outer-corner profile used by vanilla container textures.
-     * The centre is scalable, while the four three-pixel cut corners retain the
-     * original black/white/light-grey/dark-grey border sequence.
-     */
     private static void containerPanel(GuiGraphics graphics, int x, int y, int width, int height) {
-        int black = 0xFF000000;
-
-        // Middle body and the asymmetric vanilla raised border.
-        graphics.fill(x, y + 3, x + width, y + height - 3, black);
-        graphics.fill(x + 1, y + 3, x + width - 1, y + height - 3, FRAME_LIGHT);
-        graphics.fill(x + 3, y + 3, x + width - 3, y + height - 3, SURFACE);
-        graphics.fill(x + width - 3, y + 3, x + width - 1, y + height - 3, FRAME_SHADOW);
-
-        // Top-left and top-right corner pixels match generic_54.png.
-        graphics.fill(x + 2, y, x + width - 3, y + 1, black);
-        graphics.fill(x + 1, y + 1, x + width - 3, y + 2, black);
-        graphics.fill(x + 2, y + 1, x + width - 4, y + 2, FRAME_LIGHT);
-        graphics.fill(x, y + 2, x + width - 1, y + 3, black);
-        graphics.fill(x + 1, y + 2, x + width - 3, y + 3, FRAME_LIGHT);
-        graphics.fill(x + width - 3, y + 2, x + width - 2, y + 3, SURFACE);
-        graphics.fill(x + 1, y + 3, x + 4, y + 4, FRAME_LIGHT);
-
-        // Bottom corners use vanilla's darker lower/right bevel.
-        graphics.fill(x + width - 4, y + height - 4, x + width - 3, y + height - 3, FRAME_SHADOW);
-        graphics.fill(x + 1, y + height - 3, x + width, y + height - 2, black);
-        graphics.fill(x + 2, y + height - 3, x + 3, y + height - 2, SURFACE);
-        graphics.fill(x + 3, y + height - 3, x + width - 1, y + height - 2, FRAME_SHADOW);
-        graphics.fill(x + 2, y + height - 2, x + width - 1, y + height - 1, black);
-        graphics.fill(x + 3, y + height - 2, x + width - 2, y + height - 1, FRAME_SHADOW);
-        graphics.fill(x + 3, y + height - 1, x + width - 2, y + height, black);
+        graphics.blitSprite(MACHINE_PANEL_SPRITE, x, y, width, height);
     }
 
     private static void bevel(GuiGraphics graphics, int x, int y, int width, int height, int color) {
         graphics.fill(x, y, x + width, y + height, color);
-        graphics.fill(x, y, x + width - 1, y + 1, FRAME_LIGHT);
-        graphics.fill(x, y, x + 1, y + height - 1, FRAME_LIGHT);
-        graphics.fill(x, y + height - 1, x + width, y + height, FRAME_DARK);
-        graphics.fill(x + width - 1, y, x + width, y + height, FRAME_DARK);
-        if (width > 3 && height > 3) {
-            graphics.fill(x + 1, y + height - 2, x + width - 1, y + height - 1, FRAME_SHADOW);
-            graphics.fill(x + width - 2, y + 1, x + width - 1, y + height - 1, FRAME_SHADOW);
-        }
+        graphics.blitSprite(MACHINE_BEVEL_FRAME_SPRITE, x, y, width, height);
     }
 }

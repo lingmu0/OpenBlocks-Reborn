@@ -4,7 +4,9 @@ import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.NeoForge;
+import net.xuwu.openblocks_reborn.config.OpenBlocksConfig;
 import net.xuwu.openblocks_reborn.event.CommonEvents;
 import net.xuwu.openblocks_reborn.registry.ModBlocks;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
@@ -38,6 +40,7 @@ public final class OpenBlocksReborn {
         modEventBus.addListener(ModCapabilities::register);
         modEventBus.addListener(ModEntities::registerAttributes);
         modEventBus.addListener(ModNetworking::register);
+        modContainer.registerConfig(ModConfig.Type.SERVER, OpenBlocksConfig.SERVER_SPEC);
         NeoForge.EVENT_BUS.register(new CommonEvents());
 
         LOGGER.info("Loading OpenBlocks Reborn for Minecraft 1.21.1");

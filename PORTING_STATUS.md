@@ -211,3 +211,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 玩家第三人称的长吊臂、钢索和磁头统一移到 `AFTER_ENTITIES` 世界渲染阶段：吊臂从身体朝向后移 0.45 格的背包支点出发，沿头部偏航朝前；钢索和磁头直接使用相机相对世界坐标，因此不会再被 `RenderPlayerEvent` 的玩家模型矩阵二次旋转。
 - 背包主体与 24 像素竖支架仍由原版盔甲层随身体动画渲染；盔甲架等非玩家展示实体继续使用旧版自定义吊臂子节点，避免展示模型回退。
 - `runClient -PopenblocksModelSmokeTest` 在实际单人世界完成第三/第一人称截图并正常自行退出；第三人称截图确认 42 像素吊臂从玩家背包上方朝视线前方延伸，不再朝玩家背后/镜头突出。最终 `build` 成功。
+
+## 2026-07-27 机器 GUI 材质包兼容与想象方块掉落
+
+- 机器 GUI 的通用槽位、按钮、滑条和复选框继续使用原版 GUI 图集；原有主面板、凹槽和分面按钮边框则逐像素转制为 `openblocks_reborn:machine/panel`、`machine/recessed` 与 `machine/bevel_frame` 九宫格精灵。
+- 默认资源精灵严格复现修改前的灰色面板、非对称高光/阴影和圆角缺口，不再把整块机器背景替换成放大的原版按钮。资源包仍可覆盖 `assets/openblocks_reborn/textures/gui/sprites/machine/` 下的精灵来自定义机器背景，并可照常覆盖原版槽位和控件。
+- 想象方块的战利品表改为空池：生存模式破坏后不再掉落想象方块物品，创造模式的直接移除行为不变。
+- 现有想象方块 GameTest 增加战利品解析断言，直接验证服务器按生存破坏规则查询时返回空掉落列表。
+- 新增服务端配置 `grave.generateOnPlayerDeath`（默认 `true`）。设为 `false` 后玩家死亡保留普通掉落流程，不生成墓碑也不截获掉落物；NeoForge 会生成 `config/openblocks_reborn-server.toml`，本轮客户端启动已确认该文件和默认值实际写出。
+- `build` 成功；`runGameTestServer` 的 23/23 项必需测试通过，包括新增的想象方块空掉落断言。机器 GUI 烟雾脚本完成全部 15 张界面截图，人工核对自动铁砧、物品投掷器和真空漏斗后确认背景已恢复原样，且新 GUI 精灵没有缺失纹理；脚本随后在旧测试存档保存阶段停滞，因此仅终止残留客户端，不将该次进程退出状态记为通过。

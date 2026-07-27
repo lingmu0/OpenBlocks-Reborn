@@ -1179,6 +1179,11 @@ public final class PortGameTests {
             return;
         }
         BlockPos absoluteImaginary = helper.absolutePos(imaginaryPos);
+        if (!Block.getDrops(imaginaryState, helper.getLevel(), absoluteImaginary,
+                imaginaryBlock).isEmpty()) {
+            helper.fail("Imaginary Block still produced survival loot");
+            return;
+        }
         BlockHitResult imaginaryHit = new BlockHitResult(absoluteImaginary.getCenter(),
                 Direction.UP, absoluteImaginary, false);
         if (imaginaryState.useWithoutItem(helper.getLevel(), imaginaryPlayer, imaginaryHit)
