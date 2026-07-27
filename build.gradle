@@ -49,7 +49,7 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
-        client1 {
+        client1201 {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
