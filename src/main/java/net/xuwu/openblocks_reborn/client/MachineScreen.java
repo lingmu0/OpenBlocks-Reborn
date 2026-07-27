@@ -413,7 +413,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         if (progressWidth > 0) {
             graphics.fill(x + 70, y + 35, x + 70 + progressWidth, y + 38, ACCENT);
         }
-        graphics.renderItem(new ItemStack(Items.EXPERIENCE_BOTTLE), x + 80, y + 17);
+        graphics.renderItem(new ItemStack(Items.EXPERIENCE_BOTTLE), x + 77, y + 10);
         fluidGauge(graphics, x + 145, y + 16, 13, 37, menu.data(0), menu.data(1), 0xFFE6FF3C);
     }
 
