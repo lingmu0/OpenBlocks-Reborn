@@ -2,7 +2,6 @@ package net.xuwu.openblocks_reborn.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -66,6 +65,7 @@ public class LuggageEntity extends PathfinderMob implements ItemSupplier {
 
     @Override
     protected void defineSynchedData() {
+        super.defineSynchedData();
     }
 
     @Override

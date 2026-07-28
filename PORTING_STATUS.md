@@ -247,3 +247,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 画布遇到油漆刷、小刷子、刮刀或模板时直接返回 `PASS`，让 Forge 1.20.1 继续调用物品的 `useOn`；修复普通右键被画布的模板旋转逻辑截断、只能 Shift 右键生效的问题。
 - 机器槽位不再从资源包的 `generic_54.png` 固定 UV 裁取。新增模组自己的 `machine/slot.png`（默认原版 18×18 槽位像素），普通资源包不再令全部槽位透明；资源包仍可通过 `assets/openblocks_reborn/textures/gui/sprites/machine/slot.png` 单独覆盖。
 - 按本轮要求未启动客户端或执行烟雾测试；`.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers` 成功，包含生产代码编译、资源处理、JAR 打包和 `reobfJar`。
+
+## 2026-07-28 Forge 1.20.1 行李箱实体构造修复
+
+- 根据 `run/logs/latest.log` 的实际异常重新定位：行李箱在 `LuggageEntity` 构造函数内调用 `setPersistenceRequired()` 时，于 `SynchedEntityData.set` 抛出空指针，实体尚未执行到 `addFreshEntity`。
+- 根因是 1.20.1 移植版覆盖了 `defineSynchedData()` 却没有调用 `super.defineSynchedData()`，导致 `LivingEntity` 和 `Mob` 的生命值、状态标志等基础同步字段完全没有注册。现在恢复父类初始化调用，与同为 `PathfinderMob` 的 `MiniMeEntity` 保持一致。
+- 按要求未启动客户端；`.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers` 成功，包含 `reobfJar`。
