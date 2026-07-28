@@ -227,3 +227,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 三张默认精灵扩大为 256×256，并保持原来的 4 像素/2 像素边界。当前所有机器面板都小于其 248/252 像素中心区域，每个九宫格部件最多只需九个切片；默认外观、资源位置和资源包覆盖方式均不改变。
 - 自动输入/输出配置和物品投掷器不再使用现代 Minecraft 的 20×20 复选框；按旧版 OpenMods `components.png` 的准确坐标移植未选中 `u=0,v=62` 与选中 `u=16,v=62` 两张 8×8 精灵。勾选框与文字恢复到下移 2 像素后的位置，点击区域与 8×8 图像一致。
 - 加号与箭头改为旧版 OpenMods `components.png` 中的独立精灵：加号使用 `u=23,v=242,13×13`，箭头使用 `u=36,v=241,22×15`。自动铁砧按旧版坐标放置加号；其余不同宽度的流程箭头从同一原始精灵缩放，保留完整右侧尖端。
+
+## 2026-07-28 NeoForge 1.21.1 槽位资源包兼容
+
+- 机器界面不再直接调用可被全局资源包改成透明的 `minecraft:container/slot`。新增 `openblocks_reborn:machine/slot` 18×18 精灵，默认像素取自 1.21.1 原版槽位，因此普通资源包不会再让机器槽位消失。
+- 资源包作者仍可通过 `assets/openblocks_reborn/textures/gui/sprites/machine/slot.png` 主动定制本模组槽位。
+- 按要求未启动客户端或执行烟雾测试；`.\gradlew.bat build --no-daemon --console=plain` 成功。

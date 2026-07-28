@@ -29,8 +29,8 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             ResourceLocation.withDefaultNamespace("textures/gui/container/generic_54.png");
     private static final ResourceLocation DISPENSER_TEXTURE =
             ResourceLocation.withDefaultNamespace("textures/gui/container/dispenser.png");
-    private static final ResourceLocation SLOT_SPRITE =
-            ResourceLocation.withDefaultNamespace("container/slot");
+    private static final ResourceLocation MACHINE_SLOT_SPRITE =
+            ResourceLocation.fromNamespaceAndPath("openblocks_reborn", "machine/slot");
     private static final ResourceLocation BUTTON_SPRITE =
             ResourceLocation.withDefaultNamespace("widget/button");
     private static final ResourceLocation BUTTON_HIGHLIGHTED_SPRITE =
@@ -835,7 +835,7 @@ public final class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     }
 
     private void slotFrame(GuiGraphics graphics, int x, int y) {
-        graphics.blitSprite(SLOT_SPRITE, x - 1, y - 1, 18, 18);
+        graphics.blitSprite(MACHINE_SLOT_SPRITE, x - 1, y - 1, 18, 18);
     }
 
     private void button(GuiGraphics graphics, int x, int y, int width, int height, Component label) {
