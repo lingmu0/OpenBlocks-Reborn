@@ -261,4 +261,4 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 无 Patchouli 时的原版书本指南新增三页附魔说明；安装 Patchouli 时，装备分类新增“开放式方块附魔”条目，分别说明玩家对抗时的厄运反噬、消耗火药触发的盔甲爆炸，以及消耗经验抵消致命伤的效果。
 - Patchouli 生成脚本会持续生成该附魔条目，并同时兼容 1.21.1 的 `recipe` 与 1.20.1 的 `recipes` 数据目录。
 - 模组版本随本轮注册 ID 变更由 `1.0.0-1.20.1` 更新为 `1.0.1-1.20.1`。
-- 按要求未启动游戏；仅执行完整 Gradle 构建检查。
+- 按要求未启动游戏；`.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers` 成功，产物为 `build/libs/openblocks_reborn-1.0.1-1.20.1.jar`。
