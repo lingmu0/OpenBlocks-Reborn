@@ -230,10 +230,10 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent
-    public void onExplosiveFall(LivingFallEvent event) {
+    public void onUnstableFall(LivingFallEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player) || event.getDistance() <= 4.0F || player.isShiftKeyDown()) return;
         ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
-        int level = ModEnchantments.level(player, boots, ModEnchantments.EXPLOSIVE);
+        int level = ModEnchantments.level(player, boots, ModEnchantments.UNSTABLE);
         if (level <= 0 || !consumeGunpowder(player, gunpowderFor(level))) return;
         damageArmor(boots);
         event.setCanceled(true);
@@ -246,14 +246,14 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent
-    public void onExplosiveHit(LivingHurtEvent event) {
+    public void onUnstableHit(LivingHurtEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player) || event.getSource().getEntity() == null
                 || player.getPersistentData().getBoolean(EXPLOSION_GUARD)) return;
         int level = 0;
         ItemStack selected = ItemStack.EMPTY;
         for (EquipmentSlot slot : new EquipmentSlot[] {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS}) {
             ItemStack armor = player.getItemBySlot(slot);
-            int candidate = ModEnchantments.level(player, armor, ModEnchantments.EXPLOSIVE);
+            int candidate = ModEnchantments.level(player, armor, ModEnchantments.UNSTABLE);
             if (candidate > level) {
                 level = candidate;
                 selected = armor;

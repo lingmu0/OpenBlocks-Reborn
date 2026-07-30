@@ -16,8 +16,8 @@ public final class ModEnchantments {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS =
             DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, OpenBlocksReborn.MOD_ID);
 
-    public static final RegistryObject<Enchantment> EXPLOSIVE = ENCHANTMENTS.register(
-            "explosive", () -> new OpenBlocksEnchantment(Enchantment.Rarity.RARE,
+    public static final RegistryObject<Enchantment> UNSTABLE = ENCHANTMENTS.register(
+            "unstable", () -> new OpenBlocksEnchantment(Enchantment.Rarity.RARE,
                     EnchantmentCategory.ARMOR, EquipmentSlot.values(), 3));
     public static final RegistryObject<Enchantment> LAST_STAND = ENCHANTMENTS.register(
             "last_stand", () -> new OpenBlocksEnchantment(Enchantment.Rarity.VERY_RARE,

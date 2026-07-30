@@ -253,3 +253,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 根据 `run/logs/latest.log` 的实际异常重新定位：行李箱在 `LuggageEntity` 构造函数内调用 `setPersistenceRequired()` 时，于 `SynchedEntityData.set` 抛出空指针，实体尚未执行到 `addFreshEntity`。
 - 根因是 1.20.1 移植版覆盖了 `defineSynchedData()` 却没有调用 `super.defineSynchedData()`，导致 `LivingEntity` 和 `Mob` 的生命值、状态标志等基础同步字段完全没有注册。现在恢复父类初始化调用，与同为 `PathfinderMob` 的 `MiniMeEntity` 保持一致。
 - 按要求未启动客户端；`.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers` 成功，包含 `reobfJar`。
+
+## 2026-07-31 三种附魔命名、ID 与指南
+
+- 三种专属附魔的中文名依次统一为 `尔虞我诈`（`flim_flam`）、`震荡不定`（`unstable`）和 `屹立不倒`（`last_stand`）。
+- 原 `openblocks_reborn:explosive` 完整更名为 `openblocks_reborn:unstable`，代码注册常量及实际触发逻辑同步使用新 ID，不再保留旧注册项。
+- 无 Patchouli 时的原版书本指南新增三页附魔说明；安装 Patchouli 时，装备分类新增“开放式方块附魔”条目，分别说明玩家对抗时的厄运反噬、消耗火药触发的盔甲爆炸，以及消耗经验抵消致命伤的效果。
+- Patchouli 生成脚本会持续生成该附魔条目，并同时兼容 1.21.1 的 `recipe` 与 1.20.1 的 `recipes` 数据目录。
+- 模组版本随本轮注册 ID 变更由 `1.0.0-1.20.1` 更新为 `1.0.1-1.20.1`。
+- 按要求未启动游戏；仅执行完整 Gradle 构建检查。

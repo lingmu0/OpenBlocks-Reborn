@@ -131,6 +131,8 @@ def main() -> None:
 
     counts = {category_id: 0 for category_id in CATEGORIES}
     recipe_root = RESOURCE_ROOT / "data/openblocks_reborn/recipe"
+    if not recipe_root.is_dir():
+        recipe_root = RESOURCE_ROOT / "data/openblocks_reborn/recipes"
     for item_id, is_block in entries:
         category_id = category(item_id, is_block)
         counts[category_id] += 1
@@ -161,7 +163,38 @@ def main() -> None:
             },
         )
 
-    print(f"Generated Patchouli manual: {len(entries)} entries in {len(CATEGORIES)} categories")
+    write_json(
+        BOOK_ROOT / "entries/equipment/enchantments.json",
+        {
+            "name": "message.openblocks_reborn.book.enchantments",
+            "icon": "minecraft:enchanted_book",
+            "category": "openblocks_reborn:equipment",
+            "read_by_default": True,
+            "sortnum": counts["equipment"] + 1,
+            "pages": [
+                {
+                    "type": "patchouli:text",
+                    "title": "enchantment.openblocks_reborn.flim_flam",
+                    "text": "message.openblocks_reborn.book.enchantment.flim_flam",
+                },
+                {
+                    "type": "patchouli:text",
+                    "title": "enchantment.openblocks_reborn.unstable",
+                    "text": "message.openblocks_reborn.book.enchantment.unstable",
+                },
+                {
+                    "type": "patchouli:text",
+                    "title": "enchantment.openblocks_reborn.last_stand",
+                    "text": "message.openblocks_reborn.book.enchantment.last_stand",
+                },
+            ],
+        },
+    )
+
+    print(
+        f"Generated Patchouli manual: {len(entries)} item entries plus enchantments "
+        f"in {len(CATEGORIES)} categories"
+    )
     print("Category counts: " + ", ".join(f"{key}={value}" for key, value in counts.items()))
 
 

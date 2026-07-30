@@ -102,6 +102,12 @@ public class InfoBookItem extends Item {
         List<Component> pages = new ArrayList<>();
         pages.add(Component.translatable(
                 "message.openblocks_reborn.book.catalog_welcome", entries.size()));
+        pages.add(Component.translatable(
+                "message.openblocks_reborn.book.enchantment.flim_flam"));
+        pages.add(Component.translatable(
+                "message.openblocks_reborn.book.enchantment.unstable"));
+        pages.add(Component.translatable(
+                "message.openblocks_reborn.book.enchantment.last_stand"));
         for (Category category : Category.values()) {
             List<GuideEntry> categoryEntries = entries.stream()
                     .filter(entry -> entry.category() == category).toList();
