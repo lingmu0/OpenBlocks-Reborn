@@ -12,7 +12,7 @@ import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 
 /** Resource keys for the data-driven 1.21 enchantments. */
 public final class ModEnchantments {
-    public static final ResourceKey<Enchantment> EXPLOSIVE = key("explosive");
+    public static final ResourceKey<Enchantment> UNSTABLE = key("unstable");
     public static final ResourceKey<Enchantment> LAST_STAND = key("last_stand");
     public static final ResourceKey<Enchantment> FLIM_FLAM = key("flim_flam");
 

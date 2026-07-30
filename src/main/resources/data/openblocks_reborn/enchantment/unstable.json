@@ -1,6 +1,6 @@
 {
   "anvil_cost": 4,
-  "description": { "translate": "enchantment.openblocks_reborn.explosive" },
+  "description": { "translate": "enchantment.openblocks_reborn.unstable" },
   "effects": {},
   "max_cost": { "base": 25, "per_level_above_first": 40 },
   "max_level": 3,

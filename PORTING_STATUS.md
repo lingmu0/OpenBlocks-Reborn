@@ -233,3 +233,11 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 机器界面不再直接调用可被全局资源包改成透明的 `minecraft:container/slot`。新增 `openblocks_reborn:machine/slot` 18×18 精灵，默认像素取自 1.21.1 原版槽位，因此普通资源包不会再让机器槽位消失。
 - 资源包作者仍可通过 `assets/openblocks_reborn/textures/gui/sprites/machine/slot.png` 主动定制本模组槽位。
 - 按要求未启动客户端或执行烟雾测试；`.\gradlew.bat build --no-daemon --console=plain` 成功。
+
+## 2026-07-31 三种附魔命名、ID 与指南
+
+- 三种专属附魔的中文名依次统一为 `尔虞我诈`（`flim_flam`）、`震荡不定`（`unstable`）和 `屹立不倒`（`last_stand`）。
+- 原 `openblocks_reborn:explosive` 完整更名为 `openblocks_reborn:unstable`；资源键、数据驱动附魔 JSON、附魔台标签、交易标签与实际触发逻辑均已切换到新 ID，不再保留旧注册项。
+- 无 Patchouli 时的原版书本指南新增三页附魔说明；安装 Patchouli 时，装备分类新增“开放式方块附魔”条目，分别说明玩家对抗时的厄运反噬、消耗火药触发的盔甲爆炸，以及消耗经验抵消致命伤的效果。
+- Patchouli 生成脚本会持续生成该附魔条目；模组版本随注册 ID 变更由 `1.0.0-1.21.1` 更新为 `1.0.1-1.21.1`。
+- 按要求未启动游戏；`.\gradlew.bat build --no-daemon --console=plain` 成功，产物为 `build/libs/openblocks_reborn-1.0.1-1.21.1.jar`。
