@@ -679,6 +679,68 @@ public final class PortGameTests {
         });
     }
 
+    @GameTest(template = "empty", timeoutTicks = 30)
+    public static void miniMeIsUniqueAndSharesOwnerHealthChanges(GameTestHelper helper) {
+        var player = new net.neoforged.neoforge.common.util.FakePlayer(
+                helper.getLevel(),
+                new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "MiniMeTest")) {
+            @Override
+            public boolean isInvulnerableTo(net.minecraft.world.damagesource.DamageSource source) {
+                return false;
+            }
+        };
+        BlockPos spawn = helper.absolutePos(new BlockPos(1, 1, 1));
+        player.setPos(spawn.getX() + 0.5D, spawn.getY(), spawn.getZ() + 0.5D);
+
+        MiniMeEntity first = new MiniMeEntity(ModEntities.MINI_ME.get(), helper.getLevel());
+        first.setOwner(player.getUUID());
+        first.moveTo(spawn.getCenter());
+        helper.getLevel().addFreshEntity(first);
+        first.claimOwnership(helper.getLevel());
+
+        MiniMeEntity replacement = new MiniMeEntity(ModEntities.MINI_ME.get(), helper.getLevel());
+        replacement.setOwner(player.getUUID());
+        replacement.moveTo(spawn.getCenter().add(1.0D, 0.0D, 0.0D));
+        helper.getLevel().addFreshEntity(replacement);
+        replacement.claimOwnership(helper.getLevel());
+        if (!first.isRemoved() || MiniMeEntity.findOwned(player) != replacement) {
+            helper.fail("A player retained more than one claimed Mini Me");
+            return;
+        }
+
+        replacement.mobInteract(player, InteractionHand.MAIN_HAND);
+        if (!replacement.isStaying()) {
+            helper.fail("Owner interaction did not switch Mini Me to staying");
+            return;
+        }
+
+        player.setHealth(10.0F);
+        replacement.setHealth(6.0F);
+        // FakePlayer short-circuits the normal hurt entry point. Recreate the
+        // documented Post stage after the four final points were removed.
+        player.setHealth(6.0F);
+        var damage = new net.neoforged.neoforge.common.damagesource.DamageContainer(
+                helper.getLevel().damageSources().generic(), 4.0F);
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(
+                new net.neoforged.neoforge.event.entity.living.LivingDamageEvent.Post(
+                        player, damage));
+        if (Math.abs(player.getHealth() - 8.0F) > 0.01F
+                || Math.abs(replacement.getHealth() - 4.0F) > 0.01F) {
+            helper.fail("Final damage was not split equally: owner=" + player.getHealth()
+                    + ", mini=" + replacement.getHealth());
+            return;
+        }
+
+        player.heal(4.0F);
+        if (Math.abs(player.getHealth() - 10.0F) > 0.01F
+                || Math.abs(replacement.getHealth() - 6.0F) > 0.01F) {
+            helper.fail("Healing was not split equally: owner=" + player.getHealth()
+                    + ", mini=" + replacement.getHealth());
+            return;
+        }
+        helper.succeed();
+    }
+
     @GameTest(template = "empty", timeoutTicks = 20)
     public static void customFluidAndEnchantmentsLoad(GameTestHelper helper) {
         BlockPos fluidPos = new BlockPos(1, 1, 1);
@@ -1213,7 +1275,7 @@ public final class PortGameTests {
             return;
         }
         int expectedGuideEntries = ModItems.BLOCK_ITEMS.size() + ModItems.ALL_ITEMS.size() + 1;
-        int expectedGuidePages = expectedGuideEntries + 1 + 6;
+        int expectedGuidePages = expectedGuideEntries + 1 + 6 + 3;
         if (net.xuwu.openblocks_reborn.item.InfoBookItem.buildPages().size()
                 != expectedGuidePages) {
             helper.fail("OpenBlocks Guide did not create one categorized entry for every item");

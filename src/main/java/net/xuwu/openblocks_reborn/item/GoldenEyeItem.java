@@ -25,16 +25,28 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 import net.xuwu.openblocks_reborn.entity.GoldenEyeEntity;
 import net.xuwu.openblocks_reborn.menu.GoldenEyeMenu;
 import net.xuwu.openblocks_reborn.registry.ModEntities;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GoldenEyeItem extends Item {
     private static final String STRUCTURE = "GoldenEyeStructure";
     private static final String TARGET = "GoldenEyeTarget";
+    private static final AtomicInteger LOCATE_THREAD_ID = new AtomicInteger();
+    private static final ExecutorService LOCATE_EXECUTOR = Executors.newSingleThreadExecutor(task -> {
+        Thread thread = new Thread(task, "OpenBlocks-Golden-Eye-Locate-"
+                + LOCATE_THREAD_ID.incrementAndGet());
+        thread.setDaemon(true);
+        return thread;
+    });
 
     public GoldenEyeItem(Properties properties) {
         super(properties);
@@ -97,8 +109,8 @@ public class GoldenEyeItem extends Item {
                 });
     }
 
-    public static boolean bindStructure(ServerPlayer player, InteractionHand hand,
-                                        ResourceLocation structureId) {
+    public static boolean beginBindingStructure(ServerPlayer player, InteractionHand hand,
+                                                ResourceLocation structureId) {
         ItemStack stack = player.getItemInHand(hand);
         if (!(stack.getItem() instanceof GoldenEyeItem)) return false;
         ServerLevel level = player.serverLevel();
@@ -106,22 +118,49 @@ public class GoldenEyeItem extends Item {
         ResourceKey<Structure> key = ResourceKey.create(Registries.STRUCTURE, structureId);
         Holder<Structure> structure = registry.getHolder(key).orElse(null);
         if (structure == null) return false;
-        Pair<BlockPos, Holder<Structure>> found = level.getChunkSource().getGenerator()
-                .findNearestMapStructure(level, HolderSet.direct(structure),
-                        player.blockPosition(), 100, false);
+        BlockPos origin = player.blockPosition();
+        var server = player.getServer();
+        player.displayClientMessage(Component.translatable(
+                "message.openblocks_reborn.golden_eye_searching", structureId.toString()), false);
+        CompletableFuture.supplyAsync(() -> level.getChunkSource().getGenerator()
+                        .findNearestMapStructure(level, HolderSet.direct(structure),
+                                origin, 100, false), LOCATE_EXECUTOR)
+                .whenComplete((found, error) -> server.execute(() -> completeBindingStructure(
+                        player, hand, stack, structureId, found, error)));
+        return true;
+    }
+
+    private static void completeBindingStructure(ServerPlayer player, InteractionHand hand,
+                                                 ItemStack searchedStack,
+                                                 ResourceLocation structureId,
+                                                 Pair<BlockPos, Holder<Structure>> found,
+                                                 Throwable error) {
+        if (player.getServer().getPlayerList().getPlayer(player.getUUID()) != player) return;
+        if (error != null) {
+            OpenBlocksReborn.LOGGER.error("Golden Eye failed to locate {}", structureId, error);
+            player.displayClientMessage(Component.translatable(
+                    "message.openblocks_reborn.golden_eye_search_failed",
+                    structureId.toString()), false);
+            return;
+        }
         if (found == null) {
             player.displayClientMessage(Component.translatable(
                     "message.openblocks_reborn.golden_eye_no_selected_structure",
                     structureId.toString()), false);
-            return false;
+            return;
         }
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+        ItemStack currentStack = player.getItemInHand(hand);
+        if (currentStack != searchedStack || !(currentStack.getItem() instanceof GoldenEyeItem)) {
+            player.displayClientMessage(Component.translatable(
+                    "message.openblocks_reborn.golden_eye_search_canceled"), false);
+            return;
+        }
+        CustomData.update(DataComponents.CUSTOM_DATA, currentStack, tag -> {
             tag.putString(STRUCTURE, structureId.toString());
             tag.putLong(TARGET, found.getFirst().asLong());
         });
         player.displayClientMessage(Component.translatable(
                 "message.openblocks_reborn.golden_eye_locked", structureId.toString()), false);
-        return true;
     }
 
     @Override

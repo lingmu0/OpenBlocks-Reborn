@@ -1,12 +1,15 @@
 package net.xuwu.openblocks_reborn.client;
 
+import com.mojang.math.Axis;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
@@ -44,9 +47,13 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 import net.xuwu.openblocks_reborn.item.CraneBackpackItem;
+import net.xuwu.openblocks_reborn.item.HangGliderItem;
 
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
 
 @EventBusSubscriber(modid = OpenBlocksReborn.MOD_ID, value = Dist.CLIENT)
 public final class ClientEvents {
@@ -57,6 +64,7 @@ public final class ClientEvents {
     private static int pendingSmokeMenuTicks;
     private static boolean goldenEyeSmokeCaptured;
     private static int goldenEyeSmokeTicks;
+    private static final Set<Integer> TILTED_GLIDER_PLAYERS = new HashSet<>();
 
     @SubscribeEvent
     public static void registerFluidClientExtensions(RegisterClientExtensionsEvent event) {
@@ -338,6 +346,28 @@ public final class ClientEvents {
     public static void renderFirstPersonCrane(RenderLevelStageEvent event) {
         CraneThirdPersonRenderer.render(event);
         CraneFirstPersonRenderer.render(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void tiltGlidingPlayer(RenderPlayerEvent.Pre event) {
+        if (!HangGliderItem.isActivelyGliding(event.getEntity())
+                || !TILTED_GLIDER_PLAYERS.add(event.getEntity().getId())) return;
+        float bodyYaw = Mth.rotLerp(event.getPartialTick(),
+                event.getEntity().yBodyRotO, event.getEntity().yBodyRot);
+        float renderedYaw = 180.0F - bodyYaw;
+        event.getPoseStack().pushPose();
+        // Conjugate the pitch by the renderer's body yaw so the player leans
+        // forward in their own facing direction rather than along world X.
+        event.getPoseStack().mulPose(Axis.YP.rotationDegrees(renderedYaw));
+        event.getPoseStack().mulPose(Axis.XP.rotationDegrees(-55.0F));
+        event.getPoseStack().mulPose(Axis.YP.rotationDegrees(-renderedYaw));
+    }
+
+    @SubscribeEvent
+    public static void restoreGlidingPlayerPose(RenderPlayerEvent.Post event) {
+        if (TILTED_GLIDER_PLAYERS.remove(event.getEntity().getId())) {
+            event.getPoseStack().popPose();
+        }
     }
 
     private static void captureCurrentSmokeMenu(Minecraft minecraft) {

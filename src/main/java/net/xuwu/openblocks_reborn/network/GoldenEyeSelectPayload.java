@@ -32,6 +32,6 @@ public record GoldenEyeSelectPayload(int containerId, String structureId)
                 || menu.containerId != payload.containerId()) return;
         ResourceLocation structureId = ResourceLocation.tryParse(payload.structureId());
         if (structureId == null || !menu.structures().contains(structureId)) return;
-        if (GoldenEyeItem.bindStructure(player, menu.hand(), structureId)) player.closeContainer();
+        if (GoldenEyeItem.beginBindingStructure(player, menu.hand(), structureId)) player.closeContainer();
     }
 }
