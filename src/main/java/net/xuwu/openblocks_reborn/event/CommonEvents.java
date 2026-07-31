@@ -304,18 +304,18 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void shareMiniMeDamage(LivingDamageEvent.Post event) {
+    public void shareMiniMeDamage(LivingDamageEvent.Pre event) {
         LivingEntity entity = event.getEntity();
         LivingEntity partner = miniMePartner(entity);
         float damage = event.getNewDamage();
         if (partner == null || !partner.isAlive() || damage <= 0.0F) return;
 
         float shared = damage * 0.5F;
-        // Post exposes damage after armor, effects and absorption. Restore half
-        // on the original recipient, then apply that exact final amount to the
-        // linked companion without running a second reduction pipeline.
-        float healthBeforeDamage = Math.min(entity.getMaxHealth(), entity.getHealth() + damage);
-        entity.setHealth(Math.max(0.0F, healthBeforeDamage - shared));
+        // Pre is the final mutable stage after armor, enchantments and effects.
+        // Halve the pending loss before health changes, then transfer the same
+        // amount directly so the companion does not run a second reduction
+        // pipeline. Vanilla absorption still processes the recipient's half.
+        event.setNewDamage(shared);
         applyLinkedFinalDamage(partner, event.getSource(), shared);
     }
 

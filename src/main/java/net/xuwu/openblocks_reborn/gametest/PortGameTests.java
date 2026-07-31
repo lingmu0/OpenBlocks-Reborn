@@ -717,13 +717,13 @@ public final class PortGameTests {
         player.setHealth(10.0F);
         replacement.setHealth(6.0F);
         // FakePlayer short-circuits the normal hurt entry point. Recreate the
-        // documented Post stage after the four final points were removed.
-        player.setHealth(6.0F);
+        // mutable Pre stage, then apply the resulting pending health loss.
         var damage = new net.neoforged.neoforge.common.damagesource.DamageContainer(
                 helper.getLevel().damageSources().generic(), 4.0F);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(
-                new net.neoforged.neoforge.event.entity.living.LivingDamageEvent.Post(
+                new net.neoforged.neoforge.event.entity.living.LivingDamageEvent.Pre(
                         player, damage));
+        player.setHealth(player.getHealth() - damage.getNewDamage());
         if (Math.abs(player.getHealth() - 8.0F) > 0.01F
                 || Math.abs(replacement.getHealth() - 4.0F) > 0.01F) {
             helper.fail("Final damage was not split equally: owner=" + player.getHealth()
