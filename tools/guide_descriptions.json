@@ -252,8 +252,8 @@
     "en_us": "Sneak-use to search for a structure by name or ID. Locating runs on a dedicated background thread and binds when complete. Normal use points toward it, consuming durability without throwing the eye."
   },
   "cursor": {
-    "zh_cn": "Shift 右键方块面进行绑定，普通右键可远距离或跨维度交互，并按距离消耗经验；目标区块未加载时不会强制加载而会提示。",
-    "en_us": "Sneak-use a block face to bind it, then use remotely or across dimensions for an XP cost. Unloaded targets are reported, not force-loaded."
+    "zh_cn": "Shift 右键方块面进行绑定，普通右键可不限距离或跨维度交互；距离经验费用最多按 1024 格计算，目标区块未加载时不会强制加载而会提示。",
+    "en_us": "Sneak-use a block face to bind it, then use it at any distance or across dimensions. Distance XP cost is capped at 1,024 blocks; unloaded targets are reported, not force-loaded."
   },
   "info_book": {
     "zh_cn": "收录模组全部方块、物品、装备、机器与流体的指南。安装帕莉秋时打开图文手册，否则打开原版书本目录。",

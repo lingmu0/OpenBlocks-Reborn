@@ -368,7 +368,7 @@
   "message.openblocks_reborn.book.detail.empty_map": "尚未记录地形的高度图。可由制图器或投影仪在当前位置写入 9×9 高度数据。",
   "message.openblocks_reborn.book.detail.cartographer": "副手持空白高度图时右键，会消耗空白图并记录当前位置周围 9×9 的地形高度。",
   "message.openblocks_reborn.book.detail.tasty_clay": "一种可以食用的黏土点心，恢复少量饥饿值与饱和度，也作为旧版趣味物品保留。",
-  "message.openblocks_reborn.book.detail.cursor": "Shift 右键方块面进行绑定，普通右键可远距离或跨维度交互，并按距离消耗经验；目标区块未加载时不会强制加载而会提示。",
+  "message.openblocks_reborn.book.detail.cursor": "Shift 右键方块面进行绑定，普通右键可不限距离或跨维度交互；距离经验费用最多按 1024 格计算，目标区块未加载时不会强制加载而会提示。",
   "message.openblocks_reborn.book.detail.dev_null": "用副手物品为其设定过滤目标后，会自动吸收同类拾取物并虚空化超出内部容量的部分；潜行使用可取回。",
   "message.openblocks_reborn.book.detail.sponge_on_a_stick": "对方块右键可清除附近范围内的流体；只有确实清除了流体时才会损耗耐久。",
   "message.openblocks_reborn.book.detail.pedometer": "右键显示玩家统计数据中累计步行的距离，并换算为方块/米数。",

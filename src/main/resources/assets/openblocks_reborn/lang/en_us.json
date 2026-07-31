@@ -368,7 +368,7 @@
   "message.openblocks_reborn.book.detail.empty_map": "An uncaptured Height Map. A Cartographer or Projector can record a 9x9 terrain sample into it.",
   "message.openblocks_reborn.book.detail.cartographer": "Use while holding an Empty Height Map in the other hand to capture a 9x9 terrain sample at your position.",
   "message.openblocks_reborn.book.detail.tasty_clay": "An edible clay snack that restores a small amount of hunger and saturation.",
-  "message.openblocks_reborn.book.detail.cursor": "Sneak-use a block face to bind it, then use remotely or across dimensions for an XP cost. Unloaded targets are reported, not force-loaded.",
+  "message.openblocks_reborn.book.detail.cursor": "Sneak-use a block face to bind it, then use it at any distance or across dimensions. Distance XP cost is capped at 1,024 blocks; unloaded targets are reported, not force-loaded.",
   "message.openblocks_reborn.book.detail.dev_null": "Configure it from the offhand to absorb matching pickups and void overflow. Sneak-use returns the stored stack.",
   "message.openblocks_reborn.book.detail.sponge_on_a_stick": "Use it on a block to drain nearby fluids. Durability is consumed only when fluid was actually removed.",
   "message.openblocks_reborn.book.detail.pedometer": "Use it to report your total walking distance from player statistics, measured in blocks or meters.",

@@ -271,3 +271,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - Mini Me 新增主人右键切换“跟随/停留”，状态同步并保存到实体数据。每个玩家通过持久 UUID 只能认领一个 Mini Me；新金蛋孵化时会替换同主人的已加载旧个体，旧个体稍后加载时也会因认领 UUID 不匹配而自行移除。
 - Forge 1.20.1 的最终可修改伤害事件中，主人和 Mini Me 会把任一方所受最终伤害平分；治疗则按实际可恢复量平分。转移部分直接作用于伙伴，避免重复计算第二次护甲或效果减免。
 - 指南中的黄金之眼、金蛋和滑翔翼说明已同步更新；`.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers` 成功，产物为 `build/libs/openblocks_reborn-1.0.2-1.20.1.jar`。
+
+## 2026-07-31 光标无限距离与费用封顶
+
+- 移除光标原有的 1024 格使用距离硬限制；只要目标维度存在、目标区块已加载且方块仍有效，即可继续进行同维度或跨维度交互。
+- 距离费用仍按每 8 格 1 经验点计算，但计费距离最多取 1024 格，因此同维度距离费用最高为 128 点；跨维度仍在此基础上固定增加 30 点。
+- 指南说明已同步更新；按要求不运行客户端、GameTest 或其他功能测试，`compileJava` 编译检查通过。
