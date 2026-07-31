@@ -160,8 +160,8 @@
     "en_us": "Records its owner and hatches their sole Mini Me after about 30 seconds; another hatch replaces the old one. The owner can use it to toggle follow/stay, and the pair split either one's final damage and healing equally. Redstone quadruples hatching speed."
   },
   "hang_glider": {
-    "zh_cn": "手持右键展开或收起。展开后在空中减缓下落、向视线方向滑翔，并让玩家模型向前倾斜；潜行可加速下降，飞行会消耗耐久。",
-    "en_us": "Use while held to deploy. It slows falling, glides toward your view, and tilts the player model forward; sneak descends faster and flight consumes durability."
+    "zh_cn": "手持右键展开或收起。展开后在空中减缓下落、向视线方向滑翔，并让玩家完全水平贴在滑翔翼下方；潜行可加速下降，飞行会消耗耐久。",
+    "en_us": "Use while held to deploy. It slows falling, glides toward your view, and holds the player horizontally beneath the wing; sneak descends faster and flight consumes durability."
   },
   "generic": {
     "zh_cn": "为旧版世界和配方兼容保留的可堆叠通用物品，目前没有独立的主动功能。",

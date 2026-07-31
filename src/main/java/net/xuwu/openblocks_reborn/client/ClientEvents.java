@@ -298,8 +298,11 @@ public final class ClientEvents {
                     event.getEntity().yBodyRotO, event.getEntity().yBodyRot);
             float renderedYaw = 180.0F - bodyYaw;
             event.getPoseStack().pushPose();
+            // The flying wing plane is around 1.75 blocks above the owner's
+            // feet. Lift the horizontal feet-origin model immediately below it.
+            event.getPoseStack().translate(0.0D, 1.35D, 0.0D);
             event.getPoseStack().mulPose(Axis.YP.rotationDegrees(renderedYaw));
-            event.getPoseStack().mulPose(Axis.XP.rotationDegrees(-55.0F));
+            event.getPoseStack().mulPose(Axis.XP.rotationDegrees(-90.0F));
             event.getPoseStack().mulPose(Axis.YP.rotationDegrees(-renderedYaw));
         }
 
