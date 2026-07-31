@@ -284,3 +284,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 40 个注册方块全部加入对应的原版 `minecraft:mineable/*` 标签：30 个金属、石质、玻璃或机器方块使用镐；翡翠活板门、旗帜、木质大按钮、绳梯、捐赠箱、画布和绘图桌使用斧；箭靶和海绵使用锄；道路使用铲。
 - 本次只声明高效挖掘工具，不添加 `needs_*_tool` 或 `requiresCorrectToolForDrops`，因此不会改变空手破坏后的掉落规则。
 - 已静态核对 40 个注册 ID 均恰好出现于一个工具标签；`.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers` 完整构建成功。
+
+### 2026-07-31 滑翔四肢动画收敛
+
+- 新增客户端 `PlayerModel.setupAnim` 尾部注入，仅在悬挂式滑翔翼实际飞行时覆盖原版行走摆幅：双臂以相反相位缓慢摆动 ±0.075 弧度（约 ±4.3°），双腿使用其 65% 幅度。
+- 袖子和裤腿外层在覆盖后重新复制对应肢体姿态，避免皮肤第二层继续保留原版大幅走路动画；非滑翔状态不受影响。
+- Mixin 注入目标通过编译期校验，完整 Forge 重混淆 `build` 成功。
