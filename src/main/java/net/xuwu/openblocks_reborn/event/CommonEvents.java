@@ -13,6 +13,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
@@ -62,6 +63,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -277,6 +279,52 @@ public final class CommonEvents {
         for (int i = 0; i < Math.abs(difference); i++) penalty += victim.getRandom().nextInt(20) + 1;
         victim.getPersistentData().putInt(FLIM_FLAM_LUCK,
                 victim.getPersistentData().getInt(FLIM_FLAM_LUCK) - penalty);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void shareMiniMeDamage(LivingDamageEvent event) {
+        LivingEntity entity = event.getEntity();
+        LivingEntity partner = miniMePartner(entity);
+        float damage = event.getAmount();
+        if (partner == null || !partner.isAlive() || damage <= 0.0F) return;
+
+        float shared = damage * 0.5F;
+        // LivingDamageEvent is Forge 1.20.1's final, still-mutable damage
+        // stage. Keep half on the recipient and transfer the same final amount
+        // directly so the companion does not run a second armor pipeline.
+        event.setAmount(shared);
+        applyLinkedFinalDamage(partner, event.getSource(), shared);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void shareMiniMeHealing(LivingHealEvent event) {
+        LivingEntity entity = event.getEntity();
+        LivingEntity partner = miniMePartner(entity);
+        if (partner == null || !partner.isAlive() || event.getAmount() <= 0.0F) return;
+
+        float finalHealing = Math.min(event.getAmount(), entity.getMaxHealth() - entity.getHealth());
+        float shared = finalHealing * 0.5F;
+        event.setAmount(shared);
+        partner.setHealth(Math.min(partner.getMaxHealth(), partner.getHealth() + shared));
+    }
+
+    private static LivingEntity miniMePartner(LivingEntity entity) {
+        if (entity instanceof MiniMeEntity miniMe) return miniMe.getOwnerPlayer();
+        if (entity instanceof ServerPlayer player) return MiniMeEntity.findOwned(player);
+        return null;
+    }
+
+    private static void applyLinkedFinalDamage(LivingEntity entity,
+                                               net.minecraft.world.damagesource.DamageSource source,
+                                               float amount) {
+        entity.setHealth(Math.max(0.0F, entity.getHealth() - amount));
+        if (entity.getHealth() <= 0.0F) {
+            entity.die(source);
+        } else {
+            entity.hurtDuration = 10;
+            entity.hurtTime = 10;
+            entity.level().broadcastEntityEvent(entity, (byte)2);
+        }
     }
 
     private static int armorEnchantLevels(ServerPlayer player,

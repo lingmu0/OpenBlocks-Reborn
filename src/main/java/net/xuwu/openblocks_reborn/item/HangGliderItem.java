@@ -32,6 +32,15 @@ public class HangGliderItem extends Item {
         LegacyItemData.update(stack, tag -> tag.putBoolean(DEPLOYED, deployed));
     }
 
+    public static boolean isActivelyGliding(Player player) {
+        return !player.onGround() && !player.isInWater() && !player.isSleeping()
+                && !player.isFallFlying()
+                && ((player.getMainHandItem().getItem() instanceof HangGliderItem
+                        && isDeployed(player.getMainHandItem()))
+                    || (player.getOffhandItem().getItem() instanceof HangGliderItem
+                        && isDeployed(player.getOffhandItem())));
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);

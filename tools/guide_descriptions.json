@@ -156,12 +156,12 @@
     "en_us": "Stores 1 B of liquid XP and pulls it from the rear. While powered, it releases XP orbs beneath itself."
   },
   "golden_egg": {
-    "zh_cn": "放置后记录主人并开始孵化，约 30 秒后生成主人的 Mini Me；红石信号可把孵化速度提高到四倍。",
-    "en_us": "Records its owner when placed and hatches their Mini Me after about 30 seconds. Redstone makes it hatch four times faster."
+    "zh_cn": "放置后记录主人，约 30 秒孵化其唯一的 Mini Me；再次孵化会替换旧个体。主人右键可切换跟随/停留，双方平分彼此受到的最终伤害和治疗量。红石可把孵化加速至四倍。",
+    "en_us": "Records its owner and hatches their sole Mini Me after about 30 seconds; another hatch replaces the old one. The owner can use it to toggle follow/stay, and the pair split either one's final damage and healing equally. Redstone quadruples hatching speed."
   },
   "hang_glider": {
-    "zh_cn": "手持右键展开或收起。展开后在空中减缓下落并向视线方向滑翔；潜行可加速下降，飞行会消耗耐久。",
-    "en_us": "Use while held to deploy. It slows falling and glides toward your view; sneak descends faster and flight consumes durability."
+    "zh_cn": "手持右键展开或收起。展开后在空中减缓下落、向视线方向滑翔，并让玩家模型向前倾斜；潜行可加速下降，飞行会消耗耐久。",
+    "en_us": "Use while held to deploy. It slows falling, glides toward your view, and tilts the player model forward; sneak descends faster and flight consumes durability."
   },
   "generic": {
     "zh_cn": "为旧版世界和配方兼容保留的可堆叠通用物品，目前没有独立的主动功能。",
@@ -248,8 +248,8 @@
     "en_us": "An edible clay snack that restores a small amount of hunger and saturation."
   },
   "golden_eye": {
-    "zh_cn": "潜行右键打开结构选择界面，可按结构名称或注册 ID 搜索并绑定。普通右键寻找目标，消耗耐久但不会扔出物品。",
-    "en_us": "Sneak-use to search and bind a structure by name or ID. Normal use locates it, consuming durability without throwing the eye."
+    "zh_cn": "潜行右键打开结构选择界面，可按结构名称或注册 ID 搜索；定位会在独立后台线程中执行，完成后自动绑定。普通右键指向目标，消耗耐久但不会扔出物品。",
+    "en_us": "Sneak-use to search for a structure by name or ID. Locating runs on a dedicated background thread and binds when complete. Normal use points toward it, consuming durability without throwing the eye."
   },
   "cursor": {
     "zh_cn": "Shift 右键方块面进行绑定，普通右键可远距离或跨维度交互，并按距离消耗经验；目标区块未加载时不会强制加载而会提示。",

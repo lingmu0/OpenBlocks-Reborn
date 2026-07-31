@@ -262,3 +262,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - Patchouli 生成脚本会持续生成该附魔条目，并同时兼容 1.21.1 的 `recipe` 与 1.20.1 的 `recipes` 数据目录。
 - 模组版本随本轮注册 ID 变更由 `1.0.0-1.20.1` 更新为 `1.0.1-1.20.1`。
 - 按要求未启动游戏；`.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers` 成功，产物为 `build/libs/openblocks_reborn-1.0.1-1.20.1.jar`。
+
+## 2026-07-31 黄金之眼、滑翔姿态与 Mini Me 联动
+
+- 版本号更新为 `1.0.2-1.20.1`。
+- 黄金之眼原先直接调用与 `/locate structure` 相同的 `findNearestMapStructure`，会同步占用服务器主线程。现改由专用的单守护线程顺序执行结构搜索；搜索开始后立即关闭选择界面，搜索结果、物品检查、NBT 绑定和玩家消息均调度回服务器线程处理。
+- 悬挂式滑翔翼处于实际滑翔状态时，第三人称玩家模型会按身体朝向向前倾斜 55°；变换仅包围对应玩家的一次渲染并在渲染后恢复，不改变碰撞箱或服务端姿态。
+- Mini Me 新增主人右键切换“跟随/停留”，状态同步并保存到实体数据。每个玩家通过持久 UUID 只能认领一个 Mini Me；新金蛋孵化时会替换同主人的已加载旧个体，旧个体稍后加载时也会因认领 UUID 不匹配而自行移除。
+- Forge 1.20.1 的最终可修改伤害事件中，主人和 Mini Me 会把任一方所受最终伤害平分；治疗则按实际可恢复量平分。转移部分直接作用于伙伴，避免重复计算第二次护甲或效果减免。
+- 指南中的黄金之眼、金蛋和滑翔翼说明已同步更新；`.\gradlew.bat build --no-daemon --console=plain -PopenblocksNoRuntimeHelpers` 成功，产物为 `build/libs/openblocks_reborn-1.0.2-1.20.1.jar`。

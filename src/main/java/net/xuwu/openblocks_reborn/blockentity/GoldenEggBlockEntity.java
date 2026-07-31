@@ -54,7 +54,7 @@ public class GoldenEggBlockEntity extends BlockEntity {
         if (egg.owner != null) miniMe.setOwner(egg.owner);
         miniMe.setCustomName(Component.literal(egg.ownerName + "'s Mini Me"));
         miniMe.setCustomNameVisible(true);
-        level.addFreshEntity(miniMe);
+        if (level.addFreshEntity(miniMe)) miniMe.claimOwnership(level);
         level.playSound(null, pos, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 1.0F, 1.35F);
         level.sendParticles(ParticleTypes.TOTEM_OF_UNDYING, pos.getX() + 0.5D, pos.getY() + 0.7D,
                 pos.getZ() + 0.5D, 30, 0.4D, 0.5D, 0.4D, 0.1D);
