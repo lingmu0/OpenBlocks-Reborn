@@ -348,7 +348,7 @@
   "message.openblocks_reborn.book.detail.sky": "激活时渲染成当前位置天空且保留实体碰撞。红石控制显示状态；空手右键可切换正向/反向触发模式。",
   "message.openblocks_reborn.book.detail.xp_shower": "最多储存 1 B 液态经验，并从背面抽取经验流体；接通红石后从下方洒出经验球。",
   "message.openblocks_reborn.book.detail.golden_egg": "放置后记录主人，约 30 秒孵化其唯一的 Mini Me；再次孵化会替换旧个体。主人右键可切换跟随/停留，双方平分彼此受到的最终伤害和治疗量。红石可把孵化加速至四倍。",
-  "message.openblocks_reborn.book.detail.hang_glider": "手持右键展开或收起。展开后在空中减缓下落、向视线方向滑翔，并让玩家模型向前倾斜；潜行可加速下降，飞行会消耗耐久。",
+  "message.openblocks_reborn.book.detail.hang_glider": "手持右键展开或收起。展开后在空中减缓下落、向视线方向滑翔，并让玩家完全水平贴在滑翔翼下方；潜行可加速下降，飞行会消耗耐久。",
   "message.openblocks_reborn.book.detail.generic": "为旧版世界和配方兼容保留的可堆叠通用物品，目前没有独立的主动功能。",
   "message.openblocks_reborn.book.detail.generic_unstackable": "为旧版世界和配方兼容保留的不可堆叠通用物品，目前没有独立的主动功能。",
   "message.openblocks_reborn.book.detail.luggage": "右键放出会跟随主人的行李箱，自动拾取附近掉落物并提供 27 格库存；潜行右键可收回并保留内容。",

@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "openblocks_reborn:ladder",
+    "openblocks_reborn:flag",
+    "openblocks_reborn:big_button_wood",
+    "openblocks_reborn:rope_ladder",
+    "openblocks_reborn:donation_station",
+    "openblocks_reborn:canvas",
+    "openblocks_reborn:drawing_table"
+  ]
+}

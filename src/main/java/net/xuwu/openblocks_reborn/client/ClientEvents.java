@@ -356,10 +356,14 @@ public final class ClientEvents {
                 event.getEntity().yBodyRotO, event.getEntity().yBodyRot);
         float renderedYaw = 180.0F - bodyYaw;
         event.getPoseStack().pushPose();
+        // The glider's flying plane is rendered around 1.75 blocks above the
+        // owner's feet. Raising the feet-origin player model to 1.35 keeps its
+        // horizontal body immediately beneath the wing instead of hanging low.
+        event.getPoseStack().translate(0.0D, 1.35D, 0.0D);
         // Conjugate the pitch by the renderer's body yaw so the player leans
         // forward in their own facing direction rather than along world X.
         event.getPoseStack().mulPose(Axis.YP.rotationDegrees(renderedYaw));
-        event.getPoseStack().mulPose(Axis.XP.rotationDegrees(-55.0F));
+        event.getPoseStack().mulPose(Axis.XP.rotationDegrees(-90.0F));
         event.getPoseStack().mulPose(Axis.YP.rotationDegrees(-renderedYaw));
     }
 

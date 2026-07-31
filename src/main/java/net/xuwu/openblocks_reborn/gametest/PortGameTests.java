@@ -1587,6 +1587,28 @@ public final class PortGameTests {
         helper.succeed();
     }
 
+    @GameTest(template = "empty", timeoutTicks = 20)
+    public static void everyBlockHasExactlyOneSuitableMiningTool(GameTestHelper helper) {
+        for (var entry : ModBlocks.ALL.entrySet()) {
+            BlockState state = entry.getValue().get().defaultBlockState();
+            int suitableTools = 0;
+            if (state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE)) suitableTools++;
+            if (state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE)) suitableTools++;
+            if (state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_HOE)) suitableTools++;
+            if (state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL)) suitableTools++;
+            if (suitableTools != 1) {
+                helper.fail(entry.getKey() + " must have exactly one suitable mining tool, found " + suitableTools);
+                return;
+            }
+        }
+        if (!ModBlocks.LADDER.get().defaultBlockState().is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE)
+                || !ModBlocks.BIG_BUTTON_WOOD.get().defaultBlockState().is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE)) {
+            helper.fail("Emerald Trapdoor and Wooden Big Button must be axe-mineable");
+            return;
+        }
+        helper.succeed();
+    }
+
     private PortGameTests() {
     }
 }
