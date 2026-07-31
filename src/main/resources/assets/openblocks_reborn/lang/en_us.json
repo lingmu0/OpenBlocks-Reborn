@@ -348,7 +348,7 @@
   "message.openblocks_reborn.book.detail.sky": "Renders as the local sky while active but stays solid. Redstone controls it, and use toggles normal or inverted activation.",
   "message.openblocks_reborn.book.detail.xp_shower": "Stores 1 B of liquid XP and pulls it from the rear. While powered, it releases XP orbs beneath itself.",
   "message.openblocks_reborn.book.detail.golden_egg": "Records its owner and hatches their sole Mini Me after about 30 seconds; another hatch replaces the old one. The owner can use it to toggle follow/stay, and the pair split either one's final damage and healing equally. Redstone quadruples hatching speed.",
-  "message.openblocks_reborn.book.detail.hang_glider": "Use while held to deploy. It slows falling, glides toward your view, and holds the player horizontally beneath the wing; sneak descends faster and flight consumes durability.",
+  "message.openblocks_reborn.book.detail.hang_glider": "Use while held to deploy. It slows falling and holds the player horizontally beneath the wing with a subtle limb sway; sneak descends faster and flight consumes durability.",
   "message.openblocks_reborn.book.detail.generic": "A stackable generic item retained for legacy world and recipe compatibility. It currently has no direct active use.",
   "message.openblocks_reborn.book.detail.generic_unstackable": "An unstackable generic item retained for legacy world and recipe compatibility. It currently has no direct active use.",
   "message.openblocks_reborn.book.detail.luggage": "Deploys owner-following Luggage with 27 slots that collects nearby drops. Sneak-use it to pack it with contents preserved.",
