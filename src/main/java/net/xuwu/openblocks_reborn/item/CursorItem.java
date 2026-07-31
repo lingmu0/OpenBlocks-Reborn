@@ -31,7 +31,7 @@ public class CursorItem extends Item {
     private static final String DIMENSION = "CursorDimension";
     private static final String POSITION = "CursorPosition";
     private static final String SIDE = "CursorSide";
-    private static final double MAX_DISTANCE = 1_024.0D;
+    private static final double DISTANCE_COST_CAP = 1_024.0D;
     private static final int CROSS_DIMENSION_COST = 30;
     private static final Map<ServerPlayer, RemoteMenu> REMOTE_MENUS =
             Collections.synchronizedMap(new WeakHashMap<>());
@@ -90,10 +90,6 @@ public class CursorItem extends Item {
         BlockPos pos = BlockPos.of(tag.getLong(POSITION));
         boolean crossDimension = targetLevel != level;
         double distance = Math.sqrt(player.distanceToSqr(pos.getCenter()));
-        if (distance > MAX_DISTANCE) {
-            serverPlayer.displayClientMessage(Component.translatable("message.openblocks_reborn.cursor_out_of_range"), true);
-            return InteractionResultHolder.fail(stack);
-        }
         if (!targetLevel.hasChunkAt(pos)) {
             serverPlayer.displayClientMessage(Component.translatable(
                     "message.openblocks_reborn.cursor_target_unloaded"), true);
@@ -104,7 +100,8 @@ public class CursorItem extends Item {
             return InteractionResultHolder.fail(stack);
         }
         int cost = player.getAbilities().instabuild ? 0
-                : Math.max(1, Mth.ceil(distance / 8.0D)) + (crossDimension ? CROSS_DIMENSION_COST : 0);
+                : Math.max(1, Mth.ceil(Math.min(distance, DISTANCE_COST_CAP) / 8.0D))
+                        + (crossDimension ? CROSS_DIMENSION_COST : 0);
         if (currentExperiencePoints(player) < cost) {
             serverPlayer.displayClientMessage(Component.translatable("message.openblocks_reborn.cursor_need_xp", cost), true);
             return InteractionResultHolder.fail(stack);

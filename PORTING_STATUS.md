@@ -256,3 +256,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 1.21.1 的伤害分摊由 `LivingDamageEvent.Post` 改至 `LivingDamageEvent.Pre`：在生命值变化前直接把待应用伤害设为 50%，再把另外 50% 直接转移给伙伴，不再通过事后恢复生命值实现。
 - NeoForge 在该阶段已完成护甲、附魔和状态效果减伤，原受击者的吸收生命仍会在 `Pre` 之后正常处理其自身的一半伤害；转移伤害保持精确数值且不会再次经过伙伴的护甲管线。
 - Mini Me 分摊 GameTest 已同步改为验证 `Pre` 事件中的可修改伤害；`runGameTestServer` 24/24 项通过，完整 `build` 成功。
+
+## 2026-07-31 光标无限距离与费用封顶
+
+- 移除光标原有的 1024 格使用距离硬限制；只要目标维度存在、目标区块已加载且方块仍有效，即可继续进行同维度或跨维度交互。
+- 距离费用仍按每 8 格 1 经验点计算，但计费距离最多取 1024 格，因此同维度距离费用最高为 128 点；跨维度仍在此基础上固定增加 30 点。
+- 指南说明已同步更新；按要求不运行客户端、GameTest 或其他功能测试，`compileJava` 编译检查通过。
