@@ -290,3 +290,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\generate_resourc
 - 新增客户端 `PlayerModel.setupAnim` 尾部注入，仅在悬挂式滑翔翼实际飞行时覆盖原版行走摆幅：双臂以相反相位缓慢摆动 ±0.075 弧度（约 ±4.3°），双腿使用其 65% 幅度。
 - 袖子和裤腿外层在覆盖后重新复制对应肢体姿态，避免皮肤第二层继续保留原版大幅走路动画；非滑翔状态不受影响。
 - Mixin 注入目标通过编译期校验，完整 Forge 重混淆 `build` 成功。
+
+### 2026-08-02 1.20.1 正式环境 Mixin RefMap 修复
+
+- 修复发布 JAR 启动时 `RemoteContainerMenuMixin` 无法定位 `AbstractContainerMenu.stillValid` 并抛出 `InvalidInjectionException` 的问题。
+- `openblocks_reborn.mixins.json` 现在显式引用构建时已生成并打包的 `openblocks_reborn.refmap.json`，使 Mixin 能在 Forge 1.20.1 正式 SRG 环境中将 `stillValid` 重映射为 `m_38889_`。
+- 1.21.1 NeoForge 构建不生成 RefMap，且不使用 Forge 1.20.1 的 SRG 重混淆流程，因此不添加无效的 RefMap 引用。
+- 完整 Forge 重混淆 `build` 成功；已直接检查最终 1.20.1 JAR，Mixin 配置、RefMap 文件及 `stillValid → m_38889_` 映射均正确存在。
