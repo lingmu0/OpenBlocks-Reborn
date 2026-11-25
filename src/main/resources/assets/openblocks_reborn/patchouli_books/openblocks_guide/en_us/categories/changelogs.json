@@ -1,0 +1,6 @@
+{
+  "name": "message.openblocks_reborn.book.category.changelogs",
+  "description": "message.openblocks_reborn.book.category.changelogs.description",
+  "icon": "minecraft:writable_book",
+  "sortnum": 30
+}

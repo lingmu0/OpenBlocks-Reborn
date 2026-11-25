@@ -1,0 +1,29 @@
+{
+  "name": "block.openblocks_reborn.xp_drain",
+  "icon": "openblocks_reborn:xp_drain",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 24,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:xp_drain",
+      "text": "patchouli.openblocks_reborn.current.xp_drain.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:xp_drain"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.xp_drain.0"
+    }
+  ]
+}

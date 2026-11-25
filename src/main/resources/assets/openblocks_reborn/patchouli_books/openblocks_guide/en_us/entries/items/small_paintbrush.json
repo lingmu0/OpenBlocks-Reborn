@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.small_paintbrush",
+  "icon": "openblocks_reborn:small_paintbrush",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:small_paintbrush",
+      "text": "patchouli.openblocks_reborn.current.small_paintbrush.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:small_paintbrush"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "block.openblocks_reborn.elevator_white": "Weisser Aufzug",
+  "block.openblocks_reborn.elevator_black": "Schwarzer Aufzug",
+  "block.openblocks_reborn.elevator_blue": "Blauer Aufzug",
+  "block.openblocks_reborn.elevator_brown": "Brauner Aufzug",
+  "block.openblocks_reborn.elevator_cyan": "Türkiser Aufzug",
+  "block.openblocks_reborn.elevator_gray": "Grauer Aufzug",
+  "block.openblocks_reborn.elevator_green": "Grüner Aufzug",
+  "block.openblocks_reborn.elevator_light_blue": "Hellblauer Aufzug",
+  "block.openblocks_reborn.elevator_lime": "Hellgrüner Aufzug",
+  "block.openblocks_reborn.elevator_magenta": "Magenta Aufzug",
+  "block.openblocks_reborn.elevator_orange": "Oranger Aufzug",
+  "block.openblocks_reborn.elevator_pink": "Pinker Aufzug",
+  "block.openblocks_reborn.elevator_purple": "Violetter Aufzug",
+  "block.openblocks_reborn.elevator_red": "Roter Aufzug",
+  "block.openblocks_reborn.elevator_light_gray": "Hellgrauer Aufzug",
+  "block.openblocks_reborn.elevator_yellow": "Gelber Aufzug",
+  "openblocks_reborn.subtitle.teleport": "Aufzug benutzt",
+  "itemGroup.elevators_tab": "Aufzüge"
+}

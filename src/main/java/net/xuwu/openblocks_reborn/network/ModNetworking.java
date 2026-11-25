@@ -11,7 +11,13 @@ public final class ModNetworking {
                 .playToServer(
                         GoldenEyeSelectPayload.TYPE,
                         GoldenEyeSelectPayload.STREAM_CODEC,
-                        GoldenEyeSelectPayload::handle);
+                        GoldenEyeSelectPayload::handle)
+                .playToServer(VillageHighlighterRequestPayload.TYPE, VillageHighlighterRequestPayload.STREAM_CODEC,
+                        VillageHighlighterRequestPayload::handle)
+                .playToClient(VillageHighlighterOpenPayload.TYPE, VillageHighlighterOpenPayload.STREAM_CODEC,
+                        VillageHighlighterOpenPayload::handle)
+                .playToClient(VillageHighlighterSnapshotPayload.TYPE, VillageHighlighterSnapshotPayload.STREAM_CODEC,
+                        VillageHighlighterSnapshotPayload::handle);
     }
 
     private ModNetworking() {

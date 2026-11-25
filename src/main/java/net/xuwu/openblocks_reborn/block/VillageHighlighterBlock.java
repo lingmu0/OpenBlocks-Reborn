@@ -41,6 +41,9 @@ public class VillageHighlighterBlock extends Block {
             player.displayClientMessage(Component.translatable(village
                     ? "message.openblocks_reborn.village.inside"
                     : "message.openblocks_reborn.village.outside"), true);
+            if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer)
+                net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(serverPlayer,
+                        new net.xuwu.openblocks_reborn.network.VillageHighlighterOpenPayload(pos));
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }

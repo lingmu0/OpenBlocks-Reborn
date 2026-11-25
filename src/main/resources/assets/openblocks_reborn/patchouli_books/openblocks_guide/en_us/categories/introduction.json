@@ -1,0 +1,6 @@
+{
+  "name": "message.openblocks_reborn.book.category.introduction",
+  "description": "message.openblocks_reborn.book.category.introduction.description",
+  "icon": "openblocks_reborn:info_book",
+  "sortnum": -10
+}

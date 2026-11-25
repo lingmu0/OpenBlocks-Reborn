@@ -15,7 +15,6 @@ import net.xuwu.openblocks_reborn.block.AutoEnchantmentTableBlock;
 import net.xuwu.openblocks_reborn.block.BlockBreakerBlock;
 import net.xuwu.openblocks_reborn.block.ColorableBlock;
 import net.xuwu.openblocks_reborn.block.CanvasBlock;
-import net.xuwu.openblocks_reborn.block.ElevatorBlock;
 import net.xuwu.openblocks_reborn.block.EnhancedSpongeBlock;
 import net.xuwu.openblocks_reborn.block.FanBlock;
 import net.xuwu.openblocks_reborn.block.FlagBlock;
@@ -65,8 +64,6 @@ public final class ModBlocks {
                     .strength(3.0F).sound(SoundType.WOOD).noOcclusion()));
     public static final DeferredBlock<GuideBlock> GUIDE = register("guide", () -> new GuideBlock(metal(2.0F).lightLevel(state -> 5).noOcclusion(), false));
     public static final DeferredBlock<GuideBlock> BUILDER_GUIDE = register("builder_guide", () -> new GuideBlock(metal(2.5F).lightLevel(state -> 5).noOcclusion(), true));
-    public static final DeferredBlock<ElevatorBlock> ELEVATOR = register("elevator", () -> new ElevatorBlock(stone(1.5F), false));
-    public static final DeferredBlock<ElevatorBlock> ELEVATOR_ROTATING = register("elevator_rotating", () -> new ElevatorBlock(stone(1.5F), true));
     public static final DeferredBlock<HealBlock> HEAL = register("heal", () -> new HealBlock(metal(2.0F).lightLevel(state -> 7)));
     public static final DeferredBlock<TargetBlock> TARGET = register("target", () -> new TargetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(1.0F).sound(SoundType.WOOD).noOcclusion()));
     public static final DeferredBlock<GraveBlock> GRAVE = register("grave", () -> new GraveBlock(stone(2.0F).noOcclusion()));

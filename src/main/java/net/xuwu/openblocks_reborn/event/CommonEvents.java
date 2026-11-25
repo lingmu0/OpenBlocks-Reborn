@@ -22,9 +22,9 @@ import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent;
 import net.neoforged.neoforge.event.entity.player.CanContinueSleepingEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.xuwu.openblocks_reborn.block.ElevatorBlock;
 import net.xuwu.openblocks_reborn.blockentity.GraveBlockEntity;
 import net.xuwu.openblocks_reborn.config.OpenBlocksConfig;
+import net.xuwu.openblocks_reborn.config.EnchantmentConfig;
 import net.xuwu.openblocks_reborn.item.DevNullItem;
 import net.xuwu.openblocks_reborn.item.PaintBrushItem;
 import net.xuwu.openblocks_reborn.item.DevNullItemHandler;
@@ -81,7 +81,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class CommonEvents {
-    private static final String ELEVATOR_COOLDOWN = "openblocks_reborn.elevator_cooldown";
     private static final String FLIM_FLAM_LUCK = "openblocks_reborn.flim_flam_luck";
     private static final String FLIM_FLAM_COOLDOWN = "openblocks_reborn.flim_flam_cooldown";
     private static final String EXPLOSION_GUARD = "openblocks_reborn.explosion_guard";
@@ -191,31 +190,13 @@ public final class CommonEvents {
     }
 
     @SubscribeEvent
-    public void onLivingJump(LivingEvent.LivingJumpEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            BlockPos below = player.blockPosition().below();
-            if (player.level().getBlockState(below).getBlock() instanceof ElevatorBlock elevator && elevator.teleport(player, true)) {
-                player.getPersistentData().putInt(ELEVATOR_COOLDOWN, 10);
-            }
-        }
-    }
-
-    @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         if (Boolean.getBoolean("openblocks_reborn.smokeTest")) runSmokeTest(player);
         CompoundTag data = player.getPersistentData();
-        int cooldown = data.getInt(ELEVATOR_COOLDOWN);
-        if (cooldown > 0) data.putInt(ELEVATOR_COOLDOWN, cooldown - 1);
 
         HangGliderItem.ensureGlider(player);
 
-        if (cooldown == 0 && player.isShiftKeyDown() && player.onGround()) {
-            BlockPos below = player.blockPosition().below();
-            if (player.level().getBlockState(below).getBlock() instanceof ElevatorBlock elevator && elevator.teleport(player, false)) {
-                data.putInt(ELEVATOR_COOLDOWN, 10);
-            }
-        }
         tickFlimFlam(player);
         if (!player.isSleeping() && data.getBoolean(SLEEPING_BAG_ACTIVE)) data.remove(SLEEPING_BAG_ACTIVE);
     }
@@ -240,21 +221,9 @@ public final class CommonEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onLastStand(LivingDamageEvent.Pre event) {
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        int levels = armorEnchantLevels(player, ModEnchantments.LAST_STAND);
-        if (levels <= 0 || player.getHealth() - event.getNewDamage() >= 1.0F) return;
-        int required = Math.max(1, (int)Math.ceil((1.0F - (player.getHealth() - event.getNewDamage())) * 50.0F / levels));
-        if (player.totalExperience < required) return;
-        player.giveExperiencePoints(-required);
-        player.setHealth(1.0F);
-        event.setNewDamage(0.0F);
-        player.level().playSound(null, player.blockPosition(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 0.7F, 1.25F);
-    }
-
     @SubscribeEvent
     public void onUnstableFall(LivingFallEvent event) {
+        if (!EnchantmentConfig.UNSTABLE_ENABLED.get()) return;
         if (!(event.getEntity() instanceof ServerPlayer player) || event.getDistance() <= 4.0F || player.isShiftKeyDown()) return;
         ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
         int level = ModEnchantments.level(player, boots, ModEnchantments.UNSTABLE);
@@ -271,6 +240,7 @@ public final class CommonEvents {
 
     @SubscribeEvent
     public void onUnstableHit(LivingIncomingDamageEvent event) {
+        if (!EnchantmentConfig.UNSTABLE_ENABLED.get()) return;
         if (!(event.getEntity() instanceof ServerPlayer player) || event.getSource().getEntity() == null
                 || player.getPersistentData().getBoolean(EXPLOSION_GUARD)) return;
         int level = 0;
@@ -290,6 +260,7 @@ public final class CommonEvents {
 
     @SubscribeEvent
     public void onFlimFlamAttack(LivingDamageEvent.Post event) {
+        if (!EnchantmentConfig.FLIM_FLAM_ENABLED.get() || !EnchantmentConfig.anyPrankEnabled()) return;
         if (!(event.getEntity() instanceof ServerPlayer target)
                 || !(event.getSource().getEntity() instanceof ServerPlayer attacker) || attacker == target) return;
         int weapon = ModEnchantments.level(attacker, attacker.getMainHandItem(), ModEnchantments.FLIM_FLAM);
@@ -392,13 +363,15 @@ public final class CommonEvents {
         player.invulnerableTime = Math.max(oldInvulnerable, 10);
         try {
             player.serverLevel().explode(player, player.getX(), player.getY(), player.getZ(),
-                    1.0F + level, false, level >= 3 ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
+                    EnchantmentConfig.explosionPower(level), false,
+                    level >= 3 && EnchantmentConfig.UNSTABLE_BLOCK_DAMAGE.get() ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
         } finally {
             data.remove(EXPLOSION_GUARD);
         }
     }
 
     private static void tickFlimFlam(ServerPlayer player) {
+        if (!EnchantmentConfig.FLIM_FLAM_ENABLED.get() || !EnchantmentConfig.anyPrankEnabled()) return;
         if (player.tickCount % 20 != 0) return;
         CompoundTag data = player.getPersistentData();
         int cooldown = data.getInt(FLIM_FLAM_COOLDOWN);
@@ -414,7 +387,14 @@ public final class CommonEvents {
     }
 
     private static void applyFlimFlam(ServerPlayer player) {
-        switch (player.getRandom().nextInt(5)) {
+        var choices = new ArrayList<Integer>();
+        if (EnchantmentConfig.FLIM_SHUFFLE.get()) choices.add(0);
+        if (EnchantmentConfig.FLIM_LAUNCH.get()) choices.add(1);
+        if (EnchantmentConfig.FLIM_NAUSEA.get() || EnchantmentConfig.FLIM_SLOWNESS.get()) choices.add(2);
+        if (EnchantmentConfig.FLIM_RENAME.get()) choices.add(3);
+        if (EnchantmentConfig.FLIM_TELEPORT.get()) choices.add(4);
+        if (choices.isEmpty()) return;
+        switch (choices.get(player.getRandom().nextInt(choices.size()))) {
             case 0 -> {
                 int first = player.getRandom().nextInt(9);
                 int second = player.getRandom().nextInt(9);
@@ -427,8 +407,8 @@ public final class CommonEvents {
                 player.hurtMarked = true;
             }
             case 2 -> {
-                player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 160, 0));
-                player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1));
+                if (EnchantmentConfig.FLIM_NAUSEA.get()) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 160, 0));
+                if (EnchantmentConfig.FLIM_SLOWNESS.get()) player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1));
             }
             case 3 -> {
                 ItemStack stack = player.getMainHandItem();

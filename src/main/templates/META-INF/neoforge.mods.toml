@@ -74,11 +74,12 @@ side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "patchouli"
-type = "optional"
-reason = "Replaces the fallback written guide with the categorized OpenBlocks Patchouli manual when installed."
+type = "required"
+reason = "The OpenBlocks guide uses Patchouli."
 versionRange = "[1.21.1-92,)"
 ordering = "AFTER"
 side = "BOTH"
+
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't

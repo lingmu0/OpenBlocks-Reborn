@@ -1,0 +1,15 @@
+{
+  "name": "block.openblocks_reborn.canvas_glass",
+  "icon": "openblocks_reborn:canvas_glass",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 33,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:canvas_glass",
+      "text": "patchouli.openblocks_reborn.current.canvas_glass.0",
+      "link_recipe": true
+    }
+  ]
+}

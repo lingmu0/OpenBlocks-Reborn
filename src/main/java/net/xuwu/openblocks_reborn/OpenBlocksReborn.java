@@ -26,6 +26,9 @@ public final class OpenBlocksReborn {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public OpenBlocksReborn(IEventBus modEventBus, ModContainer modContainer) {
+        net.xuwu.openblocks_reborn.elevator.neoforge.init.Registry.init(modEventBus);
+        modContainer.registerConfig(ModConfig.Type.SERVER,
+                net.xuwu.openblocks_reborn.elevator.Config.SPEC, "openblocks_reborn-elevator-server.toml");
         ModFluids.FLUID_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModFluids.BLOCKS.register(modEventBus);
@@ -40,7 +43,16 @@ public final class OpenBlocksReborn {
         modEventBus.addListener(ModCapabilities::register);
         modEventBus.addListener(ModEntities::registerAttributes);
         modEventBus.addListener(ModNetworking::register);
+        modEventBus.addListener(net.xuwu.openblocks_reborn.compat.EnchantmentAcquisitionPack::register);
+        modContainer.registerConfig(ModConfig.Type.COMMON,
+                net.xuwu.openblocks_reborn.config.EnchantmentConfig.ACQUISITION_SPEC, "openblocks_reborn-enchantment-acquisition.toml");
+        modContainer.registerConfig(ModConfig.Type.SERVER,
+                net.xuwu.openblocks_reborn.config.EnchantmentConfig.SERVER_SPEC, "openblocks_reborn-enchantments-server.toml");
         modContainer.registerConfig(ModConfig.Type.SERVER, OpenBlocksConfig.SERVER_SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT,
+                net.xuwu.openblocks_reborn.config.SonicGlassesConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT,
+                net.xuwu.openblocks_reborn.config.VillageHighlighterConfig.SPEC, "openblocks_reborn-highlighter-client.toml");
         NeoForge.EVENT_BUS.register(new CommonEvents());
 
         LOGGER.info("Loading OpenBlocks Reborn for Minecraft 1.21.1");

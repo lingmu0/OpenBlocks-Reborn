@@ -27,7 +27,7 @@ import net.xuwu.openblocks_reborn.blockentity.TankBlockEntity;
 import net.xuwu.openblocks_reborn.registry.ModBlockEntities;
 import net.xuwu.openblocks_reborn.registry.ModFluids;
 import net.xuwu.openblocks_reborn.item.XpBucketItem;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import java.util.List;

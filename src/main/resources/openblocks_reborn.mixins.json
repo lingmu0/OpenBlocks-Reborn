@@ -8,6 +8,7 @@
     "RemoteContainerMenuMixin"
   ],
   "client": [
+    "client.CheckboxAccessor",
     "client.LiquidBlockRendererMixin",
     "client.PlayerModelMixin"
   ],

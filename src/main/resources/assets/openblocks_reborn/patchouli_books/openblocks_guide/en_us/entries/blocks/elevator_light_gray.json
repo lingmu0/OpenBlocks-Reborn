@@ -1,0 +1,23 @@
+{
+  "name": "block.openblocks_reborn.elevator_light_gray",
+  "icon": "openblocks_reborn:elevator_light_gray",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 47,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:elevator_light_gray",
+      "text": "patchouli.openblocks_reborn.current.elevator_light_gray.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:text",
+      "text": "patchouli.openblocks_reborn.current.elevator_light_gray.1"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:elevator_light_gray"
+    }
+  ]
+}

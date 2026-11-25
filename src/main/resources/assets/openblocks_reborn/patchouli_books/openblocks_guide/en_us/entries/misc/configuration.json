@@ -1,0 +1,24 @@
+{
+  "name": "Configuration",
+  "icon": "openblocks_reborn:wrench",
+  "category": "openblocks_reborn:misc",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Configuration",
+      "text": "Use the mod-list configuration button to view settings. Acquisition uses config/openblocks_reborn-enchantment-acquisition.toml; restart the world/server after changing treasure status. Effects use config/openblocks_reborn-enchantments-server.toml, optionally"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Configuration",
+      "text": "overridden by the same filename in the world's serverconfig folder. Server settings are authoritative. Elevators use openblocks_reborn-elevator-server.toml for colors, range, centering, spawning, pitch and XP. Sonic Glasses use config/openblocks_reborn-"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Configuration",
+      "text": "client.toml."
+    }
+  ]
+}

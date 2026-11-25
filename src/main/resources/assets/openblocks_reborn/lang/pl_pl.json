@@ -1,0 +1,20 @@
+{
+  "block.openblocks_reborn.elevator_white": "Biała winda",
+  "block.openblocks_reborn.elevator_black": "Czarna winda",
+  "block.openblocks_reborn.elevator_blue": "Niebieska winda",
+  "block.openblocks_reborn.elevator_brown": "Brązowa winda",
+  "block.openblocks_reborn.elevator_cyan": "Błękitna winda",
+  "block.openblocks_reborn.elevator_gray": "Szara winda",
+  "block.openblocks_reborn.elevator_green": "Zielona winda",
+  "block.openblocks_reborn.elevator_light_blue": "Jasnoniebieska winda",
+  "block.openblocks_reborn.elevator_lime": "Jasnozielona winda",
+  "block.openblocks_reborn.elevator_magenta": "Karmazynowa winda",
+  "block.openblocks_reborn.elevator_orange": "Pomarańczowa winda",
+  "block.openblocks_reborn.elevator_pink": "Różowa winda",
+  "block.openblocks_reborn.elevator_purple": "Fioletowa winda",
+  "block.openblocks_reborn.elevator_red": "Czerwona winda",
+  "block.openblocks_reborn.elevator_light_gray": "Jasnoszara winda",
+  "block.openblocks_reborn.elevator_yellow": "Żółta winda",
+  "openblocks_reborn.subtitle.teleport": "Używana winda",
+  "itemGroup.elevators_tab": "Elevators"
+}

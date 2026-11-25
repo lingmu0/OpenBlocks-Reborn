@@ -1,0 +1,14 @@
+{
+  "name": "Welcome!",
+  "icon": "openblocks_reborn:info_book",
+  "category": "openblocks_reborn:introduction",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Welcome!",
+      "text": "OpenBlocks is an open source mod that introduces a variety of ideas into Minecraft, including hang gliders, elevators, tanks, graves, paints, cranes, liquid XP, cartographers, trophies and more! This guide introduces these inventions and shows you how to make and use them."
+    }
+  ]
+}

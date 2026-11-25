@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.line",
+  "icon": "openblocks_reborn:line",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 37,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:line",
+      "text": "patchouli.openblocks_reborn.current.line.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:line"
+    }
+  ]
+}

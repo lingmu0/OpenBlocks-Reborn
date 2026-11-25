@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.crane_engine",
+  "icon": "openblocks_reborn:crane_engine",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 34,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:crane_engine",
+      "text": "patchouli.openblocks_reborn.current.crane_engine.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:crane_engine"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "block.openblocks_reborn.donation_station",
+  "icon": "openblocks_reborn:donation_station",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 29,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:donation_station",
+      "text": "patchouli.openblocks_reborn.current.donation_station.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:donation_station"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.donation_station.0"
+    }
+  ]
+}

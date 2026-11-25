@@ -1,0 +1,33 @@
+{
+  "name": "item.openblocks_reborn.sonic_glasses",
+  "icon": "openblocks_reborn:sonic_glasses",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:sonic_glasses",
+      "text": "patchouli.openblocks_reborn.current.sonic_glasses.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:text",
+      "text": "patchouli.openblocks_reborn.current.sonic_glasses.1"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:sonic_glasses"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.sonic_glasses.0"
+    }
+  ]
+}

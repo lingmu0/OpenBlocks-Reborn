@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.big_button_wood",
+  "icon": "openblocks_reborn:big_button_wood",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:big_button_wood",
+      "text": "patchouli.openblocks_reborn.current.big_button_wood.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:big_button_wood"
+    }
+  ]
+}

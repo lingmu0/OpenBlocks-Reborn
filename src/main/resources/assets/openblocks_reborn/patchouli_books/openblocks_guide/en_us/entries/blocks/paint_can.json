@@ -1,0 +1,15 @@
+{
+  "name": "block.openblocks_reborn.paint_can",
+  "icon": "openblocks_reborn:paint_can",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 32,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:paint_can",
+      "text": "patchouli.openblocks_reborn.current.paint_can.0",
+      "link_recipe": true
+    }
+  ]
+}

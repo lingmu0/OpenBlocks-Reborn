@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.tasty_clay",
+  "icon": "openblocks_reborn:tasty_clay",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 22,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:tasty_clay",
+      "text": "patchouli.openblocks_reborn.current.tasty_clay.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:tasty_clay"
+    }
+  ]
+}

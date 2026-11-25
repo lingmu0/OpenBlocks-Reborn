@@ -1,0 +1,74 @@
+{
+  "name": "message.openblocks_reborn.book.enchantments",
+  "icon": "minecraft:enchanted_book",
+  "category": "openblocks_reborn:misc",
+  "read_by_default": true,
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.flim_flam",
+      "text": "patchouli.openblocks_reborn.enchantment.flim_flam.0"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.flim_flam",
+      "text": "patchouli.openblocks_reborn.enchantment.flim_flam.1"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.flim_flam",
+      "text": "patchouli.openblocks_reborn.enchantment.flim_flam.2"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.flim_flam",
+      "text": "patchouli.openblocks_reborn.enchantment.flim_flam.3"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.flim_flam",
+      "text": "patchouli.openblocks_reborn.enchantment.flim_flam.4"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.unstable",
+      "text": "patchouli.openblocks_reborn.enchantment.unstable.0"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.unstable",
+      "text": "patchouli.openblocks_reborn.enchantment.unstable.1"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.unstable",
+      "text": "patchouli.openblocks_reborn.enchantment.unstable.2"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.unstable",
+      "text": "patchouli.openblocks_reborn.enchantment.unstable.3"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.last_stand",
+      "text": "patchouli.openblocks_reborn.enchantment.last_stand.0"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.last_stand",
+      "text": "patchouli.openblocks_reborn.enchantment.last_stand.1"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.last_stand",
+      "text": "patchouli.openblocks_reborn.enchantment.last_stand.2"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "enchantment.openblocks_reborn.last_stand",
+      "text": "patchouli.openblocks_reborn.enchantment.last_stand.3"
+    }
+  ]
+}

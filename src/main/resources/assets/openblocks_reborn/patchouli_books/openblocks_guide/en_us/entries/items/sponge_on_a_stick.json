@@ -1,0 +1,29 @@
+{
+  "name": "item.openblocks_reborn.sponge_on_a_stick",
+  "icon": "openblocks_reborn:sponge_on_a_stick",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 27,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:sponge_on_a_stick",
+      "text": "patchouli.openblocks_reborn.current.sponge_on_a_stick.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:sponge_on_a_stick"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.sponge_on_a_stick.0"
+    }
+  ]
+}

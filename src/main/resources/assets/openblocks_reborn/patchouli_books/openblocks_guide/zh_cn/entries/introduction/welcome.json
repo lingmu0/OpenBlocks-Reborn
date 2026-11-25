@@ -1,0 +1,14 @@
+{
+  "name": "欢迎！",
+  "icon": "openblocks_reborn:info_book",
+  "category": "openblocks_reborn:introduction",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "欢迎！",
+      "text": "开放式方块是一个开源模组，它将大量创意引入 Minecraft 世界，包括滑翔翼、电梯、蓄水槽、墓碑、雕像，以及更多有趣的小玩意！这本指南会带你认识它们，并告诉你如何动手制作和使用。"
+    }
+  ]
+}

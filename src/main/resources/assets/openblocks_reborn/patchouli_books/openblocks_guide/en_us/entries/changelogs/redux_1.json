@@ -1,0 +1,14 @@
+{
+  "name": "Redux 1",
+  "icon": "minecraft:writable_book",
+  "category": "openblocks_reborn:changelogs",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Redux 1",
+      "text": "Patchouli guide with legacy sections. ElevatorMod 1.21.1-1.11.4 common and NeoForge implementation incorporated under OpenBlocks' sixteen color IDs, replacing the two retired elevators. Sonic Glasses visualize real sounds with icons, subtitles, distance and modern sound categories."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "致谢",
+  "icon": "minecraft:book",
+  "category": "openblocks_reborn:introduction",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "致谢",
+      "text": "感谢 OpenMods 团队及 Boq、Mikee、NeverCast、SinZ、Yoshi2、Vexatos、crafteverywhere 和历代贡献者。新版基于 lingmu0 与 "
+    },
+    {
+      "type": "patchouli:text",
+      "title": "致谢",
+      "text": "Noped01 的 OpenBlocks Reborn。高级电梯来自 VsnGamer 的 ElevatorMod；指南使用 Vazkii 与贡献者的帕秋莉。许可证和来源记录随模组提供。"
+    }
+  ]
+}

@@ -21,7 +21,6 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.xuwu.openblocks_reborn.OpenBlocksReborn;
 import net.xuwu.openblocks_reborn.block.ColorableBlock;
-import net.xuwu.openblocks_reborn.block.ElevatorBlock;
 import net.xuwu.openblocks_reborn.item.PaintBrushItem;
 import net.xuwu.openblocks_reborn.item.DevNullItem;
 import net.xuwu.openblocks_reborn.item.SlimalyzerItem;
@@ -147,6 +146,9 @@ public final class ClientEvents {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
+        net.neoforged.fml.ModList.get().getModContainerById(OpenBlocksReborn.MOD_ID).ifPresent(container ->
+                container.registerExtensionPoint(net.neoforged.neoforge.client.gui.IConfigScreenFactory.class,
+                        (mod, parent) -> new net.neoforged.neoforge.client.gui.ConfigurationScreen(mod, parent)));
         event.enqueueWork(() -> {
             ItemBlockRenderTypes.setRenderLayer(ModFluids.XP_JUICE.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_XP_JUICE.get(), RenderType.translucent());
@@ -199,9 +201,6 @@ public final class ClientEvents {
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
         event.register((state, level, pos, tintIndex) -> tintIndex == 0
-                        ? state.getValue(ElevatorBlock.COLOR).getTextureDiffuseColor() : 0xFFFFFFFF,
-                ModBlocks.ELEVATOR.get(), ModBlocks.ELEVATOR_ROTATING.get());
-        event.register((state, level, pos, tintIndex) -> tintIndex == 0
                         ? state.getValue(ColorableBlock.COLOR).getTextureDiffuseColor() : 0xFFFFFFFF,
                 ModBlocks.FLAG.get(), ModBlocks.PAINT_CAN.get());
         event.register((state, level, pos, tintIndex) -> {
@@ -221,8 +220,6 @@ public final class ClientEvents {
                         ? 0xFF000000 | PaintBrushItem.getRgbColor(stack) : 0xFFFFFFFF,
                 ModItems.PAINTBRUSH.get(), ModItems.SMALL_PAINTBRUSH.get());
         event.register((stack, tintIndex) -> 0xFF000000 | PaintBrushItem.getRgbColor(stack),
-                ModItems.BLOCK_ITEMS.get("elevator").get(),
-                ModItems.BLOCK_ITEMS.get("elevator_rotating").get(),
                 ModItems.BLOCK_ITEMS.get("flag").get(),
                 ModItems.BLOCK_ITEMS.get("paint_can").get());
         event.register((stack, tintIndex) -> tintIndex == 1 && ImaginaryItem.isCrayon(stack)

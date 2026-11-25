@@ -1,0 +1,32 @@
+{
+  "introduction/welcome": {
+    "category": "introduction",
+    "icon": "openblocks_reborn:info_book",
+    "zh_cn": {"name": "欢迎！", "text": "开放式方块是一个开源模组，它将大量创意引入 Minecraft 世界，包括滑翔翼、电梯、蓄水槽、墓碑、雕像，以及更多有趣的小玩意！这本指南会带你认识它们，并告诉你如何动手制作和使用。"},
+    "en_us": {"name": "Welcome!", "text": "OpenBlocks is an open source mod that introduces a variety of ideas into Minecraft, including hang gliders, elevators, tanks, graves, paints, cranes, liquid XP, cartographers, trophies and more! This guide introduces these inventions and shows you how to make and use them."}
+  },
+  "introduction/credits": {
+    "category": "introduction",
+    "icon": "minecraft:book",
+    "zh_cn": {"name": "致谢", "text": "感谢 OpenMods 团队及 Boq、Mikee、NeverCast、SinZ、Yoshi2、Vexatos、crafteverywhere 和历代贡献者。新版基于 lingmu0 与 Noped01 的 OpenBlocks Reborn。高级电梯来自 VsnGamer 的 ElevatorMod；指南使用 Vazkii 与贡献者的帕秋莉。许可证和来源记录随模组提供。"},
+    "en_us": {"name": "Credits", "text": "Thanks to the OpenMods team, Boq, Mikee, NeverCast, SinZ, Yoshi2, Vexatos, crafteverywhere and all contributors. This revival builds on lingmu0 and Noped01's OpenBlocks Reborn. Integrated elevators derive from VsnGamer's ElevatorMod; the guide uses Patchouli by Vazkii and contributors. Licenses and provenance accompany the mod."}
+  },
+  "misc/configuration": {
+    "category": "misc",
+    "icon": "openblocks_reborn:wrench",
+    "zh_cn": {"name": "配置", "text": "模组列表中的配置按钮可查看设置。附魔获取规则在 config/openblocks_reborn-enchantment-acquisition.toml，修改宝藏属性后重启世界或服务器。效果参数在 config/openblocks_reborn-enchantments-server.toml，也可由存档 serverconfig 下的同名文件覆盖，服务端设置为准。电梯使用 openblocks_reborn-elevator-server.toml，包含同色限制、范围、到达居中、刷怪、视角和经验消耗。音波眼镜使用 config/openblocks_reborn-client.toml。"},
+    "en_us": {"name": "Configuration", "text": "Use the mod-list configuration button to view settings. Acquisition uses config/openblocks_reborn-enchantment-acquisition.toml; restart the world/server after changing treasure status. Effects use config/openblocks_reborn-enchantments-server.toml, optionally overridden by the same filename in the world's serverconfig folder. Server settings are authoritative. Elevators use openblocks_reborn-elevator-server.toml for colors, range, centering, spawning, pitch and XP. Sonic Glasses use config/openblocks_reborn-client.toml."}
+  },
+  "misc/legacy_limits": {
+    "category": "misc",
+    "icon": "minecraft:paper",
+    "zh_cn": {"name": "旧版功能差异", "text": "收音机与自动散架脚手架、旧版物品栏快照恢复命令及 B 键消化玩法尚未提供。村庄高亮仪适配新版兴趣点与村民机制，不沿用木门计数和球形村庄范围。旧版参考页介绍历史玩法，请结合各条目的当前用法阅读。"},
+    "en_us": {"name": "Legacy differences", "text": "Radio, self-dismantling scaffolding, legacy inventory-snapshot commands and B-key digestion are unavailable. The Village Highlighter follows modern POI and villager mechanics instead of door counts and spherical village boundaries. Read historical reference pages alongside each entry's current instructions."}
+  },
+  "changelogs/redux_1": {
+    "category": "changelogs",
+    "icon": "minecraft:writable_book",
+    "zh_cn": {"name": "Redux 1", "text": "指南改为帕秋莉并沿用旧版分部。完整并入 ElevatorMod 1.21.1-1.11.4 的 common 与 NeoForge 实现，使用 OpenBlocks 自身的 16 色电梯 ID，移除旧普通与旋转电梯。音波眼镜改为显示实际声音图标、字幕与距离，并增加现代声源分类。"},
+    "en_us": {"name": "Redux 1", "text": "Patchouli guide with legacy sections. ElevatorMod 1.21.1-1.11.4 common and NeoForge implementation incorporated under OpenBlocks' sixteen color IDs, replacing the two retired elevators. Sonic Glasses visualize real sounds with icons, subtitles, distance and modern sound categories."}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Redux 1",
+  "icon": "minecraft:writable_book",
+  "category": "openblocks_reborn:changelogs",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Redux 1",
+      "text": "指南改为帕秋莉并沿用旧版分部。完整并入 ElevatorMod 1.21.1-1.11.4 的 common 与 NeoForge 实现，使"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Redux 1",
+      "text": "用 OpenBlocks 自身的 16 色电梯 ID，移除旧普通与旋转电梯。音波眼镜改为显示实际声音图标、字幕与距离，并增加现代声源分类。"
+    }
+  ]
+}

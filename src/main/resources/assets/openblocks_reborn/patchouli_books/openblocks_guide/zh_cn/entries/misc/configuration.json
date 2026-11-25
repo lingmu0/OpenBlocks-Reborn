@@ -1,0 +1,24 @@
+{
+  "name": "配置",
+  "icon": "openblocks_reborn:wrench",
+  "category": "openblocks_reborn:misc",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "配置",
+      "text": "模组列表中的配置按钮可查看设置。附魔获取规则在 config/openblocks_reborn-enchantment-acquisition.toml，修改宝藏属性后重启世界或服务器。效果参数在 "
+    },
+    {
+      "type": "patchouli:text",
+      "title": "配置",
+      "text": "config/openblocks_reborn-enchantments-server.toml，也可由存档 serverconfig 下的同名文件覆盖，服务端设置为准。电梯使用 openblock"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "配置",
+      "text": "s_reborn-elevator-server.toml，包含同色限制、范围、到达居中、刷怪、视角和经验消耗。音波眼镜使用 config/openblocks_reborn-client.toml。"
+    }
+  ]
+}

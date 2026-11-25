@@ -1,0 +1,29 @@
+{
+  "name": "block.openblocks_reborn.canvas",
+  "icon": "openblocks_reborn:canvas",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 31,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:canvas",
+      "text": "patchouli.openblocks_reborn.current.canvas.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:canvas"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.canvas.0"
+    }
+  ]
+}

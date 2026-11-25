@@ -1,0 +1,29 @@
+{
+  "name": "block.openblocks_reborn.auto_enchantment_table",
+  "icon": "openblocks_reborn:auto_enchantment_table",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 23,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:auto_enchantment_table",
+      "text": "patchouli.openblocks_reborn.current.auto_enchantment_table.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:auto_enchantment_table"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.auto_enchantment_table.0"
+    }
+  ]
+}

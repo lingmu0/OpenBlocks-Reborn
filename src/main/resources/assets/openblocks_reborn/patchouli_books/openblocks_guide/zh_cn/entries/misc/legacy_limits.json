@@ -1,0 +1,14 @@
+{
+  "name": "旧版功能差异",
+  "icon": "minecraft:paper",
+  "category": "openblocks_reborn:misc",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "旧版功能差异",
+      "text": "收音机与自动散架脚手架、旧版物品栏快照恢复命令及 B 键消化玩法尚未提供。村庄高亮仪适配新版兴趣点与村民机制，不沿用木门计数和球形村庄范围。旧版参考页介绍历史玩法，请结合各条目的当前用法阅读。"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.miracle_magnet",
+  "icon": "openblocks_reborn:miracle_magnet",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 36,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:miracle_magnet",
+      "text": "patchouli.openblocks_reborn.current.miracle_magnet.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:miracle_magnet"
+    }
+  ]
+}

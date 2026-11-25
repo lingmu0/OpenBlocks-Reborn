@@ -1,0 +1,41 @@
+{
+  "name": "block.openblocks_reborn.village_highlighter",
+  "icon": "openblocks_reborn:village_highlighter",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 20,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:village_highlighter",
+      "text": "patchouli.openblocks_reborn.current.village_highlighter.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:text",
+      "text": "patchouli.openblocks_reborn.current.village_highlighter.1"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "patchouli.openblocks_reborn.current.village_highlighter.2"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "patchouli.openblocks_reborn.current.village_highlighter.3"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:village_highlighter"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.village_highlighter.0"
+    }
+  ]
+}

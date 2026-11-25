@@ -1,11 +1,7 @@
 package net.xuwu.openblocks_reborn.item;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -94,23 +90,6 @@ public class GlassesItem extends ArmorItem {
         };
     }
 
-    @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (!(level instanceof ServerLevel serverLevel) || !(entity instanceof Player player)
-                || player.getItemBySlot(EquipmentSlot.HEAD) != stack || player.tickCount % 10 != 0) return;
-        if (mode == Mode.SONIC) {
-            for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class,
-                    player.getBoundingBox().inflate(16.0D), living -> living != player && living.isAlive())) {
-                serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK, living.getX(),
-                        living.getY() + living.getBbHeight() * 0.5D, living.getZ(),
-                        2, living.getBbWidth() * 0.3D, living.getBbHeight() * 0.3D,
-                        living.getBbWidth() * 0.3D, 0.0D);
-                living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 15, 0, false, false));
-            }
-            return;
-        }
-        // Imaginary blocks are revealed directly by their client block-entity
-        // renderer. Spawning proxy particles here made the glasses noisy and did
-        // not reproduce the legacy per-colour visibility rules.
-    }
+    // Sonic sounds and imaginary-block visibility are rendered per client.
+    // Wearing glasses must never apply shared effects to nearby entities.
 }

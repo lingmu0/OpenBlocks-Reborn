@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.crane_magnet",
+  "icon": "openblocks_reborn:crane_magnet",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 35,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:crane_magnet",
+      "text": "patchouli.openblocks_reborn.current.crane_magnet.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:crane_magnet"
+    }
+  ]
+}

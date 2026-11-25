@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.assistant_base",
+  "icon": "openblocks_reborn:assistant_base",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 40,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:assistant_base",
+      "text": "patchouli.openblocks_reborn.current.assistant_base.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:assistant_base"
+    }
+  ]
+}

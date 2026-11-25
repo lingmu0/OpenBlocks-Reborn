@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.empty_map",
+  "icon": "openblocks_reborn:empty_map",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 20,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:empty_map",
+      "text": "patchouli.openblocks_reborn.current.empty_map.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:empty_map"
+    }
+  ]
+}

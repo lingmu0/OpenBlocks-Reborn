@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "openblocks_reborn:block/elevator_brown"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "block.openblocks_reborn.xp_bottler",
+  "icon": "openblocks_reborn:xp_bottler",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 19,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:xp_bottler",
+      "text": "patchouli.openblocks_reborn.current.xp_bottler.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:xp_bottler"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.xp_bottler.0"
+    }
+  ]
+}

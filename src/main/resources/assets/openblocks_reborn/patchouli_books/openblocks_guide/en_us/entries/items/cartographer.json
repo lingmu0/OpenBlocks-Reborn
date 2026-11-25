@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.cartographer",
+  "icon": "openblocks_reborn:cartographer",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 21,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:cartographer",
+      "text": "patchouli.openblocks_reborn.current.cartographer.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:cartographer"
+    }
+  ]
+}

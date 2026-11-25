@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.small_squeegee",
+  "icon": "openblocks_reborn:small_squeegee",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 18,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:small_squeegee",
+      "text": "patchouli.openblocks_reborn.current.small_squeegee.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:small_squeegee"
+    }
+  ]
+}

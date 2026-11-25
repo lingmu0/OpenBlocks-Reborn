@@ -1,0 +1,29 @@
+{
+  "name": "block.openblocks_reborn.projector",
+  "icon": "openblocks_reborn:projector",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 34,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:projector",
+      "text": "patchouli.openblocks_reborn.current.projector.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:projector"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.projector.0"
+    }
+  ]
+}

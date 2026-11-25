@@ -33,23 +33,6 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-configurations {
-    client2Mods {
-        canBeConsumed = false
-        canBeResolved = true
-        transitive = false
-    }
-}
-
-def patchouliRuntimeCoordinate = "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
-def client2MavenRoot = layout.buildDirectory.dir('moddev/client2Maven')
-def stageClient2Patchouli = tasks.register('stageClient2Patchouli', Copy) {
-    from configurations.client2Mods
-    into client2MavenRoot.map {
-        it.dir("vazkii/patchouli/Patchouli/${patchouli_version}-NEOFORGE")
-    }
-}
-
 neoForge {
     // Specify the version of NeoForge to use.
     version = project.neo_version
@@ -101,9 +84,6 @@ neoForge {
         client2 {
             client()
             ideName = 'Client 2 (Patchouli)'
-            taskBefore stageClient2Patchouli
-            programArguments.addAll '--fml.mods', patchouliRuntimeCoordinate.toString(),
-                    '--fml.mavenRoots', client2MavenRoot.get().asFile.absolutePath.toString()
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
@@ -165,12 +145,9 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 
 dependencies {
-    // Optional documentation integration. Only the API is needed to compile;
-    // Patchouli is never bundled or required by the published mod. The full
-    // mod is staged in a private Maven root and explicitly discovered only by
-    // the client2 run configuration.
+    // Required separate guide dependency. Its implementation is not bundled.
     compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE:api"
-    client2Mods patchouliRuntimeCoordinate
+    runtimeOnly "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
 
     // Development-client helpers only. They are not compiled against, bundled,
     // or declared as required OpenBlocks Reborn dependencies.
@@ -199,6 +176,10 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+}
+
+tasks.named('jar', Jar) {
+    from('LICENSE-OpenBlocks', 'LICENSE-ElevatorMod', 'THIRD_PARTY_NOTICES.md')
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

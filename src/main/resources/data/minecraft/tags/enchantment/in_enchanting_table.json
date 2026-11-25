@@ -1,8 +1,4 @@
 {
   "replace": false,
-  "values": [
-    "openblocks_reborn:unstable",
-    "openblocks_reborn:last_stand",
-    "openblocks_reborn:flim_flam"
-  ]
+  "values": []
 }

@@ -342,7 +342,7 @@ public class GuideBlockEntity extends net.minecraft.world.level.block.entity.Blo
             if (!fillMode && !existing.canBeReplaced()) continue;
 
             BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(target), side, target, false);
-            BlockPlaceContext placement = new BlockPlaceContext(level, player, hand, stack, hit);
+            BlockPlaceContext placement = new BlockPlaceContext(player, hand, stack, hit);
             if (fillMode) {
                 BlockState placedState = blockItem.getBlock().getStateForPlacement(placement);
                 if (placedState == null || !placedState.canSurvive(level, target)) continue;

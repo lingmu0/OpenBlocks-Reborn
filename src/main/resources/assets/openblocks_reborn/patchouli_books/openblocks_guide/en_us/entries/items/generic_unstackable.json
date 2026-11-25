@@ -1,0 +1,15 @@
+{
+  "name": "item.openblocks_reborn.generic_unstackable",
+  "icon": "openblocks_reborn:generic_unstackable",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:generic_unstackable",
+      "text": "patchouli.openblocks_reborn.current.generic_unstackable.0",
+      "link_recipe": true
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "block.openblocks_reborn.heal",
+  "icon": "openblocks_reborn:heal",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:heal",
+      "text": "patchouli.openblocks_reborn.current.heal.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.heal.0"
+    }
+  ]
+}

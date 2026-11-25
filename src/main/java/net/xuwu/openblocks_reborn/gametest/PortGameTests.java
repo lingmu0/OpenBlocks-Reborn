@@ -67,7 +67,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
-import net.xuwu.openblocks_reborn.block.ElevatorBlock;
+import net.xuwu.openblocks_reborn.elevator.ElevatorBlockBase;
 import net.xuwu.openblocks_reborn.block.TargetBlock;
 import net.xuwu.openblocks_reborn.block.UtilityMachineBlock;
 import net.xuwu.openblocks_reborn.item.CraneBackpackItem;
@@ -1056,9 +1056,12 @@ public final class PortGameTests {
         helper.setBlock(targetPos, ModBlocks.TARGET.get().defaultBlockState()
                 .setValue(TargetBlock.FACING, Direction.NORTH));
         helper.setBlock(targetPos.east(), Blocks.REDSTONE_BLOCK);
-        helper.setBlock(lowerElevatorPos, ModBlocks.ELEVATOR.get().defaultBlockState());
-        helper.setBlock(upperElevatorPos, ModBlocks.ELEVATOR_ROTATING.get().defaultBlockState()
-                .setValue(ElevatorBlock.FACING, Direction.EAST));
+        var integratedElevator = net.xuwu.openblocks_reborn.elevator.neoforge.init.Registry
+                .ELEVATOR_BLOCKS.get(DyeColor.WHITE).get();
+        helper.setBlock(lowerElevatorPos, integratedElevator.defaultBlockState());
+        helper.setBlock(upperElevatorPos, integratedElevator.defaultBlockState()
+                .setValue(ElevatorBlockBase.DIRECTIONAL, true)
+                .setValue(ElevatorBlockBase.FACING, Direction.EAST));
 
         if (!(helper.getBlockEntity(drainPos) instanceof ExperienceBlockEntity drain)
                 || !(helper.getBlockEntity(showerPos) instanceof ExperienceBlockEntity shower)
@@ -1123,12 +1126,16 @@ public final class PortGameTests {
                     .getMinecraft(helper.getLevel());
             elevatorPlayer.setPos(absoluteLower.getX() + 0.5D, absoluteLower.getY() + 1.0D,
                     absoluteLower.getZ() + 0.5D);
-            if (!ModBlocks.ELEVATOR.get().teleport(elevatorPlayer, true)) {
-                helper.fail("Elevator did not find the rotating destination");
+            net.xuwu.openblocks_reborn.elevator.network.TeleportPacket.handle(
+                    new net.xuwu.openblocks_reborn.elevator.network.TeleportPacket(
+                            absoluteLower, helper.absolutePos(upperElevatorPos)), elevatorPlayer,
+                    net.xuwu.openblocks_reborn.elevator.neoforge.init.Registry.TELEPORT_SOUND.get());
+            if (elevatorPlayer.getY() < helper.absolutePos(upperElevatorPos).getY()) {
+                helper.fail("Integrated elevator did not reach the directional destination");
                 return;
             }
             helper.runAfterDelay(2, () -> {
-                if (Math.abs(net.minecraft.util.Mth.wrapDegrees(elevatorPlayer.getYRot() - 90.0F)) > 0.01F) {
+                if (Math.abs(net.minecraft.util.Mth.wrapDegrees(elevatorPlayer.getYRot() - Direction.EAST.toYRot())) > 0.01F) {
                     helper.fail("Rotating Elevator did not send the destination yaw to the player: "
                             + elevatorPlayer.getYRot());
                     return;
@@ -1274,11 +1281,9 @@ public final class PortGameTests {
             helper.fail("A Magic Pencil could not change an Imaginary Block shape");
             return;
         }
-        int expectedGuideEntries = ModItems.BLOCK_ITEMS.size() + ModItems.ALL_ITEMS.size() + 1;
-        int expectedGuidePages = expectedGuideEntries + 1 + 6 + 3;
-        if (net.xuwu.openblocks_reborn.item.InfoBookItem.buildPages().size()
-                != expectedGuidePages) {
-            helper.fail("OpenBlocks Guide did not create one categorized entry for every item");
+        if (vazkii.patchouli.api.PatchouliAPI.get().getBookStack(
+                net.xuwu.openblocks_reborn.compat.PatchouliCompat.OPENBLOCKS_GUIDE).isEmpty()) {
+            helper.fail("OpenBlocks Patchouli guide was not registered");
             return;
         }
         var skyInput = net.minecraft.world.item.crafting.CraftingInput.of(2, 1,

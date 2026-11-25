@@ -1,0 +1,29 @@
+{
+  "name": "item.openblocks_reborn.wrench",
+  "icon": "openblocks_reborn:wrench",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 30,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:wrench",
+      "text": "patchouli.openblocks_reborn.current.wrench.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:wrench"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.notice"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "patchouli.openblocks_reborn.legacy.title",
+      "text": "patchouli.openblocks_reborn.legacy.wrench.0"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Credits",
+  "icon": "minecraft:book",
+  "category": "openblocks_reborn:introduction",
+  "read_by_default": true,
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Credits",
+      "text": "Thanks to the OpenMods team, Boq, Mikee, NeverCast, SinZ, Yoshi2, Vexatos, crafteverywhere and all contributors. This revival builds on lingmu0 and Noped01's"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Credits",
+      "text": "OpenBlocks Reborn. Integrated elevators derive from VsnGamer's ElevatorMod; the guide uses Patchouli by Vazkii and contributors. Licenses and provenance accompany"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Credits",
+      "text": "the mod."
+    }
+  ]
+}

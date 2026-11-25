@@ -1,0 +1,19 @@
+{
+  "name": "block.openblocks_reborn.imaginary",
+  "icon": "openblocks_reborn:imaginary",
+  "category": "openblocks_reborn:blocks",
+  "read_by_default": true,
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:imaginary",
+      "text": "patchouli.openblocks_reborn.current.imaginary.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:imaginary"
+    }
+  ]
+}

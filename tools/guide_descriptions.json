@@ -11,14 +11,6 @@
     "zh_cn": "增强建筑引导器在通电时工作。手持方块右键会按投影顺序放置下一个方块；创造模式在上方放黑曜石可一次填充整个形状。",
     "en_us": "The powered Builder Guide places the next projected block per use. In creative, obsidian above it enables full-shape replacement."
   },
-  "elevator": {
-    "zh_cn": "连接同一垂直列内颜色相同的电梯。站在上面跳跃会上升，潜行会下降；染料可改变线路颜色。",
-    "en_us": "Links same-colored elevators in one vertical column. Jump to go up, sneak to go down, and dye it to select a channel."
-  },
-  "elevator_rotating": {
-    "zh_cn": "除普通电梯功能外，到达后还会把玩家朝向转到目标电梯顶面箭头所指的方向。",
-    "en_us": "Works like a normal Elevator, then rotates the arriving player to match the destination block's top arrow."
-  },
   "heal": {
     "zh_cn": "玩家站在上面时会周期性恢复生命值，并少量补充饥饿值与饱和度。",
     "en_us": "Periodically restores health and a small amount of hunger and saturation to players standing on it."
@@ -84,8 +76,8 @@
     "en_us": "Combines glass bottles with liquid XP to make Bottles o' Enchanting, with configurable automatic item and fluid I/O."
   },
   "village_highlighter": {
-    "zh_cn": "右键可检查当前位置是否位于村庄范围内，并在客户端显示附近村庄边界，便于规划铁傀儡农场等设施。",
-    "en_us": "Reports whether the current position is inside a village and visualizes nearby village bounds for building layouts."
+    "zh_cn": "想知道这张床或工作站归谁使用？右键高亮仪开启显示，再把准星指向附近的床、工作站或钟。单一实时模式会显示一位实际关联村民及其床、工作站和钟的连线。蓝色代表床，橙色代表工作站，金色代表钟。 全部快照需要在界面中点击按钮获取，显示 10 秒后隐藏，冷却 10 秒，不会自动刷新。快照中的村民位置保持不动，最多包含 16 位村民；达到采样或显示上限时会提示。 黄色线框表示村民尝试生成铁傀儡时的搜索范围，并不保证框内都能生成。可选的蓝色村庄范围沿用新版兴趣点判定，受已加载区域与采样范围限制，不是旧版的球形边界。仅查询已加载区域，不会为寻找村民加载远处区块。",
+    "en_us": "Whose bed or workstation is this? Use the highlighter, then aim at a nearby bed, workstation or bell. Single live mode shows one actual linked villager and its home, job and meeting links. Blue marks beds, orange workstations and gold bells. All snapshots require a button click, remain visible for 10 seconds, and have a 10-second cooldown. They never refresh automatically. Villager positions stay fixed in each snapshot, with at most 16 villagers; a warning indicates sampling or display limits. Yellow boxes enclose a villager's iron-golem search volume, not guaranteed spawn positions. The optional blue village boundary uses modern POI classification, clipped to loaded sampled sections, rather than the old sphere. Queries never load distant terrain."
   },
   "path": {
     "zh_cn": "铺设在完整支撑面上的超薄无碰撞道路。下方支撑被移除时，道路会自行掉落。",
@@ -176,8 +168,8 @@
     "en_us": "Deploys owner-following Luggage with 27 slots that collects nearby drops. Sneak-use it to pack it with contents preserved."
   },
   "sonic_glasses": {
-    "zh_cn": "装备在头部后会高亮附近生物，并显示声波/电弧效果，便于发现墙后或黑暗处的目标。",
-    "en_us": "Wear these in the helmet slot to highlight nearby creatures with a sonic electrical effect, even through darkness."
+    "zh_cn": "戴在头部后，在实际声源位置显示音波图标、字幕和距离；图标可隔墙看到并逐渐淡出。静止无声的生物不会被标记。区分生物、玩家、方块、水流、天气和音符，并为幽匿、监守者、悦灵、紫水晶、铜与旋风提供分类。只显示客户端收到的声音；音乐、界面声和已静音分类不显示。",
+    "en_us": "Wear to see positional sounds as fading icons with subtitles and distance, even through walls. Silent mobs are not highlighted. Modern sculk, Warden, Allay, amethyst, copper and wind sounds have categories. Only received sounds are shown; music, UI and muted categories are excluded."
   },
   "pencil_glasses": {
     "zh_cn": "装备在头部后可看见并选择魔法铅笔放置的想象方块，便于继续修改铅笔结构。",
@@ -256,8 +248,8 @@
     "en_us": "Sneak-use a block face to bind it, then use it at any distance or across dimensions. Distance XP cost is capped at 1,024 blocks; unloaded targets are reported, not force-loaded."
   },
   "info_book": {
-    "zh_cn": "收录模组全部方块、物品、装备、机器与流体的指南。安装帕莉秋时打开图文手册，否则打开原版书本目录。",
-    "en_us": "Catalogs every block, item, machine, tool, and fluid. It opens a Patchouli manual when available, otherwise a vanilla book."
+    "zh_cn": "开放式方块指南现在使用帕秋莉。按分类查找物品、使用说明和配方；带“1.12.2 旧版参考”的页面保留原设计说明，当前操作与限制以条目首页为准。",
+    "en_us": "The OpenBlocks guide now uses Patchouli for categories, instructions and recipes. Pages marked 1.12.2 reference preserve historical descriptions; use each entry's current instructions and limits."
   },
   "dev_null": {
     "zh_cn": "用副手物品为其设定过滤目标后，会自动吸收同类拾取物并虚空化超出内部容量的部分；潜行使用可取回。",
@@ -334,5 +326,69 @@
   "xp_bucket": {
     "zh_cn": "装有 1 B 液态经验的桶，遵循原版桶的右键优先级；可直接给储液罐或经验机器注入，也可放置经验流体。",
     "en_us": "A bucket containing 1 B of liquid XP with vanilla bucket priority. It fills XP machines or tanks and can place the fluid."
+  },
+  "elevator_white": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_orange": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_magenta": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_light_blue": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_yellow": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_lime": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_pink": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_gray": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_light_gray": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_cyan": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_purple": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_blue": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_brown": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_green": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_red": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
+  },
+  "elevator_black": {
+    "zh_cn": "完整并入的高级电梯。站在上面跳跃上升、潜行下降。空手右键打开设置，可启用定向传送和隐藏箭头；手持方块右键伪装，潜行空手右键清除伪装。可重新染色。同色限制、范围、到达居中、视角和经验消耗由 OpenBlocks 电梯配置控制，无需独立 ElevatorMod。",
+    "en_us": "The fully integrated elevator. Jump up, sneak down. Use empty-handed for direction and arrow settings. Use a block to camouflage; sneak-use empty-handed to clear it. Re-dye with crafting. Matching colors, range, centering, pitch and XP follow OpenBlocks' elevator config. No ElevatorMod dependency."
   }
 }

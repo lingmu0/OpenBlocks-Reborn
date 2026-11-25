@@ -1,0 +1,19 @@
+{
+  "name": "item.openblocks_reborn.map_memory",
+  "icon": "openblocks_reborn:map_memory",
+  "category": "openblocks_reborn:items",
+  "read_by_default": true,
+  "sortnum": 39,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "openblocks_reborn:map_memory",
+      "text": "patchouli.openblocks_reborn.current.map_memory.0",
+      "link_recipe": true
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "openblocks_reborn:map_memory"
+    }
+  ]
+}
